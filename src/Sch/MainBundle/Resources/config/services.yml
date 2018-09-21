@@ -1,0 +1,26 @@
+services:
+#    main.example:
+#        class: Sch\MainBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+    main.admin.test:
+        class: Sch\MainBundle\Admin\TestAdmin
+        arguments: [~, \Sch\MainBundle\Entity\Test, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Test }
+        public: true
+
+    main.admin.category:
+        class: Sch\MainBundle\Admin\CategoryAdmin
+        arguments: [~, Sch\MainBundle\Entity\Category, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Category }
+        public: true
+
+    main.admin.blog_post:
+        class: Sch\MainBundle\Admin\BlogPostAdmin
+        arguments: [~, Sch\MainBundle\Entity\BlogPost, SonataAdminBundle:CRUD]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: admin, label: Blog Post }
+        public: true
+        calls:
+            - [ setTranslationDomain, [Sch:MainBundle]]
