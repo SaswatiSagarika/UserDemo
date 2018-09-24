@@ -10,6 +10,27 @@ namespace Sch\MainBundle\Repository;
  */
 class UserPhoneRepository extends \Doctrine\ORM\EntityRepository
 {
+    /**
+    * 
+    * get phone based on users
+    * It is used to fetch data from database on given filters.
+    *
+    * @param array $data array of coloum name and its values
+    * @return array $result containing required data.
+    */
+    public function getPhones($value = null)
+    {
+        $query = $this->createQueryBuilder('up')
+                            ->select('up.phone')
+                            ->innerJoin('MainBundle:User', 'u', 'WITH', 'u.id = up.user')
+                            ->andWhere('up.user = :user')
+                                    ->setParameter('user', $value['id']);
+                                
+        
+                                
+        $result = $query->getQuery()->getResult();
+        return $result;
+    }
 	/**
     * 
     * check

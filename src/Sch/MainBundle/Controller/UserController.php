@@ -46,22 +46,27 @@ class UserController extends FOSRestController{
             $param['phone'] = (array_key_exists('phone', $demo)) ? $demo['phone'] : "";
              $users = $em->getRepository('MainBundle:User')->getUsers($param);
              
-            // $userPhones = $retailerType = $em->getRepository('MainBundle:UserPhone')->findBy(array('user' => $users));
+            // 
            
-        $resultArray = [];
-        $i = 0;
-        foreach ($users as $user) {
-             $userDetails['name']=(null !== $user['name']) ? $user['name'] : '';
-              $userDetails['last']=(null !== $user['last']) ? $user['last'] : '';
-             // $userDetails['phone']=(null !== $user['phone']) ? $user['phone'] : '';
-            //  foreach ($userPhones as $userPhone) {
-            //     $userDetails['Quantity']=(null !== $userPhone['phone']) ? $userPhone['phone'] : '';
-            // }
-
-             
-             $resultArray['User'][$i]=$userDetails;
-             $i++;
-        } 
+            $resultArray = [];
+            $i = 0;
+            $j = 0;
+            foreach ($users as $user) {
+                 $userDetails['name']=(null !== $user['name']) ? $user['name'] : '';
+                  $userDetails['last']=(null !== $user['last']) ? $user['last'] : '';
+                 // $userDetails['phone']=(null !== $user['phone']) ? $user['phone'] : '';
+                  //var_dump(1);exit;
+                  $userPhones = $em->getRepository('MainBundle:UserPhone')->getPhones($user);
+                  //var_dump($userPhones);exit;
+                 foreach ($userPhones as $userPhone) {
+                    $userPhoneDetail['Phone']=(null !== $userPhone['phone']) ? $userPhone['phone'] : '';
+                    $result['Phone'][$j]=$userPhoneDetail;
+                    $j++;
+                }
+                $resultArray['User'][$i]=$userDetails;
+                 $resultArray['User']['Phone'][$i]=$result;
+                 $i++;
+            } 
         }
         // if($param['name'] && $param['phone']){
             //$users = $em->getRepository('MainBundle:User')->getUsers($param);
