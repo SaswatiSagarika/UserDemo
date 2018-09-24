@@ -43,14 +43,14 @@ class UserPhone
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="last_update_date_time", type="datetime", nullable=true)
+     * @ORM\Column(name="last_update_date_time", type="datetime")
      */
     private $lastUpdateDateTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_date_time", type="datetime", nullable=true)
+     * @ORM\Column(name="created_date_time", type="datetime")
      */
     private $createdDateTime;
 
@@ -144,9 +144,9 @@ class UserPhone
      * @param \DateTime $lastUpdateDateTime
      * @return UserPhone
      */
-    public function setLastUpdateDateTime($lastUpdateDateTime)
+    public function setLastUpdateDateTime($lastUpdateDateTime = null)
     {
-        $this->lastUpdateDateTime = $lastUpdateDateTime;
+        $this->lastUpdateDateTime = new DateTime('now');
 
         return $this;
     }
@@ -167,9 +167,9 @@ class UserPhone
      * @param \DateTime $createdDateTime
      * @return UserPhone
      */
-    public function setCreatedDateTime($createdDateTime)
+    public function setCreatedDateTime($createdDateTime = null)
     {
-        $this->createdDateTime = $createdDateTime;
+        $this->createdDateTime = new DateTime('now');
 
         return $this;
     }
@@ -189,14 +189,14 @@ class UserPhone
      */
     public function onPrePersist()
     {
-        $this->created_date_time = new \DateTime();
+        $this->createdDateTime = new \DateTime();
     }
     /**
      * @ORM\PreUpdate
      */
     public function onPreUpdate()
     {
-        $this->last_update_date_time = new \DateTime();
+        $this->lastUpdateDateTime = new \DateTime();
     }
 }
 

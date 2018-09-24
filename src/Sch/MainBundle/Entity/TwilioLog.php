@@ -144,9 +144,9 @@ class TwilioLog
      * @param \DateTime $lastUpdateDateTime
      * @return TwilioLog
      */
-    public function setLastUpdateDateTime($lastUpdateDateTime)
+    public function setLastUpdateDateTime($lastUpdateDateTime = null)
     {
-        $this->lastUpdateDateTime = $lastUpdateDateTime;
+        $this->lastUpdateDateTime  = new DateTime('now');
 
         return $this;
     }
@@ -167,9 +167,9 @@ class TwilioLog
      * @param \DateTime $createdDateTime
      * @return TwilioLog
      */
-    public function setCreatedDateTime($createdDateTime)
+    public function setCreatedDateTime($createdDateTime = null)
     {
-        $this->createdDateTime = $createdDateTime;
+        $this->createdDateTime = new DateTime('now');
 
         return $this;
     }

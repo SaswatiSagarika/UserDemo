@@ -57,85 +57,91 @@ class RevenueController extends FOSRestController{
 	* @return mixed
 	*/
 	public function getRevenueDetailAction(Request $request) {
+
 		$demo =[];
 		$requestData = $request->query->get('data');
 		$demo = json_decode($requestData, true);
+        $param = [];
+        $error = [];
+        $em = $this->getDoctrine()->getManager();
+        if($demo)
+        {
+    		
+    		$param['prodType'] = (array_key_exists('productType', $demo)) ? $demo['productType'] : "";
+    		$param['prodLine'] = (array_key_exists('productLine', $demo)) ? $demo['productLine'] : "";
+    		$param['retailCountry'] = (array_key_exists('retailerCountry', $demo)) ? $demo['retailerCountry'] : "";
+    		$param['retailerType'] = (array_key_exists('retailerType', $demo)) ? $demo['retailerType'] : "";
+    		$param['product'] = (array_key_exists('product', $demo)) ? $demo['product'] : "";
+    		$param['year'] = (array_key_exists('year', $demo)) ? $demo['year'] : "";
+    		$param['orderMode'] = (array_key_exists('orderType', $demo)) ? $demo['orderType'] : "";
+    		$param['quarter'] = (array_key_exists('quarter', $demo)) ? $demo['quarter'] : "";
+    		
+    		
+    		if($param['prodType']){
+                $productType = $em->getRepository('MainBundle:ProductTypes')->findOneBy(array('name' => $param['prodType']));
 
-		$param = [];
-		$param['prodType'] = (array_key_exists('productType', $demo)) ? $demo['productType'] : "";
-		$param['prodLine'] = (array_key_exists('productLine', $demo)) ? $demo['productLine'] : "";
-		$param['retailCountry'] = (array_key_exists('retailerCountry', $demo)) ? $demo['retailerCountry'] : "";
-		$param['retailerType'] = (array_key_exists('retailerType', $demo)) ? $demo['retailerType'] : "";
-		$param['product'] = (array_key_exists('product', $demo)) ? $demo['product'] : "";
-		$param['year'] = (array_key_exists('year', $demo)) ? $demo['year'] : "";
-		$param['orderMode'] = (array_key_exists('orderType', $demo)) ? $demo['orderType'] : "";
-		$param['quarter'] = (array_key_exists('quarter', $demo)) ? $demo['quarter'] : "";
-		$error = [];
-		$em = $this->getDoctrine()->getManager();
-		if($param['prodType']){
-            $productType = $em->getRepository('MainBundle:ProductTypes')->findOneBy(array('name' => $param['prodType']));
+                if(!$productType){
+                	$error['productTypeError'] = "Please give a valid Product Type to search";
+                }
+    	    }
+    		if($param['prodLine']){
+                $productLine = $em->getRepository('MainBundle:ProductLines')->findOneBy(array('name' => $param['prodLine']));
 
-            if(!$productType){
-            	$error['productTypeError'] = "Please give a valid Product Type to search";
+                if(!$productLine){
+                	$error['productLineError'] = "Please give a valid Product Line to search";
+                }
             }
-	    }
-		if($param['prodLine']){
-            $productLine = $em->getRepository('MainBundle:ProductLines')->findOneBy(array('name' => $param['prodLine']));
+            if($param['retailCountry']){
+                $retailerCountry = $em->getRepository('MainBundle:RetailerCountries')->findOneBy(array('name' => $param['retailCountry']));
 
-            if(!$productLine){
-            	$error['productLineError'] = "Please give a valid Product Line to search";
+                if(!$retailerCountry){
+                	$error['retailCountryError'] = "Please give a valid Retailer Country to search";
+                }
+    		}
+    		if($param['retailerType']){       
+                $retailerType = $em->getRepository('MainBundle:RetailerTypes')->findOneBy(array('name' => $param['retailerType']));
+
+                if(!$retailerType){
+                	$error['retailerTypeError']= "Please give a valid Retailer Type to search";
+                }
+            }
+    		if($param['orderMode']){
+                $orderType = $em->getRepository('MainBundle:OrderModes')->findOneBy(array('name' => $param['orderMode']));
+
+                if(!$orderType){
+                	$error['orderModeError'] = "Please give a valid Order Modes to search";
+                }
+            }
+    		if($param['product']){
+                $product = $em->getRepository('MainBundle:Product')->findOneBy(array('name' => $param['product']));
+
+                if(!$product){
+                	$error['productError'] = "Please give a valid Product to search";
+                }
             }
         }
-        if($param['retailCountry']){
-            $retailerCountry = $em->getRepository('MainBundle:RetailerCountries')->findOneBy(array('name' => $param['retailCountry']));
-
-            if(!$retailerCountry){
-            	$error['retailCountryError'] = "Please give a valid Retailer Country to search";
-            }
-		}
-		if($param['retailerType']){       
-            $retailerType = $em->getRepository('MainBundle:RetailerTypes')->findOneBy(array('name' => $param['retailerType']));
-
-            if(!$retailerType){
-            	$error['retailerTypeError']= "Please give a valid Retailer Type to search";
-            }
+        $revenues = $em->getRepository('MainBundle:Revenue')->revenueDetails($param);
+        $resultArray = [];
+        $i = 0;
+        foreach ($revenues as $revenue) {
+        	 $revenueDetails['OrderMode']=(null !== $revenue['OrderMode']) ? $revenue['OrderMode'] : '';
+        	 $revenueDetails['RetailerCountry']=(null !== $revenue['RetailerCountry']) ? $revenue['RetailerCountry'] : '';
+        	 $revenueDetails['RetailerType']=(null !== $revenue['RetailerType']) ? $revenue['RetailerType'] : '';
+        	 $revenueDetails['ProductLine']=(null !== $revenue['ProductLine']) ? $revenue['ProductLine'] : '';
+        	 $revenueDetails['ProductType']=(null !== $revenue['ProductType']) ? $revenue['ProductType'] : '';
+        	 $revenueDetails['Product']=(null !== $revenue['Product']) ? $revenue['Product'] : '';
+        	 $revenueDetails['Year']=(null !== $revenue['Year']) ? $revenue['Year'] : '';
+        	 $revenueDetails['Quarter']=(null !== $revenue['Quarter']) ? $revenue['Quarter'] : '';
+        	 $revenueDetails['Quantity']=(null !== $revenue['Quantity']) ? $revenue['Quantity'] : '';
+        	 $revenueDetails['Revenue']=(null !== $revenue['Revenue']) ? $revenue['Revenue'] : '';
+        	 $revenueDetails['GrossMargin']=(null !== $revenue['GrossMargin']) ? $revenue['GrossMargin'] : '';
+        	 $resultArray['Revenue'][$i]=$revenueDetails;
+        	 $i++;
         }
-		if($param['orderMode']){
-            $orderType = $em->getRepository('MainBundle:OrderModes')->findOneBy(array('name' => $param['orderMode']));
-
-            if(!$orderType){
-            	$error['orderModeError'] = "Please give a valid Order Modes to search";
-            }
+        if(!$error && !$resultArray){
+        	$error['resultError'] = "No records found for this filter";
         }
-		if($param['product']){
-            $product = $em->getRepository('MainBundle:Product')->findOneBy(array('name' => $param['product']));
-
-            if(!$product){
-            	$error['productError'] = "Please give a valid Product to search";
-            }
-        }
-            $revenues = $em->getRepository('MainBundle:Revenue')->revenueDetails($param);
-            $resultArray = [];
-            $i = 0;
-            foreach ($revenues as $revenue) {
-            	 $revenueDetails['OrderMode']=(null !== $revenue['OrderMode']) ? $revenue['OrderMode'] : '';
-            	 $revenueDetails['RetailerCountry']=(null !== $revenue['RetailerCountry']) ? $revenue['RetailerCountry'] : '';
-            	 $revenueDetails['RetailerType']=(null !== $revenue['RetailerType']) ? $revenue['RetailerType'] : '';
-            	 $revenueDetails['ProductLine']=(null !== $revenue['ProductLine']) ? $revenue['ProductLine'] : '';
-            	 $revenueDetails['ProductType']=(null !== $revenue['ProductType']) ? $revenue['ProductType'] : '';
-            	 $revenueDetails['Product']=(null !== $revenue['Product']) ? $revenue['Product'] : '';
-            	 $revenueDetails['Year']=(null !== $revenue['Year']) ? $revenue['Year'] : '';
-            	 $revenueDetails['Quarter']=(null !== $revenue['Quarter']) ? $revenue['Quarter'] : '';
-            	 $revenueDetails['Quantity']=(null !== $revenue['Quantity']) ? $revenue['Quantity'] : '';
-            	 $revenueDetails['Revenue']=(null !== $revenue['Revenue']) ? $revenue['Revenue'] : '';
-            	 $revenueDetails['GrossMargin']=(null !== $revenue['GrossMargin']) ? $revenue['GrossMargin'] : '';
-            	 $resultArray['Revenue'][$i]=$revenueDetails;
-            	 $i++;
-            }
-            if(!$error && !$resultArray){
-            	$error['resultError'] = "No records found for this filter";
-            }
-            $resultArray['Error'] = $error;
+        $resultArray['Error'] = $error;
              
         return new JsonResponse($resultArray);
             

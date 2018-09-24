@@ -9,4 +9,12 @@ sch_main_api_test:
 sch_main_search_details:
     path: /api/getRevenue
     defaults: { _controller: MainBundle:Revenue:getRevenueDetail }
-
+sch_main_search_users:
+  path: /api/users
+  defaults: { _controller: MainBundle:User:getUserDetail }
+sch_main_send_otp:
+  path: /api/sendotp
+  defaults: { _controller: MainBundle:Phone:send }
+sch_main_verifyotp:
+  path: /api/verifyotp
+  defaults: { _controller: MainBundle:Phone:verify }

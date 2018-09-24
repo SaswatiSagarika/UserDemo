@@ -122,6 +122,21 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                     return array (  '_controller' => 'Sch\\MainBundle\\Controller\\RevenueController::getRevenueDetailAction',  '_route' => 'sch_main_search_details',);
                 }
 
+                // sch_main_search_users
+                if ('/api/users' === $pathinfo) {
+                    return array (  '_controller' => 'Sch\\MainBundle\\Controller\\UserController::getUserDetailAction',  '_route' => 'sch_main_search_users',);
+                }
+
+                // sch_main_send_otp
+                if ('/api/sendotp' === $pathinfo) {
+                    return array (  '_controller' => 'Sch\\MainBundle\\Controller\\PhoneController::sendAction',  '_route' => 'sch_main_send_otp',);
+                }
+
+                // sch_main_verifyotp
+                if ('/api/verifyotp' === $pathinfo) {
+                    return array (  '_controller' => 'Sch\\MainBundle\\Controller\\PhoneController::verifyAction',  '_route' => 'sch_main_verifyotp',);
+                }
+
             }
 
             if (0 === strpos($pathinfo, '/admin')) {
@@ -295,6 +310,20 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
                 }
 
             }
+
+            // sch_main_user_getuserdetail
+            if ('/api/Users' === rtrim($pathinfo, '/')) {
+                if ('/' === substr($pathinfo, -1)) {
+                    // no-op
+                } elseif (!in_array($this->context->getMethod(), array('HEAD', 'GET'))) {
+                    goto not_sch_main_user_getuserdetail;
+                } else {
+                    return $this->redirect($rawPathinfo.'/', 'sch_main_user_getuserdetail');
+                }
+
+                return array (  '_controller' => 'Sch\\MainBundle\\Controller\\UserController::getUserDetailAction',  '_format' => 'json',  '_route' => 'sch_main_user_getuserdetail',);
+            }
+            not_sch_main_user_getuserdetail:
 
         }
 

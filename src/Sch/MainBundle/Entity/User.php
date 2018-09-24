@@ -42,17 +42,24 @@ class User
      */
     private $otp;
 
+     /**
+     * @var string
+     *
+     * @ORM\Column(name="status", type="string", length=20, nullable=true)
+     */
+    private $status;
+
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="last_update_date_time", type="datetime", nullable=true)
+     * @ORM\Column(name="last_update_date_time", type="datetime")
      */
     private $lastUpdateDateTime;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="created_date_time", type="datetime", nullable=true)
+     * @ORM\Column(name="created_date_time", type="datetime")
      */
     private $createdDateTime;
 
@@ -139,14 +146,39 @@ class User
     }
 
     /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return User
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+
+    /**
      * Set lastUpdateDateTime
      *
      * @param \DateTime $lastUpdateDateTime
      * @return User
      */
-    public function setLastUpdateDateTime($lastUpdateDateTime)
+    public function setLastUpdateDateTime($lastUpdateDateTime = null)
     {
-        $this->lastUpdateDateTime = $lastUpdateDateTime;
+        $this->lastUpdateDateTime  = new DateTime('now');
 
         return $this;
     }
@@ -167,9 +199,9 @@ class User
      * @param \DateTime $createdDateTime
      * @return User
      */
-    public function setCreatedDateTime($createdDateTime)
+    public function setCreatedDateTime($createdDateTime = null)
     {
-        $this->createdDateTime = $createdDateTime;
+        $this->createdDateTime  = new DateTime('now');
 
         return $this;
     }
@@ -189,14 +221,14 @@ class User
      */
     public function onPrePersist()
     {
-        $this->created_date_time = new \DateTime();
+        $this->createdDateTime = new \DateTime();
     }
     /**
      * @ORM\PreUpdate
      */
     public function onPreUpdate()
     {
-        $this->last_update_date_time = new \DateTime();
+        $this->lastUpdateDateTime = new \DateTime();
     }
 }
 

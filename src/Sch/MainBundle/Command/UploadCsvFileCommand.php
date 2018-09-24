@@ -25,12 +25,14 @@ class UploadCsvFileCommand extends ContainerAwareCommand
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)
-    {
+    {   
+        $container = $this->getContainer();
         $csvFile = $input->getArgument('csv_file');
         $ext = pathinfo($csvFile, PATHINFO_EXTENSION);
+        // var_dump($csvFile);exit;
         if($ext === 'csv')
         {
-            $status = $container->get('tp_main.registration')->createOutletAllocation($csvFile);
+            $status = $container->get('sch_main.import_csv')->uploadUsers($csvFile);
         }
         else
         {

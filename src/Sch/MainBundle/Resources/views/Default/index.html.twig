@@ -12,8 +12,9 @@
       	$(document).ready(function(){
         	$("button").click(function(){
 	         	var formData = $('#content').val()
-
-
+	         	var Verb = $('#verb option:selected').val()
+	         	var url = $('#url').val()
+	         	
 				if (formData.length == 0) {
 				 	$(".error").html("<p>Content field is Empty. Please provide some filtered data</p>");
 				}
@@ -28,7 +29,7 @@
 		         	}
 		        } else {
 		        	$.ajax({  
-		                url:        '/app_dev.php/api/getRevenue',  
+		                url:        url,  
 		               	type:       'GET',  
 		               	data: 		{data: formData},
 		               	dataType:   'json',  
@@ -64,12 +65,19 @@
   
 	<form class="form-inline" action="">
 		<div class="form-group">
-			<label for="email">Verb:</label>
-			<input type="text" id="verb" class="verb" name="Verb" value="GET">
+			<label for="verb">Verb:</label>
+			<select name="verb" id="verb" class="verb">
+				<option value="GET">GET</option>
+				<option value="POST">POST</option>
+			</select>
 		</div>
 		<div class="form-group">
 			<label for="pwd">Content:</label>
 			<textarea  id="content" class="content" name="content" required></textarea>
+		</div>
+		<div class="form-group">
+			<label for="url">url:</label>
+			<input type="text" id="url" class="url" name="url">
 		</div>
 		<button type="button" class="btn btn-default">Submit</button>
 	</form>

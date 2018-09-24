@@ -24,3 +24,10 @@ services:
         public: true
         calls:
             - [ setTranslationDomain, [Sch:MainBundle]]
+    sch_main.import_csv:
+        class: Sch\MainBundle\Service\ImportCSVService
+        arguments: ["@service_container","@file_locator"]
+
+    sch_main.phone:
+        class: Sch\MainBundle\Service\PhoneService
+        arguments: ["@service_container"]

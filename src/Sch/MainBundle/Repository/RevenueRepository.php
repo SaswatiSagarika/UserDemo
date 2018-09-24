@@ -21,7 +21,7 @@ class RevenueRepository extends \Doctrine\ORM\EntityRepository
     * @param array $data array of coloum name and its values
     * @return array $result containing required data.
     */
-	public function revenueDetails($value)
+	public function revenueDetails($value = null)
 	{
 		$query = $this->createQueryBuilder('r')
                             ->select('rc.name as RetailerCountry')
@@ -42,40 +42,40 @@ class RevenueRepository extends \Doctrine\ORM\EntityRepository
                             ->innerJoin('MainBundle:ProductLineTypes', 'plt', 'WITH', 'plt.id = p.fkProductLineType')
                             ->innerJoin('MainBundle:ProductLines', 'pl', 'WITH', 'pl.id = plt.fkProductLine')
                             ->innerJoin('MainBundle:ProductTypes', 'pt', 'WITH', 'pt.id = plt.fkProductType');
-                            if($value['prodType']){
-                            	$query->andWhere('pt.name = :ptname')
-    							->setParameter('ptname', $value['prodType']);
-                            }
-                            if($value['prodLine']){
-                            	$query->andWhere('pl.name = :plname')
-    							->setParameter('plname', $value['prodLine']);
-                            }
-                            if($value['product']){
-                            	$query->andWhere('p.name = :pname')
-    							->setParameter('pname', $value['product']);
-                            }
-                            if($value['retailerType']){
-                            	$query->andWhere('rt.name = :rtname')
-    							->setParameter('rtname', $value['retailerType']);
-                            }
-                            if($value['retailCountry']){
-                            	$query->andWhere('rc.name = :rcname')
-    							->setParameter('rcname', $value['retailCountry']);
-                            }
-                            if($value['orderMode']){
-                            	$query->andWhere('om.name = :omname')
-    							->setParameter('omname', $value['orderMode']);
-                            }
-                            if($value['quarter']){
-                            	$query->andWhere('r.quarter = :quarter')
-    							->setParameter('quarter', $value['quarter']);
-                            }
-                            if($value['year']){
-                            	$query->andWhere('r.year = :year')
-    							->setParameter('year', $value['year']);
-                            }
-
-
+                            if($value){
+                                if($value['prodType']){
+                                	$query->andWhere('pt.name = :ptname')
+        							->setParameter('ptname', $value['prodType']);
+                                }
+                                if($value['prodLine']){
+                                	$query->andWhere('pl.name = :plname')
+        							->setParameter('plname', $value['prodLine']);
+                                }
+                                if($value['product']){
+                                	$query->andWhere('p.name = :pname')
+        							->setParameter('pname', $value['product']);
+                                }
+                                if($value['retailerType']){
+                                	$query->andWhere('rt.name = :rtname')
+        							->setParameter('rtname', $value['retailerType']);
+                                }
+                                if($value['retailCountry']){
+                                	$query->andWhere('rc.name = :rcname')
+        							->setParameter('rcname', $value['retailCountry']);
+                                }
+                                if($value['orderMode']){
+                                	$query->andWhere('om.name = :omname')
+        							->setParameter('omname', $value['orderMode']);
+                                }
+                                if($value['quarter']){
+                                	$query->andWhere('r.quarter = :quarter')
+        							->setParameter('quarter', $value['quarter']);
+                                }
+                                if($value['year']){
+                                	$query->andWhere('r.year = :year')
+        							->setParameter('year', $value['year']);
+                                }
+                            }    
     	$result = $query->getQuery()->getResult();
     	return $result;
 	}

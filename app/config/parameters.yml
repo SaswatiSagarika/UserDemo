@@ -10,4 +10,7 @@ parameters:
     mailer_user: null
     mailer_password: null
     secret: ThisTokenIsNotSoSecretChangeIt
-    locale: en
+    twilio_sid: AC7ced9c7a6ab77a57bc3ee41f85beb954
+    twilio_token: 6fd012f064ec1cb8b2e74a1f68d3daea
+    twilio_number: '+12512731599'
+    data_dir: '%kernel.root_dir%/../src/Sch/MainBundle/Data'

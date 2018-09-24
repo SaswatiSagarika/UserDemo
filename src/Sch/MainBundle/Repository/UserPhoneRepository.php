@@ -10,4 +10,30 @@ namespace Sch\MainBundle\Repository;
  */
 class UserPhoneRepository extends \Doctrine\ORM\EntityRepository
 {
+	/**
+    * 
+    * check
+    * It is used to check if data is valid or not based on the filters.
+    *
+    * @param array $data array of coloum name and its values
+    * @return array $result containing required data.
+    */
+	public function check($value = null)
+	{
+		$query = $this->createQueryBuilder('up')
+                            ->select('u.name as User')
+                            ->addSelect('up.phone as Phone')
+                            ->innerJoin('MainBundle:User', 'u', 'WITH', 'u.id = up.user')
+                            ->andWhere('u.name = :uname')
+        							->setParameter('uname', $value['user'])
+                            ->andWhere('up.phone = :uphone')
+                            ->setParameter('uphone', $value['phone']);
+                            // ->andWhere('u.status != :ustatus')
+                            //         ->setParameter('ustatus', 'Used' );
+        						
+    	$result = $query->getQuery()->getResult();
+    	return $result;
+	}
+	
 }
+
