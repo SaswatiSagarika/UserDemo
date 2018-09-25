@@ -311,19 +311,30 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
             }
 
-            // sch_main_user_getuserdetail
-            if ('/api/Users' === rtrim($pathinfo, '/')) {
-                if ('/' === substr($pathinfo, -1)) {
-                    // no-op
-                } elseif (!in_array($this->context->getMethod(), array('HEAD', 'GET'))) {
-                    goto not_sch_main_user_getuserdetail;
-                } else {
-                    return $this->redirect($rawPathinfo.'/', 'sch_main_user_getuserdetail');
-                }
+            if (0 === strpos($pathinfo, '/api/doc')) {
+                // app.swagger_ui
+                if ('/api/doc' === $pathinfo) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_appswagger_ui;
+                    }
 
-                return array (  '_controller' => 'Sch\\MainBundle\\Controller\\UserController::getUserDetailAction',  '_format' => 'json',  '_route' => 'sch_main_user_getuserdetail',);
+                    return array (  '_controller' => 'nelmio_api_doc.controller.swagger_ui',  '_route' => 'app.swagger_ui',);
+                }
+                not_appswagger_ui:
+
+                // app.swagger
+                if ('/api/doc.json' === $pathinfo) {
+                    if (!in_array($this->context->getMethod(), array('GET', 'HEAD'))) {
+                        $allow = array_merge($allow, array('GET', 'HEAD'));
+                        goto not_appswagger;
+                    }
+
+                    return array (  '_controller' => 'nelmio_api_doc.controller.swagger',  '_route' => 'app.swagger',);
+                }
+                not_appswagger:
+
             }
-            not_sch_main_user_getuserdetail:
 
         }
 

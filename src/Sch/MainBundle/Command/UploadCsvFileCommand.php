@@ -10,6 +10,9 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class UploadCsvFileCommand extends ContainerAwareCommand
 {
+    /**
+     * Function to set the name, description and argument for the upload:csv-file command.
+     */
     protected function configure()
     {
         $this
@@ -18,18 +21,20 @@ class UploadCsvFileCommand extends ContainerAwareCommand
             ->addArgument(
                 'csv_file',
                 InputArgument::REQUIRED,
-                'The CSV file that contains consumer data'
+                'The CSV file that contains user data'
             )
-            ->addOption('option', null, InputOption::VALUE_NONE, 'Option description')
         ;
     }
-
+    /**
+     * Function to execute the upload:csv-file command to upload to .
+     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {   
         $container = $this->getContainer();
         $csvFile = $input->getArgument('csv_file');
+
         $ext = pathinfo($csvFile, PATHINFO_EXTENSION);
-        // var_dump($csvFile);exit;
+        //check if the file extension is csv or not
         if($ext === 'csv')
         {
             $status = $container->get('sch_main.import_csv')->uploadUsers($csvFile);

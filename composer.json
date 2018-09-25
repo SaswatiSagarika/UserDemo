@@ -17,10 +17,13 @@
         "doctrine/orm": "^2.4.8",
         "friendsofsymfony/jsrouting-bundle": "^2.2",
         "friendsofsymfony/rest-bundle": "@dev",
+        "guzzlehttp/guzzle": "^6.3",
         "incenteev/composer-parameter-handler": "~2.0",
         "jms/serializer-bundle": "@dev",
         "league/csv": "^8.0",
         "nelmio/api-doc-bundle": "^2.13",
+        "oro/doctrine-extensions": "dev-master",
+        "phpoffice/phpexcel": "1.8.1",
         "phpoffice/phpspreadsheet": "^1.4",
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "^3.0.2",
@@ -32,9 +35,7 @@
         "symfony/symfony": "2.8.*",
         "twig/twig": "^1.0||^2.0",
         "twilio/sdk": "^5.22",
-        "voryx/restgeneratorbundle": "dev-master",
-        "phpoffice/phpexcel": "1.8.1",
-        "oro/doctrine-extensions": "dev-master"
+        "voryx/restgeneratorbundle": "dev-master"
     },
     "require-dev": {
         "sensio/generator-bundle": "~3.0",

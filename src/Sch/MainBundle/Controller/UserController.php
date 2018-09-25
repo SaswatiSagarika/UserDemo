@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Controller for Products Section.
+ * Controller for Users Section.
  *
  * @author
  *
@@ -29,10 +29,29 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends FOSRestController{
 
-    /**
-    *@Route("/")
+    /*
+    ** REST action which returns sends the data to phone number.
+    * @Method: GET, url: /api/users
+    *
+    * @ApiDoc(
+    *   resource =false,
+    *   description = "post",
+    *  parameters={
+    *       "name":"test",
+    *       "phone":"+919178859008"
+    *   }
+    *   statusCodes = {
+    *     200 = "Returned when successful",
+    *     404 = "Returned when the page is not found"
+    *   }
+    * )
+    *
+    *
+    *  }
+    * @return array
     */
 	public function getUserDetailAction(Request $request) {
+        var_dump($request);exit;
         $demo =[];
         $requestData = $request->query->get('data');
         $demo = json_decode($requestData, true);
@@ -44,33 +63,28 @@ class UserController extends FOSRestController{
             
             $param['name'] = (array_key_exists('name', $demo)) ? $demo['name'] : "";
             $param['phone'] = (array_key_exists('phone', $demo)) ? $demo['phone'] : "";
-             $users = $em->getRepository('MainBundle:User')->getUsers($param);
-             
-            // 
+            $users = $em->getRepository('MainBundle:User')->getUsers($param);
+            
            
             $resultArray = [];
             $i = 0;
-            $j = 0;
             foreach ($users as $user) {
                  $userDetails['name']=(null !== $user['name']) ? $user['name'] : '';
                   $userDetails['last']=(null !== $user['last']) ? $user['last'] : '';
-                 // $userDetails['phone']=(null !== $user['phone']) ? $user['phone'] : '';
-                  //var_dump(1);exit;
+                
                   $userPhones = $em->getRepository('MainBundle:UserPhone')->getPhones($user);
-                  //var_dump($userPhones);exit;
+                  
+                  $j = 0;
                  foreach ($userPhones as $userPhone) {
-                    $userPhoneDetail['Phone']=(null !== $userPhone['phone']) ? $userPhone['phone'] : '';
-                    $result['Phone'][$j]=$userPhoneDetail;
+                    
+                    $userDetailsPhone['phone']=(null !== $userPhone['phone']) ? $userPhone['phone'] : '';
+                    $userDetails['userPhone'][$j]=$userDetailsPhone;
                     $j++;
                 }
-                $resultArray['User'][$i]=$userDetails;
-                 $resultArray['User']['Phone'][$i]=$result;
+                $resultArray['user'][$i]=$userDetails;
                  $i++;
             } 
         }
-        // if($param['name'] && $param['phone']){
-            //$users = $em->getRepository('MainBundle:User')->getUsers($param);
-        // }
         
         if(!$error && !$resultArray){
             $error['resultError'] = "No records found for this filter";

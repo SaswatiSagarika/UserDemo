@@ -42,7 +42,8 @@ class PhoneService
                            )
                   );
             }
-            return array('status' => true,);
+            var_dump($message);exit;
+            return array('status' => true);
         } catch (\Exception $e) {
             $returnData['errorMessage'] = $e->getMessage();
             return $returnData;

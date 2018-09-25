@@ -30,7 +30,7 @@
 		        } else {
 		        	$.ajax({  
 		                url:        url,  
-		               	type:       'GET',  
+		               	type:       Verb,  
 		               	data: 		{data: formData},
 		               	dataType:   'json',  
 		               	async:      true,
@@ -63,6 +63,10 @@
 {% block body %} 
 <div class="container" id="result">
   
+	<div class="error" id="name">
+		
+	</div>
+
 	<form class="form-inline" action="">
 		<div class="form-group">
 			<label for="verb">Verb:</label>
@@ -85,7 +89,7 @@
 	Please enter the content in the below json format
 </p>
 	Request Type::
-        {"year":"2018","productType":"Cooking Gear","productLine":"Camping Equipment","retailerType":"Outdoors Shop","product":"Camping Equipment","retailerCountry":"United States","quater":"Q1 2012","orderType":"Fax"}</td>
+        </td>
         <td>Json with filter values</td>
    
 </div>

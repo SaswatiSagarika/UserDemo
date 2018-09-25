@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sch\MainBundle\MainBundle(),
             new Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle(),
             new FOS\RestBundle\FOSRestBundle(),
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
 
             // These are the other bundles the SonataAdminBundle relies on

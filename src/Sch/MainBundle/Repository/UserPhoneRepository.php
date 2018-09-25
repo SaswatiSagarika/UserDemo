@@ -12,7 +12,7 @@ class UserPhoneRepository extends \Doctrine\ORM\EntityRepository
 {
     /**
     * 
-    * get phone based on users
+    * get phone number based on users
     * It is used to fetch data from database on given filters.
     *
     * @param array $data array of coloum name and its values
@@ -22,12 +22,11 @@ class UserPhoneRepository extends \Doctrine\ORM\EntityRepository
     {
         $query = $this->createQueryBuilder('up')
                             ->select('up.phone')
+                            ->addSelect('up.status')
                             ->innerJoin('MainBundle:User', 'u', 'WITH', 'u.id = up.user')
                             ->andWhere('up.user = :user')
                                     ->setParameter('user', $value['id']);
-                                
-        
-                                
+
         $result = $query->getQuery()->getResult();
         return $result;
     }
@@ -49,8 +48,6 @@ class UserPhoneRepository extends \Doctrine\ORM\EntityRepository
         							->setParameter('uname', $value['user'])
                             ->andWhere('up.phone = :uphone')
                             ->setParameter('uphone', $value['phone']);
-                            // ->andWhere('u.status != :ustatus')
-                            //         ->setParameter('ustatus', 'Used' );
         						
     	$result = $query->getQuery()->getResult();
     	return $result;

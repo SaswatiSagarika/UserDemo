@@ -3,6 +3,7 @@
 /**
  * Description of ImportCSVService
  *
+ *
  */
 namespace Sch\MainBundle\Service;
 
@@ -21,6 +22,26 @@ class ImportCSVService
         $this->serviceContainer = $service_container;
     }
 
+    /** 
+     * Function to generate a random six digit otp
+     *
+     * @return 
+     */
+    public function createPhone($phone, $user)
+    {   
+        $em = $this->getDoctrine()->getManager();
+        $userPhone = new UserPhone;
+                $phone = $em->getRepository('MainBundle:UserPhone')->findOneBy(array('phone' => $phone));
+                if(!$phone  && !$phone){
+                    $userPhone->setPhone($phone);
+                    $userPhone->setUser($user);
+                    $userPhone->setStatus('1');
+                    return $em->persist($userPhone);
+                }
+
+                
+    }
+
     /**
      * Function to import Users
      *
@@ -30,18 +51,21 @@ class ImportCSVService
      *
      **/
     public function uploadUsers($sheet)
-    {   try {
+    {   try 
+        {
             $em = $this->serviceContainer->get('doctrine')->getEntityManager();
             // Path to CSV file
             global $kernel;
             $path = $kernel->getContainer()->getParameter('data_dir');
-           
             $filePath= $path."/".$sheet;
+
+            //extract data from a CSV document using LeagueCsv reader
             $reader=Reader::createFromPath($filePath);
-            $em = $this->getDoctrine()->getManager();    
-            
+            //get Iterator of all rows
             $results = $reader->fetchAssoc();
-            //var_dump($results); exit;
+
+            $em = $this->getDoctrine()->getManager(); 
+            
             foreach ($results as $row) {
              
                 //create new users
@@ -51,14 +75,8 @@ class ImportCSVService
                 $user->setOtp(rand(100000,999999));
                 $em->persist($user);
 
-                $userPhone = new UserPhone;
-                $phone = $em->getRepository('MainBundle:UserPhone')->findOneBy(array('phone' => $row['phone1']));
-                if(!$phone){
-                    $userPhone->setPhone($row['phone1']);
-                    $userPhone->setUser($user);
-                    $userPhone->setStatus('1');
-                    $em->persist($userPhone);
-                }
+                //create new phone records
+                $userPhone = 
                 $phone2 = $em->getRepository('MainBundle:UserPhone')->findOneBy(array('phone' => $row['phone2']));
                 if($row['phone2'] && !$phone2){
                     $userPhone2 = new UserPhone;

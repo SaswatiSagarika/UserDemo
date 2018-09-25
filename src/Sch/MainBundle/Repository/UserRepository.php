@@ -13,7 +13,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     /**
     * 
     * get Users
-    * It is used to fetch data from database on given filters.
+    * It is used to fetch User data from database on given filters.
     *
     * @param array $data array of coloum name and its values
     * @return array $result containing required data.
@@ -21,17 +21,16 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     public function getUsers($value = null)
     {
         $query = $this->createQueryBuilder('u')
-                            ->select('u.id')
+                            ->select('DISTINCT u.id')
                             ->addSelect('u.name')
-                            ->addSelect('u.last');
-                            //var_dump($value);exit;
+                            ->addSelect('u.last')
+                            ->innerJoin('MainBundle:UserPhone', 'up', 'WITH', 'u.id = up.user');
                                 if($value['name']){
                                     $query->Where('u.name = :name')
                                     ->setParameter('name', $value['name']);
                                 }
                                 if($value['phone']){
-                                    $query->innerJoin('MainBundle:UserPhone', 'up', 'WITH', 'u.id = up.user')
-                                    ->andWhere('up.phone = :phone')
+                                    $query->andWhere('up.phone = :phone')
                                     ->setParameter('phone', $value['phone']);
                                 }
         

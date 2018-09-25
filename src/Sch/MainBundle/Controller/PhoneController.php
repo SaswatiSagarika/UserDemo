@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * Controller for Phone Section.
+ *
+ * @author saswati
+ *
+ * @category Controller
+ */
 namespace Sch\MainBundle\Controller;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -32,19 +38,18 @@ class PhoneController extends FOSRestController
         $this->addServices();
     }
 	/**
-     * Initializing services after container is set
+     * Initializing service after container is set
      *
      */
     public function addServices()
     {
-        // Getting all the required services
+        // Getting the required service
         $this->phoneService = $this->get('sch_main.phone');
-        $this->doctrine = $this->getDoctrine();
     }
 
 	/*
-	** REST action which returns details based on the search data.
-	* Method: POST, url: /api/sendotp/{_format}
+	** REST action which returns sends the data to phone number.
+	* @Method: POST, url: /api/sendotp
 	*
 	* @ApiDoc(
 	*   resource =false,
@@ -64,9 +69,14 @@ class PhoneController extends FOSRestController
 	* @return mixed
 	*/
     public function sendAction(Request $request)
-    {
-        $data=json_decode($request->getContent(),1);
-		
+    {	
+    	if(json_decode($request->getContent(),1)){
+    		$data=json_decode($request->getContent(),1);
+    	} else {
+    		$requestData = $request->query->get('data');
+        	$data = json_decode($requestData, true);
+    	}
+        
         $param = [];
         $error = [];
         $resultArray = [];
@@ -84,48 +94,50 @@ class PhoneController extends FOSRestController
                 if(!$user){
                 	$error['userError'] = "Please give a valid user to search";
                 }
+	    	    if($param['phone']){
+	                $phone = $em->getRepository('MainBundle:UserPhone')->check($param);
 
-    	    }
+	                if(!$phone){
+	                	$error['phoneError'] = "Please give a valid phone to search";
+	                } else{
+	                	//incase the otp is used, generate new
+	                	$otpStatus = $user->getStatus();
+	    	    		if('Used' == $otpStatus){
+			    	    	$otpNew = $this->phoneService->generateOtp();
+			    	    } else {
+			    	    	$otpNew = $user->getOtp();
+			    	    }
+	                	
+					$twilio_sid = $this->container->getParameter('twilio_sid');
+	            	$twilio_token = $this->container->getParameter('twilio_token');
+	            	$twilio_number = $this->container->getParameter('twilio_number');
+	                	$twilioClient = new Client($twilio_sid, $twilio_token);
 
-    	    if($param['phone']){
-                $phone = $em->getRepository('MainBundle:UserPhone')->check($param);
+			            $optService = $this->phoneService->sendOtpToMobile($twilioClient, $twilio_number, $param['phone'], $otpNew);
+			            if (!$optService['status']) {
+			      			$resultArray['Error'] = $optService['error'];
+	        
+		            	}
+		            	$user->setOtp($otpNew);
+		            	$user->setStatus("Sent");
+		            	$em->persist($user);
+		            	$em->flush();
 
-                if(!$phone){
-                	$error['phoneError'] = "Please give a valid phone to search";
-                } else{
-                	//incase the otp is used, generate new
-                	$otpStatus = $user->getStatus();
-    	    		if('Used' == $otpStatus){
-		    	    	$otpNew = $this->phoneService->generateOtp();
-		    	    } else {
-		    	    	$otpNew = $user->getOtp();
-		    	    }
-                	
-				$twilio_sid = $this->container->getParameter('twilio_sid');
-            	$twilio_token = $this->container->getParameter('twilio_token');
-            	$twilio_number = $this->container->getParameter('twilio_number');
-                	$twilioClient = new Client($twilio_sid, $twilio_token);
-
-		            $optService = $this->phoneService->sendOtpToMobile($twilioClient, $twilio_number, $param['phone'], $otpNew);
-		            if (!$optService['status']) {
-		      			$resultArray['Error'] = $optService['error'];
-        
-	            	}
-	            	$user->setOtp($otpNew);
-	            	$user->setStatus("Sent");
-	            	$em->persist($user);
-	            	$em->flush();
-
-	            	$resultArray['success'] = "otp send successfully";
-                }
+		            	$resultArray['success'] = "otp send successfully";
+	                }
+	    	    } else {
+    	    		$resultArray['errorMessage'] = "Please provide the phone parameter";
+    	    	}
+	    	} else {
+    	    	$resultArray['errorMessage'] = "Please provide the name parameter";
     	    }
     	}
     	return new JsonResponse($resultArray);
     }
 
     /*
-	** REST action which returns details based on the search data.
-	* Method: POST, url: /api/verifyotp/{_format}
+	** REST action which returns success if the otp is verified.
+	* Method: POST, url: /api/verifyotp
 	*
 	* @ApiDoc(
 	*   resource =false,
@@ -147,7 +159,12 @@ class PhoneController extends FOSRestController
 	*/
     public function verifyAction(Request $request)
     {
-        $data=json_decode($request->getContent(),1);
+    	if(json_decode($request->getContent(),1)){
+    		$data=json_decode($request->getContent(),1);
+    	} else {
+    		$requestData = $request->query->get('data');
+        	$data = json_decode($requestData, true);
+    	}
         $param = [];
         $error = [];
         $em = $this->getDoctrine()->getManager();
@@ -157,43 +174,50 @@ class PhoneController extends FOSRestController
     		$param['phone'] = ($data['phone']) ? $data['phone'] : "";
     		$param['otp'] = ($data['otp']) ? $data['otp'] : "";
 
-    		if($param['user']){
+    		if ( isset($param['otp']) ) {
+    			$resultArray['errorMessage'] = "Please provide the some parameter are missing";
+    		} else if ($param['user']) {
                 $user = $em->getRepository('MainBundle:User')->findOneBy(array('name' => $param['user']));
 
-                if(!$user){
+                if (!$user) {
                 	$error['userError'] = "Please give a valid user to search";
                 }
+
+	    	    if ($param['phone']) {
+	    	    	//verify the user and phone number are linked.
+	                $phone = $em->getRepository('MainBundle:UserPhone')->check($param);
+
+	                if (!$phone) {
+	                	$error['phoneError'] = "Please give a valid user to search";
+	                } else {
+	                	//verify the otp send.
+	                	$otpVerification = $em->getRepository('MainBundle:User')->verifyOtp($param);
+
+				        if (!$otpVerification) {
+				            $resultArray['errorMessage'] = "Error Occured";
+				        } else {
+				        	//updating the
+				        	 $user->setStatus("Used");
+					        //creating records in Twilio table
+					        $twilolog= new TwilioLog;
+		                    $twilolog   ->setPhone($param['phone'])
+		                    			->setOtp($param['otp'])
+		                                ->setUser($user);
+
+		                    $em->persist($user);
+		                    $em->persist($twilolog);
+		                    $em->flush();
+
+		                    $resultArray['success'] = "otp matched";
+				        }
+					} 
+    	    	} else {
+    	    			$resultArray['errorMessage'] = "Please provide the some parameter are missing";
+    	    	}
+	    	} else {
+    	    	$resultArray['errorMessage'] = "Please provide the some parameter are missing";
     	    }
-
-    	    if($param['phone']){
-    	    	//verify the user and phone number are linked.
-                $phone = $em->getRepository('MainBundle:UserPhone')->check($param);
-
-                if(!$phone){
-                	$error['phoneError'] = "Please give a valid user to search";
-                } else{
-                	//verify the otp send.
-                	$otpVerification = $em->getRepository('MainBundle:User')->verifyOtp($param);
-
-			        if (!$otpVerification) {
-			            $errorDetail = "Error Occured";
-			        } else{
-			        	 $user->setStatus("Used");
-				        //creating records in Twilio table
-				        $twilolog= new TwilioLog;
-	                    $twilolog   ->setPhone($param['phone'])
-	                    			->setOtp($param['otp'])
-	                                ->setUser($user);
-
-	                    $em->persist($user);
-	                    $em->persist($twilolog);
-	                    $em->flush();
-
-			        }
-
-	            }
-	            	$resultArray['success'] = "otp amtched";
-            }
+    		
     	}
     
     	return new JsonResponse($resultArray);
