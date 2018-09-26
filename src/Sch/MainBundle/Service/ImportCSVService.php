@@ -32,7 +32,7 @@ class ImportCSVService
         $em = $this->getDoctrine()->getManager();
         $userPhone = new UserPhone;
                 $phone = $em->getRepository('MainBundle:UserPhone')->findOneBy(array('phone' => $phone));
-                if(!$phone  && !$phone){
+                if (!$phone  && !$phone){
                     $userPhone->setPhone($phone);
                     $userPhone->setUser($user);
                     $userPhone->setStatus('1');
@@ -66,7 +66,8 @@ class ImportCSVService
 
             $em = $this->getDoctrine()->getManager(); 
             
-            foreach ($results as $row) {
+            foreach ($results as $row) 
+            {
              
                 //create new users
                 $user = new User;
@@ -78,7 +79,8 @@ class ImportCSVService
                 //create new phone records
                 $userPhone = 
                 $phone2 = $em->getRepository('MainBundle:UserPhone')->findOneBy(array('phone' => $row['phone2']));
-                if($row['phone2'] && !$phone2){
+                if ($row['phone2'] && !$phone2)
+                {
                     $userPhone2 = new UserPhone;
 
                     $userPhone2->setPhone($row['phone2']);
@@ -87,7 +89,8 @@ class ImportCSVService
                     $em->persist($userPhone2);
                 }
                 $phone3 = $em->getRepository('MainBundle:UserPhone')->findOneBy(array('phone' => $row['phone3']));
-                if($row['phone3'] && !$phone3){
+                if ($row['phone3'] && !$phone3)
+                {
                     $userPhone3 = new UserPhone;
 
                     $userPhone3->setPhone($row['phone3']);
@@ -99,7 +102,8 @@ class ImportCSVService
             }
             $returnData['success']= "csv uploaded successfully";
             return $returnData;
-        } catch (\Exception $e) {
+        } catch (\Exception $e)
+        {
             $returnData['errorMessage'] = $e->getMessage();
             return $returnData;
         }

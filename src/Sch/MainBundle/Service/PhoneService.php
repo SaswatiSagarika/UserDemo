@@ -29,9 +29,11 @@ class PhoneService
      */
     public function sendOtpToMobile($twilioClient, $twillio_number, $phone, $otpNew)
     {
-        try {
+        try 
+        {
 
-            if($twilioClient) {
+            if($twilioClient) 
+            {
                 $textMessage = "Your one-time password to verify your account is " . $otpNew;
 
                 $message = $twilioClient->messages
@@ -42,9 +44,10 @@ class PhoneService
                            )
                   );
             }
-            var_dump($message);exit;
+            // var_dump($message);exit;
             return array('status' => true);
-        } catch (\Exception $e) {
+        } catch (\Exception $e) 
+        {
             $returnData['errorMessage'] = $e->getMessage();
             return $returnData;
         }

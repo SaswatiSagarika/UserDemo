@@ -17,7 +17,7 @@ class UploadCsvFileCommand extends ContainerAwareCommand
     {
         $this
             ->setName('upload:csv-file')
-            ->setDescription('...')
+            ->setDescription('create new users in users table')
             ->addArgument(
                 'csv_file',
                 InputArgument::REQUIRED,
@@ -32,11 +32,10 @@ class UploadCsvFileCommand extends ContainerAwareCommand
     {   
         $container = $this->getContainer();
         $csvFile = $input->getArgument('csv_file');
-
         $ext = pathinfo($csvFile, PATHINFO_EXTENSION);
         //check if the file extension is csv or not
         if($ext === 'csv')
-        {
+        {   //calling the uploadUsers function
             $status = $container->get('sch_main.import_csv')->uploadUsers($csvFile);
         }
         else

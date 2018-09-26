@@ -23,11 +23,9 @@ use Sch\MainBundle\Entity\TwilioLog;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
-*@Route("/Users")
-*/
 
-class UserController extends FOSRestController{
+class UserController extends FOSRestController
+{
 
     /*
     ** REST action which returns sends the data to phone number.
@@ -50,32 +48,37 @@ class UserController extends FOSRestController{
     *  }
     * @return array
     */
-	public function getUserDetailAction(Request $request) {
-        var_dump($request);exit;
-        $demo =[];
+	public function getUserDetailAction(Request $request) 
+    {
+        
+        $demo = [];
         $requestData = $request->query->get('data');
         $demo = json_decode($requestData, true);
+        
         $param = [];
         $error = [];
+        
         $em = $this->getDoctrine()->getManager();
-        if($demo)
+
+        if ($demo)
         {
             
             $param['name'] = (array_key_exists('name', $demo)) ? $demo['name'] : "";
             $param['phone'] = (array_key_exists('phone', $demo)) ? $demo['phone'] : "";
             $users = $em->getRepository('MainBundle:User')->getUsers($param);
             
-           
             $resultArray = [];
             $i = 0;
-            foreach ($users as $user) {
-                 $userDetails['name']=(null !== $user['name']) ? $user['name'] : '';
-                  $userDetails['last']=(null !== $user['last']) ? $user['last'] : '';
+            foreach ($users as $user) 
+            {
+                $userDetails['name']=(null !== $user['name']) ? $user['name'] : '';
+                $userDetails['last']=(null !== $user['last']) ? $user['last'] : '';
                 
-                  $userPhones = $em->getRepository('MainBundle:UserPhone')->getPhones($user);
+                $userPhones = $em->getRepository('MainBundle:UserPhone')->getPhones($user);
                   
-                  $j = 0;
-                 foreach ($userPhones as $userPhone) {
+                $j = 0;
+                foreach ($userPhones as $userPhone) 
+                {
                     
                     $userDetailsPhone['phone']=(null !== $userPhone['phone']) ? $userPhone['phone'] : '';
                     $userDetails['userPhone'][$j]=$userDetailsPhone;
@@ -86,7 +89,8 @@ class UserController extends FOSRestController{
             } 
         }
         
-        if(!$error && !$resultArray){
+        if (!$error && !$resultArray)
+        {
             $error['resultError'] = "No records found for this filter";
         }
         $resultArray['Error'] = $error;

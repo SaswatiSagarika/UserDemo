@@ -26,7 +26,8 @@ use Sch\MainBundle\Entity\RevenueRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class RevenueController extends FOSRestController{
+class RevenueController extends FOSRestController
+{
 
 	// File: Sch\MainBundle\Controller\RevenueController.php
 
@@ -56,7 +57,8 @@ class RevenueController extends FOSRestController{
 	*  }
 	* @return mixed
 	*/
-	public function getRevenueDetailAction(Request $request) {
+	public function getRevenueDetailAction(Request $request) 
+    {
 
 		$demo =[];
 		$requestData = $request->query->get('data');
@@ -64,7 +66,7 @@ class RevenueController extends FOSRestController{
         $param = [];
         $error = [];
         $em = $this->getDoctrine()->getManager();
-        if($demo)
+        if ($demo)
         {
     		
     		$param['prodType'] = (array_key_exists('productType', $demo)) ? $demo['productType'] : "";
@@ -77,45 +79,58 @@ class RevenueController extends FOSRestController{
     		$param['quarter'] = (array_key_exists('quarter', $demo)) ? $demo['quarter'] : "";
     		
     		
-    		if($param['prodType']){
+    		if ($param['prodType'])
+            {
                 $productType = $em->getRepository('MainBundle:ProductTypes')->findOneBy(array('name' => $param['prodType']));
 
-                if(!$productType){
+                if (!$productType)
+                {
                 	$error['productTypeError'] = "Please give a valid Product Type to search";
                 }
     	    }
-    		if($param['prodLine']){
+    		if ($param['prodLine'])
+            {
                 $productLine = $em->getRepository('MainBundle:ProductLines')->findOneBy(array('name' => $param['prodLine']));
 
-                if(!$productLine){
+                if (!$productLine)
+                {
                 	$error['productLineError'] = "Please give a valid Product Line to search";
                 }
             }
-            if($param['retailCountry']){
+            if ($param['retailCountry'])
+            {
                 $retailerCountry = $em->getRepository('MainBundle:RetailerCountries')->findOneBy(array('name' => $param['retailCountry']));
 
-                if(!$retailerCountry){
+                if (!$retailerCountry)
+                {
+
                 	$error['retailCountryError'] = "Please give a valid Retailer Country to search";
                 }
     		}
-    		if($param['retailerType']){       
+    		if ($param['retailerType'])
+            {       
                 $retailerType = $em->getRepository('MainBundle:RetailerTypes')->findOneBy(array('name' => $param['retailerType']));
 
-                if(!$retailerType){
+                if (!$retailerType)
+                {
                 	$error['retailerTypeError']= "Please give a valid Retailer Type to search";
                 }
             }
-    		if($param['orderMode']){
+    		if ($param['orderMode'])
+            {
                 $orderType = $em->getRepository('MainBundle:OrderModes')->findOneBy(array('name' => $param['orderMode']));
 
-                if(!$orderType){
+                if (!$orderType)
+                {
                 	$error['orderModeError'] = "Please give a valid Order Modes to search";
                 }
             }
-    		if($param['product']){
+    		if ($param['product'])
+            {
                 $product = $em->getRepository('MainBundle:Product')->findOneBy(array('name' => $param['product']));
 
-                if(!$product){
+                if (!$product)
+                {
                 	$error['productError'] = "Please give a valid Product to search";
                 }
             }
@@ -123,7 +138,8 @@ class RevenueController extends FOSRestController{
         $revenues = $em->getRepository('MainBundle:Revenue')->revenueDetails($param);
         $resultArray = [];
         $i = 0;
-        foreach ($revenues as $revenue) {
+        foreach ($revenues as $revenue) 
+        {
         	 $revenueDetails['OrderMode']=(null !== $revenue['OrderMode']) ? $revenue['OrderMode'] : '';
         	 $revenueDetails['RetailerCountry']=(null !== $revenue['RetailerCountry']) ? $revenue['RetailerCountry'] : '';
         	 $revenueDetails['RetailerType']=(null !== $revenue['RetailerType']) ? $revenue['RetailerType'] : '';
@@ -138,10 +154,12 @@ class RevenueController extends FOSRestController{
         	 $resultArray['Revenue'][$i]=$revenueDetails;
         	 $i++;
         }
-        if(!$error && !$resultArray){
+
+        if (!$error && !$resultArray)
+        {
         	$error['resultError'] = "No records found for this filter";
         }
-        $resultArray['Error'] = $error;
+        $resultArray['error'] = $error;
              
         return new JsonResponse($resultArray);
             

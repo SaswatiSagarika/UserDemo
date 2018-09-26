@@ -22,11 +22,6 @@ class ApiTestController extends Controller
         // Render form to capture values needed for Merchant API testing
         return $this->render('MainBundle:ApiTest:testApi.html.twig', array('form' => $form->createView()));
 	}
-	
-	public function runApi($verb, $content, $url){
-
-		
-	}
-        
+	        
 
 }

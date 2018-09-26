@@ -10,13 +10,10 @@ use Sch\MainBundle\Form\Type\ApiTestFormType;
 
 class DefaultController extends Controller
 {
-    public function indexAction($name)
+    public function indexAction ($name)
     {	
-       
-
-            $searchForm = $this->createForm(new ApiTestFormType());
-            //print_r($ype);
-        return $this->render(
+       // return the index.html view
+        return $this->render (
             'MainBundle:Default:index.html.twig'
         );
     }
