@@ -56,31 +56,27 @@ class UserController extends FOSRestController
         $demo = json_decode($requestData, true);
         
         $param = [];
-        $error = [];
-        
-        $em = $this->getDoctrine()->getManager();
 
-        if ($demo)
-        {
+        if ($demo) {
             
             $param['name'] = (array_key_exists('name', $demo)) ? $demo['name'] : "";
             $param['phone'] = (array_key_exists('phone', $demo)) ? $demo['phone'] : "";
+
+            $em = $this->getDoctrine()->getManager();
             $users = $em->getRepository('MainBundle:User')->getUsers($param);
             
             $resultArray = [];
             $i = 0;
-            foreach ($users as $user) 
-            {
-                $userDetails['name']=(null !== $user['name']) ? $user['name'] : '';
-                $userDetails['last']=(null !== $user['last']) ? $user['last'] : '';
+            foreach ($users as $user) {
+                $userDetails['name'] = (null !== $user['name']) ? $user['name'] : '';
+                $userDetails['last'] = (null !== $user['last']) ? $user['last'] : '';
                 
                 $userPhones = $em->getRepository('MainBundle:UserPhone')->getPhones($user);
                   
                 $j = 0;
-                foreach ($userPhones as $userPhone) 
-                {
+                foreach ($userPhones as $userPhone) {
                     
-                    $userDetailsPhone['phone']=(null !== $userPhone['phone']) ? $userPhone['phone'] : '';
+                    $userDetailsPhone['phone'] = (null !== $userPhone['phone']) ? $userPhone['phone'] : '';
                     $userDetails['userPhone'][$j]=$userDetailsPhone;
                     $j++;
                 }
@@ -89,8 +85,7 @@ class UserController extends FOSRestController
             } 
         }
         
-        if (!$error && !$resultArray)
-        {
+        if (!$error && !$resultArray) {
             $error['resultError'] = "No records found for this filter";
         }
         $resultArray['Error'] = $error;

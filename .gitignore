@@ -1,0 +1,7 @@
+/web/
+/app/cache/
+/app/logs/
+/vendor/
+/app/config/parameters.yml
+/bin/
+/src/Sch/MainBundle/Data/

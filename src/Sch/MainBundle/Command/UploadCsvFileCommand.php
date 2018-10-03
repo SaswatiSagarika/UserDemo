@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * Command used for Users section to upload csv file.
+ *
+ * @author Saswati
+ *
+ * @category Custom Command
+ */
 namespace Sch\MainBundle\Command;
 
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;

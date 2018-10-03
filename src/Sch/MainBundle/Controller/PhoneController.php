@@ -2,7 +2,7 @@
 /**
  * Controller for Phone Section.
  *
- * @author saswati
+ * @author Saswati
  *
  * @category Controller
  */
@@ -68,80 +68,59 @@ class PhoneController extends FOSRestController
 	*/
     public function sendAction(Request $request)
     {	
-    	if (json_decode($request->getContent(),1))
-    	{
-    		$data = json_decode($request->getContent(),1);
-    	} else 
-    	{
-    		$requestData = $request->query->get('data');
-        	$data = json_decode ($requestData, true);
-    	}
+    	$data = ($request->getContent()) ? json_decode($request->getContent(),1) : son_decode ($request->query->get('data'), true);
         
         $param = [];
-        $error = [];
         $resultArray = [];
-        $em = $this->getDoctrine()->getManager();
         
-        if ($data)
-        {    		
-    		$param['user'] = ($data['name']) ? $data['name'] : "";
-    		$param['phone'] = ($data['phone']) ? $data['phone'] : "";
-
-    		if ($param['user'])
-    		{
-
-                $user = $em->getRepository('MainBundle:User')->findOneBy(array('name' => $param['user']));
-
-                if (!$user)
-                {
-                	$resultArray['userError'] = "Please give a valid user to search";
-                } else if ($param['phone'])
-	    	    {
-	                $phone = $em->getRepository('MainBundle:UserPhone')->check($param);
-
-	                if (!$phone)
-	                {
-	                	$resultArray['phoneError'] = "Please give a valid phone to search";
-	                } else
-	                {
-	                	//incase the otp is used, generate new
-	                	$otpStatus = $user->getStatus();
-	    	    		if('Used' === $otpStatus)
-	    	    		{
-			    	    	$otpNew = $this->phoneService->generateOtp();
-			    	    } else 
-			    	    {
-			    	    	$otpNew = $user->getOtp();
-			    	    }
-	      				//getting the twilio parameters
-						$twilioSid = $this->container->getParameter('twilio_sid');
-	            		$twilioToken = $this->container->getParameter('twilio_token');
-	            		$twilioNumber = $this->container->getParameter('twilio_number');
-	                	$twilioClient = new Client($twilioSid, $twilioToken);
-
-			            $optService = $this->phoneService->sendOtpToMobile($twilioClient, $twilioNumber, $param['phone'], $otpNew);
-
-			            if (!$optService['status']) 
-			            {
-			      			$resultArray['Error'] = $optService['error'];
-		            	}
-
-		            	$user->setOtp($otpNew);
-		            	$user->setStatus("Sent");
-		            	$em->persist($user);
-		            	$em->flush();
-
-		            	$resultArray['success'] = "otp send successfully";
-	                }
-	    	    } else 
-	    	    {
-    	    		$resultArray['errorMessage'] = "Please provide the phone parameter";
-    	    	}
-	    	} else 
-	    	{
-    	    	$resultArray['errorMessage'] = "Please provide the name parameter";
-    	    }
+        if (!$data) {
+    	   	$resultArray['errorMessage'] = "Please provide the name parameter";
+    	   	throw new Exception("Error Processing Request", 1);
     	}
+
+            		
+		$param['user'] = (trim($data['name'])) ? $data['name'] : "";
+		$param['phone'] = (trim($data['phone']) ? $data['phone'] : "";
+
+		if (!$param['user']) {
+	    	throw new Exception("Please provide the name parameter", 1);
+	    }
+
+	    if (!$param['phone']) {
+	    	throw new Exception("Please provide the phone parameter", 1);
+	    }
+
+	    $em = $this->getDoctrine()->getManager();
+       	$user = $em->getRepository('MainBundle:User')->findOneBy(array('name' => $param['user']));
+
+       	if (!$user) {
+        	throw new Exception("Please provide the valid user parameter", 1);
+        }
+	    
+	    $phone = $em->getRepository('MainBundle:UserPhone')->check($param);
+
+        if (!$phone) {
+        	throw new Exception("Please give a valid phone to search", 1);
+        } 
+	                
+	    //incase the otp is used, generate new
+    	$otpStatus = ('Used' === $user->getStatus())? $this->phoneService->generateOtp() : 
+    						$user->getOtp();
+		
+		//getting the twilio parameters
+        $optService = $this->phoneService->sendOtpToMobile( $param['phone'], $otpNew);
+
+        if (!$optService['status']) {
+  			throw new Exception($optService['error'], 1);
+    	}
+
+    	$user->setOtp($otpNew);
+    	$user->setStatus("Sent");
+    	$em->persist($user);
+    	$em->flush();
+
+    	$resultArray['success'] = "otp send successfully";
+
     	return new JsonResponse($resultArray);
     }
 
@@ -169,78 +148,66 @@ class PhoneController extends FOSRestController
 	*/
     public function verifyAction(Request $request)
     {
-    	if( json_decode($request->getContent(),1))
-    	{
-    		$data = json_decode($request->getContent(),1);
-    	} else 
-    	{
-    		$requestData = $request->query->get('data');
-        	$data = json_decode($requestData, true);
-    	}
+    	$data = ($request->getContent()) ? json_decode($request->getContent(),1) : son_decode ($request->query->get('data'), true);
+        
         $param = [];
-        $em = $this->getDoctrine()->getManager();
-        if ($data)
-        {    		
-    		$param['user'] = ($data['name']) ? $data['name'] : "";
-    		$param['phone'] = ($data['phone']) ? $data['phone'] : "";
-    		$param['otp'] = ($data['otp']) ? $data['otp'] : "";
-
-    		if ( isset($param['otp']) ) 
-    		{
-    			$resultArray['errorMessage'] = "Please provide the some parameter are missing";
-    		} else if ($param['user']) 
-    		{
-                $user = $em->getRepository('MainBundle:User')->findOneBy(array('name' => $param['user']));
-
-                if (!$user) 
-                {
-                	$resultArray['userError'] = "Please give a valid user to search";
-                }
-
-	    	    if ($param['phone']) 
-	    	    {
-	    	    	//verify the user and phone number are linked.
-	                $phone = $em->getRepository('MainBundle:UserPhone')->check($param);
-
-	                if (!$phone) 
-	                {
-	                	$resultArray['phoneError'] = "Please give a valid user to search";
-	                } else 
-	                {
-	                	//verify the otp send.
-	                	$otpVerification = $em->getRepository('MainBundle:User')->verifyOtp($param);
-
-				        if (!$otpVerification) 
-				        {
-				            $resultArray['errorMessage'] = "Error Occured";
-				        } else 
-				        {
-				        	//updating the
-				        	 $user->setStatus("Used");
-				        	 $em->persist($user);
-
-					        //creating records in Twilio table
-					        $twilolog = new TwilioLog;
-		                    $twilolog->setPhone($param['phone'])
-	                    			 ->setOtp($param['otp'])
-	                                 ->setUser($user);
-	                        $em->persist($twilolog);
-		                   
-		                    $em->flush();
-
-		                    $resultArray['success'] = "otp matched";
-				        }
-					} 
-    	    	} else 
-    	    	{
-    	    		$resultArray['errorMessage'] = "Please provide the some parameter are missing";
-    	    	}
-	    	} else 
-	    	{
-    	    	$resultArray['errorMessage'] = "Please provide the some parameter are missing";
-    	    }
-    		
+        $resultArray = [];
+        
+        if (!$data) {
+    	   	throw new Exception("Please provide the required parameters", 1);
     	}
+
+            		
+		$param['user'] = (trim($data['name'])) ? $data['name'] : "";
+		$param['phone'] = (trim($data['phone']) ? $data['phone'] : "";
+		$param['otp'] = (trim($data['otp'])) ? $data['otp'] : "";
+
+		if (!$param['user']) {
+	    	throw new Exception("Please provide the name parameter", 1);
+	    }
+
+	    if (!$param['phone']) {
+	    	throw new Exception("Please provide the phone parameter", 1);
+	    }
+
+	    $em = $this->getDoctrine()->getManager();
+       	$user = $em->getRepository('MainBundle:User')->findOneBy(array('name' => $param['user']));
+
+       	if (!$user) {
+        	throw new Exception("Please give a valid user to search", 1);
+        }
+	    
+	    $phone = $em->getRepository('MainBundle:UserPhone')->check($param);
+
+        if (!$phone) {
+        	throw new Exception("Error Processing Request", 1);
+        } 
+	    
+		if ( isset($param['otp']) ) {
+			throw new Exception("Please provide the some parameter are missing", 1);
+		} 
+	    
+	    //verify the otp send.
+    	$otpVerification = $em->getRepository('MainBundle:User')->verifyOtp($param);
+
+        if (!$otpVerification) {
+        	throw new Exception("Error Occured", 1);
+        } 
+        
+        //updating the
+		$user->setStatus("Used");
+		$em->persist($user);
+
+	    //creating records in Twilio table
+	    $twilolog = new TwilioLog;
+	    $twilolog->setPhone($param['phone'])
+				 ->setOtp($param['otp'])
+	             ->setUser($user);
+	    $em->persist($twilolog);
+	   
+	    $em->flush();
+
+	    $resultArray['success'] = "otp matched";
     
     	return new JsonResponse($resultArray);
     }

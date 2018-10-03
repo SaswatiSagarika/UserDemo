@@ -1,10 +1,15 @@
 <?php
 
 /**
+ * Service for UsersPhone Section.
+ *
+ * @author
  * 
  * @category Service
  */
 namespace Sch\MainBundle\Service;
+
+use Twilio\Rest\Client;
 
 /**
  * Class for phone services
@@ -27,22 +32,27 @@ class PhoneService
      *
      * @return array
      */
-    public function sendOtpToMobile($twilioClient, $twillio_number, $phone, $otpNew)
+    public function sendOtpToMobile($phone, $otpNew)
     {
         try 
         {
+            $twilioSid = $this->container->getParameter('twilio_sid');
+            $twilioToken = $this->container->getParameter('twilio_token');
+            $twilioNumber = $this->container->getParameter('twilio_number');
+            $twilioClient = new Client($twilioSid, $twilioToken);
+
 
             if($twilioClient) 
             {
                 $textMessage = "Your one-time password to verify your account is " . $otpNew;
 
                 $message = $twilioClient->messages
-                  ->create($phone, 
-                           array(
-                               "body" => $textMessage,
-                               "from" => $twillio_number
-                           )
-                  );
+                    ->create($phone, 
+                        array(
+                           "body" => $textMessage,
+                           "from" => $twillio_number
+                        )
+                    );
             }
             // var_dump($message);exit;
             return array('status' => true);

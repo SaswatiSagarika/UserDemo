@@ -1,5 +1,11 @@
 <?php
-
+/**
+ * Command used for Users Section.
+ *
+ * @author Saswati
+ *
+ * @category Custom Command
+ */
 namespace Sch\MainBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;

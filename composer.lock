@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99336a2a9fafc9c8ea6b49b08b126b3f",
+    "content-hash": "99d634ceaca2bfed91566722b5634111",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -4235,6 +4235,67 @@
             "time": "2017-07-21T06:01:18+00:00"
         },
         {
+            "name": "symfony/security-csrf",
+            "version": "v3.4.16",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/security-csrf.git",
+                "reference": "3e165489937450297c5282e0b9f9bcebba9679c9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/security-csrf/zipball/3e165489937450297c5282e0b9f9bcebba9679c9",
+                "reference": "3e165489937450297c5282e0b9f9bcebba9679c9",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.5.9|>=7.0.8",
+                "symfony/polyfill-php56": "~1.0",
+                "symfony/polyfill-php70": "~1.0",
+                "symfony/security-core": "~2.8|~3.0|~4.0"
+            },
+            "conflict": {
+                "symfony/http-foundation": "<2.8.31|~3.3,<3.3.13"
+            },
+            "require-dev": {
+                "symfony/http-foundation": "^2.8.31|~3.3.13|~3.4|~4.0"
+            },
+            "suggest": {
+                "symfony/http-foundation": "For using the class SessionTokenStorage."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Security\\Csrf\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Security Component - CSRF Library",
+            "homepage": "https://symfony.com",
+            "time": "2018-09-04T06:27:33+00:00"
+        },
+        {
             "name": "symfony/swiftmailer-bundle",
             "version": "v2.6.7",
             "source": {
@@ -4295,16 +4356,16 @@
         },
         {
             "name": "symfony/symfony",
-            "version": "v2.8.45",
+            "version": "v2.8.46",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "289dc238c533476d0101d736816b408b02e51751"
+                "reference": "a7f5ade1f8b3eb74a130cf681c45bfa991c330d1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/289dc238c533476d0101d736816b408b02e51751",
-                "reference": "289dc238c533476d0101d736816b408b02e51751",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/a7f5ade1f8b3eb74a130cf681c45bfa991c330d1",
+                "reference": "a7f5ade1f8b3eb74a130cf681c45bfa991c330d1",
                 "shasum": ""
             },
             "require": {
@@ -4431,7 +4492,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2018-08-27T17:33:57+00:00"
+            "time": "2018-09-30T03:53:41+00:00"
         },
         {
             "name": "twig/extensions",
