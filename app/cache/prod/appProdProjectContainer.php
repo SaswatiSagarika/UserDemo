@@ -32,6 +32,7 @@ class appProdProjectContainer extends Container
         $this->scopeChildren = array('request' => array());
         $this->methodMap = array(
             'annotation_reader' => 'getAnnotationReaderService',
+            'app.validator.e164_number' => 'getApp_Validator_E164NumberService',
             'assets.context' => 'getAssets_ContextService',
             'assets.packages' => 'getAssets_PackagesService',
             'cache_clearer' => 'getCacheClearerService',
@@ -88,6 +89,7 @@ class appProdProjectContainer extends Container
             'file_locator' => 'getFileLocatorService',
             'filesystem' => 'getFilesystemService',
             'form.csrf_provider' => 'getForm_CsrfProviderService',
+            'form.extension' => 'getForm_ExtensionService',
             'form.factory' => 'getForm_FactoryService',
             'form.registry' => 'getForm_RegistryService',
             'form.resolved_type_factory' => 'getForm_ResolvedTypeFactoryService',
@@ -184,6 +186,7 @@ class appProdProjectContainer extends Container
             'jms_serializer.json_deserialization_visitor' => 'getJmsSerializer_JsonDeserializationVisitorService',
             'jms_serializer.json_serialization_visitor' => 'getJmsSerializer_JsonSerializationVisitorService',
             'jms_serializer.metadata_driver' => 'getJmsSerializer_MetadataDriverService',
+            'jms_serializer.metadata_factory' => 'getJmsSerializer_MetadataFactoryService',
             'jms_serializer.naming_strategy' => 'getJmsSerializer_NamingStrategyService',
             'jms_serializer.object_constructor' => 'getJmsSerializer_ObjectConstructorService',
             'jms_serializer.php_collection_handler' => 'getJmsSerializer_PhpCollectionHandlerService',
@@ -195,8 +198,21 @@ class appProdProjectContainer extends Container
             'jms_serializer.yaml_serialization_visitor' => 'getJmsSerializer_YamlSerializationVisitorService',
             'kernel' => 'getKernelService',
             'kernel.class_cache.cache_warmer' => 'getKernel_ClassCache_CacheWarmerService',
+            'knp_menu.factory' => 'getKnpMenu_FactoryService',
+            'knp_menu.matcher' => 'getKnpMenu_MatcherService',
+            'knp_menu.menu_provider' => 'getKnpMenu_MenuProviderService',
+            'knp_menu.renderer.list' => 'getKnpMenu_Renderer_ListService',
+            'knp_menu.renderer.twig' => 'getKnpMenu_Renderer_TwigService',
+            'knp_menu.renderer_provider' => 'getKnpMenu_RendererProviderService',
+            'knp_menu.voter.router' => 'getKnpMenu_Voter_RouterService',
             'locale_listener' => 'getLocaleListenerService',
             'logger' => 'getLoggerService',
+            'main.admin.blog_post' => 'getMain_Admin_BlogPostService',
+            'main.admin.blog_post.template_registry' => 'getMain_Admin_BlogPost_TemplateRegistryService',
+            'main.admin.category' => 'getMain_Admin_CategoryService',
+            'main.admin.category.template_registry' => 'getMain_Admin_Category_TemplateRegistryService',
+            'main.admin.test' => 'getMain_Admin_TestService',
+            'main.admin.test.template_registry' => 'getMain_Admin_Test_TemplateRegistryService',
             'monolog.handler.console' => 'getMonolog_Handler_ConsoleService',
             'monolog.handler.main' => 'getMonolog_Handler_MainService',
             'monolog.handler.nested' => 'getMonolog_Handler_NestedService',
@@ -207,6 +223,21 @@ class appProdProjectContainer extends Container
             'monolog.logger.security' => 'getMonolog_Logger_SecurityService',
             'monolog.logger.translation' => 'getMonolog_Logger_TranslationService',
             'monolog.processor.psr_log_message' => 'getMonolog_Processor_PsrLogMessageService',
+            'nelmio_api_doc.doc_comment_extractor' => 'getNelmioApiDoc_DocCommentExtractorService',
+            'nelmio_api_doc.event_listener.request' => 'getNelmioApiDoc_EventListener_RequestService',
+            'nelmio_api_doc.extractor.api_doc_extractor' => 'getNelmioApiDoc_Extractor_ApiDocExtractorService',
+            'nelmio_api_doc.form.extension.description_form_type_extension' => 'getNelmioApiDoc_Form_Extension_DescriptionFormTypeExtensionService',
+            'nelmio_api_doc.formatter.html_formatter' => 'getNelmioApiDoc_Formatter_HtmlFormatterService',
+            'nelmio_api_doc.formatter.markdown_formatter' => 'getNelmioApiDoc_Formatter_MarkdownFormatterService',
+            'nelmio_api_doc.formatter.simple_formatter' => 'getNelmioApiDoc_Formatter_SimpleFormatterService',
+            'nelmio_api_doc.formatter.swagger_formatter' => 'getNelmioApiDoc_Formatter_SwaggerFormatterService',
+            'nelmio_api_doc.parser.collection_parser' => 'getNelmioApiDoc_Parser_CollectionParserService',
+            'nelmio_api_doc.parser.form_errors_parser' => 'getNelmioApiDoc_Parser_FormErrorsParserService',
+            'nelmio_api_doc.parser.form_type_parser' => 'getNelmioApiDoc_Parser_FormTypeParserService',
+            'nelmio_api_doc.parser.jms_metadata_parser' => 'getNelmioApiDoc_Parser_JmsMetadataParserService',
+            'nelmio_api_doc.parser.json_serializable_parser' => 'getNelmioApiDoc_Parser_JsonSerializableParserService',
+            'nelmio_api_doc.parser.validation_parser' => 'getNelmioApiDoc_Parser_ValidationParserService',
+            'nelmio_api_doc.twig.extension.extra_markdown' => 'getNelmioApiDoc_Twig_Extension_ExtraMarkdownService',
             'property_accessor' => 'getPropertyAccessorService',
             'request' => 'getRequestService',
             'request_stack' => 'getRequestStackService',
@@ -215,25 +246,33 @@ class appProdProjectContainer extends Container
             'router.request_context' => 'getRouter_RequestContextService',
             'router_listener' => 'getRouterListenerService',
             'routing.loader' => 'getRouting_LoaderService',
+            'sch_main.import_csv' => 'getSchMain_ImportCsvService',
+            'sch_main.phone' => 'getSchMain_PhoneService',
             'security.access.decision_manager' => 'getSecurity_Access_DecisionManagerService',
+            'security.access_listener' => 'getSecurity_AccessListenerService',
+            'security.access_map' => 'getSecurity_AccessMapService',
             'security.authentication.guard_handler' => 'getSecurity_Authentication_GuardHandlerService',
             'security.authentication.manager' => 'getSecurity_Authentication_ManagerService',
             'security.authentication.session_strategy.main' => 'getSecurity_Authentication_SessionStrategy_MainService',
             'security.authentication.trust_resolver' => 'getSecurity_Authentication_TrustResolverService',
             'security.authentication_utils' => 'getSecurity_AuthenticationUtilsService',
             'security.authorization_checker' => 'getSecurity_AuthorizationCheckerService',
+            'security.channel_listener' => 'getSecurity_ChannelListenerService',
             'security.context' => 'getSecurity_ContextService',
             'security.csrf.token_manager' => 'getSecurity_Csrf_TokenManagerService',
             'security.encoder_factory' => 'getSecurity_EncoderFactoryService',
             'security.firewall' => 'getSecurity_FirewallService',
             'security.firewall.map.context.dev' => 'getSecurity_Firewall_Map_Context_DevService',
             'security.firewall.map.context.main' => 'getSecurity_Firewall_Map_Context_MainService',
+            'security.firewall.map.context.secured_area' => 'getSecurity_Firewall_Map_Context_SecuredAreaService',
+            'security.http_utils' => 'getSecurity_HttpUtilsService',
             'security.logout_url_generator' => 'getSecurity_LogoutUrlGeneratorService',
             'security.password_encoder' => 'getSecurity_PasswordEncoderService',
             'security.rememberme.response_listener' => 'getSecurity_Rememberme_ResponseListenerService',
             'security.role_hierarchy' => 'getSecurity_RoleHierarchyService',
             'security.secure_random' => 'getSecurity_SecureRandomService',
             'security.token_storage' => 'getSecurity_TokenStorageService',
+            'security.user.provider.concrete.in_memory' => 'getSecurity_User_Provider_Concrete_InMemoryService',
             'security.user_checker.main' => 'getSecurity_UserChecker_MainService',
             'security.validator.user_password' => 'getSecurity_Validator_UserPasswordService',
             'sensio_framework_extra.cache.listener' => 'getSensioFrameworkExtra_Cache_ListenerService',
@@ -252,6 +291,157 @@ class appProdProjectContainer extends Container
             'session.storage.native' => 'getSession_Storage_NativeService',
             'session.storage.php_bridge' => 'getSession_Storage_PhpBridgeService',
             'session_listener' => 'getSessionListenerService',
+            'sonata.admin.action.append_form_field_element' => 'getSonata_Admin_Action_AppendFormFieldElementService',
+            'sonata.admin.action.get_short_object_description' => 'getSonata_Admin_Action_GetShortObjectDescriptionService',
+            'sonata.admin.action.retrieve_autocomplete_items' => 'getSonata_Admin_Action_RetrieveAutocompleteItemsService',
+            'sonata.admin.action.retrieve_form_field_element' => 'getSonata_Admin_Action_RetrieveFormFieldElementService',
+            'sonata.admin.action.set_object_field_value' => 'getSonata_Admin_Action_SetObjectFieldValueService',
+            'sonata.admin.audit.manager' => 'getSonata_Admin_Audit_ManagerService',
+            'sonata.admin.block.admin_list' => 'getSonata_Admin_Block_AdminListService',
+            'sonata.admin.block.search_result' => 'getSonata_Admin_Block_SearchResultService',
+            'sonata.admin.block.stats' => 'getSonata_Admin_Block_StatsService',
+            'sonata.admin.breadcrumbs_builder' => 'getSonata_Admin_BreadcrumbsBuilderService',
+            'sonata.admin.builder.filter.factory' => 'getSonata_Admin_Builder_Filter_FactoryService',
+            'sonata.admin.builder.orm_datagrid' => 'getSonata_Admin_Builder_OrmDatagridService',
+            'sonata.admin.builder.orm_form' => 'getSonata_Admin_Builder_OrmFormService',
+            'sonata.admin.builder.orm_list' => 'getSonata_Admin_Builder_OrmListService',
+            'sonata.admin.builder.orm_show' => 'getSonata_Admin_Builder_OrmShowService',
+            'sonata.admin.controller.admin' => 'getSonata_Admin_Controller_AdminService',
+            'sonata.admin.doctrine_orm.form.type.choice_field_mask' => 'getSonata_Admin_DoctrineOrm_Form_Type_ChoiceFieldMaskService',
+            'sonata.admin.event.extension' => 'getSonata_Admin_Event_ExtensionService',
+            'sonata.admin.exporter' => 'getSonata_Admin_ExporterService',
+            'sonata.admin.filter_persister.session' => 'getSonata_Admin_FilterPersister_SessionService',
+            'sonata.admin.form.extension.choice' => 'getSonata_Admin_Form_Extension_ChoiceService',
+            'sonata.admin.form.extension.field' => 'getSonata_Admin_Form_Extension_FieldService',
+            'sonata.admin.form.extension.field.mopa' => 'getSonata_Admin_Form_Extension_Field_MopaService',
+            'sonata.admin.form.filter.type.choice' => 'getSonata_Admin_Form_Filter_Type_ChoiceService',
+            'sonata.admin.form.filter.type.date' => 'getSonata_Admin_Form_Filter_Type_DateService',
+            'sonata.admin.form.filter.type.daterange' => 'getSonata_Admin_Form_Filter_Type_DaterangeService',
+            'sonata.admin.form.filter.type.datetime' => 'getSonata_Admin_Form_Filter_Type_DatetimeService',
+            'sonata.admin.form.filter.type.datetime_range' => 'getSonata_Admin_Form_Filter_Type_DatetimeRangeService',
+            'sonata.admin.form.filter.type.default' => 'getSonata_Admin_Form_Filter_Type_DefaultService',
+            'sonata.admin.form.filter.type.number' => 'getSonata_Admin_Form_Filter_Type_NumberService',
+            'sonata.admin.form.type.admin' => 'getSonata_Admin_Form_Type_AdminService',
+            'sonata.admin.form.type.collection' => 'getSonata_Admin_Form_Type_CollectionService',
+            'sonata.admin.form.type.model_autocomplete' => 'getSonata_Admin_Form_Type_ModelAutocompleteService',
+            'sonata.admin.form.type.model_choice' => 'getSonata_Admin_Form_Type_ModelChoiceService',
+            'sonata.admin.form.type.model_hidden' => 'getSonata_Admin_Form_Type_ModelHiddenService',
+            'sonata.admin.form.type.model_list' => 'getSonata_Admin_Form_Type_ModelListService',
+            'sonata.admin.form.type.model_reference' => 'getSonata_Admin_Form_Type_ModelReferenceService',
+            'sonata.admin.global_template_registry' => 'getSonata_Admin_GlobalTemplateRegistryService',
+            'sonata.admin.guesser.orm_datagrid' => 'getSonata_Admin_Guesser_OrmDatagridService',
+            'sonata.admin.guesser.orm_datagrid_chain' => 'getSonata_Admin_Guesser_OrmDatagridChainService',
+            'sonata.admin.guesser.orm_list' => 'getSonata_Admin_Guesser_OrmListService',
+            'sonata.admin.guesser.orm_list_chain' => 'getSonata_Admin_Guesser_OrmListChainService',
+            'sonata.admin.guesser.orm_show' => 'getSonata_Admin_Guesser_OrmShowService',
+            'sonata.admin.guesser.orm_show_chain' => 'getSonata_Admin_Guesser_OrmShowChainService',
+            'sonata.admin.helper' => 'getSonata_Admin_HelperService',
+            'sonata.admin.label.strategy.bc' => 'getSonata_Admin_Label_Strategy_BcService',
+            'sonata.admin.label.strategy.form_component' => 'getSonata_Admin_Label_Strategy_FormComponentService',
+            'sonata.admin.label.strategy.native' => 'getSonata_Admin_Label_Strategy_NativeService',
+            'sonata.admin.label.strategy.noop' => 'getSonata_Admin_Label_Strategy_NoopService',
+            'sonata.admin.label.strategy.underscore' => 'getSonata_Admin_Label_Strategy_UnderscoreService',
+            'sonata.admin.manager.orm' => 'getSonata_Admin_Manager_OrmService',
+            'sonata.admin.manipulator.acl.admin' => 'getSonata_Admin_Manipulator_Acl_AdminService',
+            'sonata.admin.manipulator.acl.object.orm' => 'getSonata_Admin_Manipulator_Acl_Object_OrmService',
+            'sonata.admin.menu.matcher.voter.active' => 'getSonata_Admin_Menu_Matcher_Voter_ActiveService',
+            'sonata.admin.menu.matcher.voter.admin' => 'getSonata_Admin_Menu_Matcher_Voter_AdminService',
+            'sonata.admin.menu.matcher.voter.children' => 'getSonata_Admin_Menu_Matcher_Voter_ChildrenService',
+            'sonata.admin.menu_builder' => 'getSonata_Admin_MenuBuilderService',
+            'sonata.admin.object.manipulator.acl.admin' => 'getSonata_Admin_Object_Manipulator_Acl_AdminService',
+            'sonata.admin.orm.filter.type.boolean' => 'getSonata_Admin_Orm_Filter_Type_BooleanService',
+            'sonata.admin.orm.filter.type.callback' => 'getSonata_Admin_Orm_Filter_Type_CallbackService',
+            'sonata.admin.orm.filter.type.choice' => 'getSonata_Admin_Orm_Filter_Type_ChoiceService',
+            'sonata.admin.orm.filter.type.class' => 'getSonata_Admin_Orm_Filter_Type_ClassService',
+            'sonata.admin.orm.filter.type.date' => 'getSonata_Admin_Orm_Filter_Type_DateService',
+            'sonata.admin.orm.filter.type.date_range' => 'getSonata_Admin_Orm_Filter_Type_DateRangeService',
+            'sonata.admin.orm.filter.type.datetime' => 'getSonata_Admin_Orm_Filter_Type_DatetimeService',
+            'sonata.admin.orm.filter.type.datetime_range' => 'getSonata_Admin_Orm_Filter_Type_DatetimeRangeService',
+            'sonata.admin.orm.filter.type.model' => 'getSonata_Admin_Orm_Filter_Type_ModelService',
+            'sonata.admin.orm.filter.type.model_autocomplete' => 'getSonata_Admin_Orm_Filter_Type_ModelAutocompleteService',
+            'sonata.admin.orm.filter.type.number' => 'getSonata_Admin_Orm_Filter_Type_NumberService',
+            'sonata.admin.orm.filter.type.string' => 'getSonata_Admin_Orm_Filter_Type_StringService',
+            'sonata.admin.orm.filter.type.time' => 'getSonata_Admin_Orm_Filter_Type_TimeService',
+            'sonata.admin.pool' => 'getSonata_Admin_PoolService',
+            'sonata.admin.route.cache' => 'getSonata_Admin_Route_CacheService',
+            'sonata.admin.route.cache_warmup' => 'getSonata_Admin_Route_CacheWarmupService',
+            'sonata.admin.route.default_generator' => 'getSonata_Admin_Route_DefaultGeneratorService',
+            'sonata.admin.route.path_info' => 'getSonata_Admin_Route_PathInfoService',
+            'sonata.admin.route.query_string' => 'getSonata_Admin_Route_QueryStringService',
+            'sonata.admin.route_loader' => 'getSonata_Admin_RouteLoaderService',
+            'sonata.admin.search.handler' => 'getSonata_Admin_Search_HandlerService',
+            'sonata.admin.security.handler' => 'getSonata_Admin_Security_HandlerService',
+            'sonata.admin.sidebar_menu' => 'getSonata_Admin_SidebarMenuService',
+            'sonata.admin.twig.extension' => 'getSonata_Admin_Twig_ExtensionService',
+            'sonata.admin.twig.global' => 'getSonata_Admin_Twig_GlobalService',
+            'sonata.admin.validator.inline' => 'getSonata_Admin_Validator_InlineService',
+            'sonata.block.cache.handler.default' => 'getSonata_Block_Cache_Handler_DefaultService',
+            'sonata.block.cache.handler.noop' => 'getSonata_Block_Cache_Handler_NoopService',
+            'sonata.block.context_manager.default' => 'getSonata_Block_ContextManager_DefaultService',
+            'sonata.block.exception.filter.debug_only' => 'getSonata_Block_Exception_Filter_DebugOnlyService',
+            'sonata.block.exception.filter.ignore_block_exception' => 'getSonata_Block_Exception_Filter_IgnoreBlockExceptionService',
+            'sonata.block.exception.filter.keep_all' => 'getSonata_Block_Exception_Filter_KeepAllService',
+            'sonata.block.exception.filter.keep_none' => 'getSonata_Block_Exception_Filter_KeepNoneService',
+            'sonata.block.exception.renderer.inline' => 'getSonata_Block_Exception_Renderer_InlineService',
+            'sonata.block.exception.renderer.inline_debug' => 'getSonata_Block_Exception_Renderer_InlineDebugService',
+            'sonata.block.exception.renderer.throw' => 'getSonata_Block_Exception_Renderer_ThrowService',
+            'sonata.block.exception.strategy.manager' => 'getSonata_Block_Exception_Strategy_ManagerService',
+            'sonata.block.form.type.block' => 'getSonata_Block_Form_Type_BlockService',
+            'sonata.block.form.type.container_template' => 'getSonata_Block_Form_Type_ContainerTemplateService',
+            'sonata.block.loader.chain' => 'getSonata_Block_Loader_ChainService',
+            'sonata.block.loader.service' => 'getSonata_Block_Loader_ServiceService',
+            'sonata.block.manager' => 'getSonata_Block_ManagerService',
+            'sonata.block.menu.registry' => 'getSonata_Block_Menu_RegistryService',
+            'sonata.block.renderer.default' => 'getSonata_Block_Renderer_DefaultService',
+            'sonata.block.service.container' => 'getSonata_Block_Service_ContainerService',
+            'sonata.block.service.empty' => 'getSonata_Block_Service_EmptyService',
+            'sonata.block.service.menu' => 'getSonata_Block_Service_MenuService',
+            'sonata.block.service.rss' => 'getSonata_Block_Service_RssService',
+            'sonata.block.service.template' => 'getSonata_Block_Service_TemplateService',
+            'sonata.block.service.text' => 'getSonata_Block_Service_TextService',
+            'sonata.block.templating.helper' => 'getSonata_Block_Templating_HelperService',
+            'sonata.block.twig.global' => 'getSonata_Block_Twig_GlobalService',
+            'sonata.core.date.moment_format_converter' => 'getSonata_Core_Date_MomentFormatConverterService',
+            'sonata.core.flashmessage.manager' => 'getSonata_Core_Flashmessage_ManagerService',
+            'sonata.core.flashmessage.twig.extension' => 'getSonata_Core_Flashmessage_Twig_ExtensionService',
+            'sonata.core.flashmessage.twig.runtime' => 'getSonata_Core_Flashmessage_Twig_RuntimeService',
+            'sonata.core.form.type.array' => 'getSonata_Core_Form_Type_ArrayService',
+            'sonata.core.form.type.boolean' => 'getSonata_Core_Form_Type_BooleanService',
+            'sonata.core.form.type.collection' => 'getSonata_Core_Form_Type_CollectionService',
+            'sonata.core.form.type.color' => 'getSonata_Core_Form_Type_ColorService',
+            'sonata.core.form.type.color_selector' => 'getSonata_Core_Form_Type_ColorSelectorService',
+            'sonata.core.form.type.date_picker' => 'getSonata_Core_Form_Type_DatePickerService',
+            'sonata.core.form.type.date_range' => 'getSonata_Core_Form_Type_DateRangeService',
+            'sonata.core.form.type.date_range_picker' => 'getSonata_Core_Form_Type_DateRangePickerService',
+            'sonata.core.form.type.datetime_picker' => 'getSonata_Core_Form_Type_DatetimePickerService',
+            'sonata.core.form.type.datetime_range' => 'getSonata_Core_Form_Type_DatetimeRangeService',
+            'sonata.core.form.type.datetime_range_picker' => 'getSonata_Core_Form_Type_DatetimeRangePickerService',
+            'sonata.core.form.type.equal' => 'getSonata_Core_Form_Type_EqualService',
+            'sonata.core.form.type.translatable_choice' => 'getSonata_Core_Form_Type_TranslatableChoiceService',
+            'sonata.core.model.adapter.chain' => 'getSonata_Core_Model_Adapter_ChainService',
+            'sonata.core.slugify.cocur' => 'getSonata_Core_Slugify_CocurService',
+            'sonata.core.slugify.native' => 'getSonata_Core_Slugify_NativeService',
+            'sonata.core.twig.deprecated_template_extension' => 'getSonata_Core_Twig_DeprecatedTemplateExtensionService',
+            'sonata.core.twig.extension.text' => 'getSonata_Core_Twig_Extension_TextService',
+            'sonata.core.twig.extension.wrapping' => 'getSonata_Core_Twig_Extension_WrappingService',
+            'sonata.core.twig.status_extension' => 'getSonata_Core_Twig_StatusExtensionService',
+            'sonata.core.twig.status_runtime' => 'getSonata_Core_Twig_StatusRuntimeService',
+            'sonata.core.twig.template_extension' => 'getSonata_Core_Twig_TemplateExtensionService',
+            'sonata.core.validator.inline' => 'getSonata_Core_Validator_InlineService',
+            'sonata.templating' => 'getSonata_TemplatingService',
+            'sonata.templating.locator' => 'getSonata_Templating_LocatorService',
+            'sonata.templating.name_parser' => 'getSonata_Templating_NameParserService',
+            'sonata\\adminbundle\\action\\dashboardaction' => 'getSonata_Adminbundle_Action_DashboardactionService',
+            'sonata\\adminbundle\\action\\searchaction' => 'getSonata_Adminbundle_Action_SearchactionService',
+            'sonata\\adminbundle\\command\\createclasscachecommand' => 'getSonata_Adminbundle_Command_CreateclasscachecommandService',
+            'sonata\\adminbundle\\command\\explainadmincommand' => 'getSonata_Adminbundle_Command_ExplainadmincommandService',
+            'sonata\\adminbundle\\command\\generateadmincommand' => 'getSonata_Adminbundle_Command_GenerateadmincommandService',
+            'sonata\\adminbundle\\command\\generateobjectaclcommand' => 'getSonata_Adminbundle_Command_GenerateobjectaclcommandService',
+            'sonata\\adminbundle\\command\\listadmincommand' => 'getSonata_Adminbundle_Command_ListadmincommandService',
+            'sonata\\adminbundle\\command\\setupaclcommand' => 'getSonata_Adminbundle_Command_SetupaclcommandService',
+            'sonata\\blockbundle\\command\\debugblockscommand' => 'getSonata_Blockbundle_Command_DebugblockscommandService',
+            'sonata\\corebundle\\command\\sonatadumpdoctrinemetacommand' => 'getSonata_Corebundle_Command_SonatadumpdoctrinemetacommandService',
+            'sonata\\corebundle\\command\\sonatalistformmappingcommand' => 'getSonata_Corebundle_Command_SonatalistformmappingcommandService',
             'streamed_response_listener' => 'getStreamedResponseListenerService',
             'swiftmailer.email_sender.listener' => 'getSwiftmailer_EmailSender_ListenerService',
             'swiftmailer.mailer.default' => 'getSwiftmailer_Mailer_DefaultService',
@@ -293,9 +483,7 @@ class appProdProjectContainer extends Container
             'translation.loader.xliff' => 'getTranslation_Loader_XliffService',
             'translation.loader.yml' => 'getTranslation_Loader_YmlService',
             'translation.writer' => 'getTranslation_WriterService',
-            'translator' => 'getTranslatorService',
             'translator.default' => 'getTranslator_DefaultService',
-            'translator.selector' => 'getTranslator_SelectorService',
             'translator_listener' => 'getTranslatorListenerService',
             'twig' => 'getTwigService',
             'twig.controller.exception' => 'getTwig_Controller_ExceptionService',
@@ -303,12 +491,14 @@ class appProdProjectContainer extends Container
             'twig.loader' => 'getTwig_LoaderService',
             'twig.profile' => 'getTwig_ProfileService',
             'twig.translation.extractor' => 'getTwig_Translation_ExtractorService',
+            'twilio.client' => 'getTwilio_ClientService',
             'uri_signer' => 'getUriSignerService',
             'validate_request_listener' => 'getValidateRequestListenerService',
             'validator' => 'getValidatorService',
             'validator.builder' => 'getValidator_BuilderService',
             'validator.email' => 'getValidator_EmailService',
             'validator.expression' => 'getValidator_ExpressionService',
+            'validator.validator_factory' => 'getValidator_ValidatorFactoryService',
         );
         $this->aliases = array(
             'console.command.doctrine_bundle_doctrinebundle_command_createdatabasedoctrinecommand' => 'doctrine.database_create_command',
@@ -342,6 +532,15 @@ class appProdProjectContainer extends Container
             'console.command.doctrine_bundle_migrationsbundle_command_migrationsmigratedoctrinecommand' => 'doctrine_migrations.migrate_command',
             'console.command.doctrine_bundle_migrationsbundle_command_migrationsstatusdoctrinecommand' => 'doctrine_migrations.status_command',
             'console.command.doctrine_bundle_migrationsbundle_command_migrationsversiondoctrinecommand' => 'doctrine_migrations.version_command',
+            'console.command.sonata_adminbundle_command_createclasscachecommand' => 'sonata\\adminbundle\\command\\createclasscachecommand',
+            'console.command.sonata_adminbundle_command_explainadmincommand' => 'sonata\\adminbundle\\command\\explainadmincommand',
+            'console.command.sonata_adminbundle_command_generateadmincommand' => 'sonata\\adminbundle\\command\\generateadmincommand',
+            'console.command.sonata_adminbundle_command_generateobjectaclcommand' => 'sonata\\adminbundle\\command\\generateobjectaclcommand',
+            'console.command.sonata_adminbundle_command_listadmincommand' => 'sonata\\adminbundle\\command\\listadmincommand',
+            'console.command.sonata_adminbundle_command_setupaclcommand' => 'sonata\\adminbundle\\command\\setupaclcommand',
+            'console.command.sonata_blockbundle_command_debugblockscommand' => 'sonata\\blockbundle\\command\\debugblockscommand',
+            'console.command.sonata_corebundle_command_sonatadumpdoctrinemetacommand' => 'sonata\\corebundle\\command\\sonatadumpdoctrinemetacommand',
+            'console.command.sonata_corebundle_command_sonatalistformmappingcommand' => 'sonata\\corebundle\\command\\sonatalistformmappingcommand',
             'database_connection' => 'doctrine.dbal.default_connection',
             'doctrine.orm.default_metadata_cache' => 'doctrine_cache.providers.doctrine.orm.default_metadata_cache',
             'doctrine.orm.default_query_cache' => 'doctrine_cache.providers.doctrine.orm.default_query_cache',
@@ -354,12 +553,19 @@ class appProdProjectContainer extends Container
             'jms\\serializer\\arraytransformerinterface' => 'jms_serializer',
             'jms\\serializer\\serializerinterface' => 'jms_serializer',
             'mailer' => 'swiftmailer.mailer.default',
+            'security.authentication.session_strategy.secured_area' => 'security.authentication.session_strategy.main',
+            'security.user_checker.secured_area' => 'security.user_checker.main',
             'serializer' => 'jms_serializer',
             'session.storage' => 'session.storage.native',
+            'sonata.block.cache.handler' => 'sonata.block.cache.handler.default',
+            'sonata.block.context_manager' => 'sonata.block.context_manager.default',
+            'sonata.block.renderer' => 'sonata.block.renderer.default',
+            'sonata\\adminbundle\\admin\\pool' => 'sonata.admin.pool',
             'swiftmailer.mailer' => 'swiftmailer.mailer.default',
             'swiftmailer.spool' => 'swiftmailer.mailer.default.spool',
             'swiftmailer.transport' => 'swiftmailer.mailer.default.transport',
             'swiftmailer.transport.real' => 'swiftmailer.mailer.default.transport.real',
+            'translator' => 'translator.default',
         );
     }
 
@@ -387,6 +593,16 @@ class appProdProjectContainer extends Container
     protected function getAnnotationReaderService()
     {
         return $this->services['annotation_reader'] = new \Doctrine\Common\Annotations\CachedReader(new \Doctrine\Common\Annotations\AnnotationReader(), new \Doctrine\Common\Cache\FilesystemCache((__DIR__.'/annotations')), false);
+    }
+
+    /*
+     * Gets the public 'app.validator.e164_number' shared service.
+     *
+     * @return \AppBundle\Validator\Constraints\E164NumberValidator
+     */
+    protected function getApp_Validator_E164NumberService()
+    {
+        return $this->services['app.validator.e164_number'] = new \AppBundle\Validator\Constraints\E164NumberValidator($this->get('twilio.client'));
     }
 
     /*
@@ -431,7 +647,7 @@ class appProdProjectContainer extends Container
 
         $c = new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplateFinder($a, $b, ($this->targetDirs[2].'/Resources'));
 
-        return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, $this->get('templating.locator')), 1 => $this->get('kernel.class_cache.cache_warmer'), 2 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TranslationsCacheWarmer($this), 3 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 4 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c, array(($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form') => NULL)), 5 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheWarmer($this, new \Symfony\Bundle\TwigBundle\TemplateIterator($a, $this->targetDirs[2], array(($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form') => NULL))), 6 => new \Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer($this->get('doctrine')), 7 => $this->get('fos_rest.allowed_methods_loader')));
+        return $this->services['cache_warmer'] = new \Symfony\Component\HttpKernel\CacheWarmer\CacheWarmerAggregate(array(0 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TemplatePathsCacheWarmer($c, $this->get('templating.locator')), 1 => $this->get('kernel.class_cache.cache_warmer'), 2 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\TranslationsCacheWarmer($this), 3 => new \Symfony\Bundle\FrameworkBundle\CacheWarmer\RouterCacheWarmer($this->get('router')), 4 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheCacheWarmer($this, $c, array(($this->targetDirs[3].'/vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views') => NULL, ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form') => NULL)), 5 => new \Symfony\Bundle\TwigBundle\CacheWarmer\TemplateCacheWarmer($this, new \Symfony\Bundle\TwigBundle\TemplateIterator($a, $this->targetDirs[2], array(($this->targetDirs[3].'/vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views') => NULL, ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form') => NULL))), 6 => new \Symfony\Bridge\Doctrine\CacheWarmer\ProxyCacheWarmer($this->get('doctrine')), 7 => $this->get('fos_rest.allowed_methods_loader'), 8 => $this->get('sonata.admin.route.cache_warmup')));
     }
 
     /*
@@ -657,7 +873,7 @@ class appProdProjectContainer extends Container
         if ($lazyLoad) {
             $container = $this;
 
-            return $this->services['doctrine.orm.default_entity_manager'] = new DoctrineORMEntityManager_000000001ef934de0000557aadcec6479487dc380a120219db386a12b507ab17(
+            return $this->services['doctrine.orm.default_entity_manager'] = new DoctrineORMEntityManager_000000007357b262000055f36ab4e7450ebf9a199e96bd580fe343b8287f47cf(
                 function (&$wrappedInstance, \ProxyManager\Proxy\LazyLoadingInterface $proxy) use ($container) {
                     $wrappedInstance = $container->getDoctrine_Orm_DefaultEntityManagerService(false);
 
@@ -843,7 +1059,7 @@ class appProdProjectContainer extends Container
     {
         $this->services['doctrine_cache.providers.doctrine.orm.default_metadata_cache'] = $instance = new \Doctrine\Common\Cache\ArrayCache();
 
-        $instance->setNamespace('sf_orm_default_5a3258a998279ee0b5dda1c59c3e70a567fc7305bb4ae2569108c423f4924ba4');
+        $instance->setNamespace('sf_orm_default_26e7f6552a9e8a89622f3077bb0cd6279300dbde75ca179a8b7e1ed59b68ea37');
 
         return $instance;
     }
@@ -857,7 +1073,7 @@ class appProdProjectContainer extends Container
     {
         $this->services['doctrine_cache.providers.doctrine.orm.default_query_cache'] = $instance = new \Doctrine\Common\Cache\ArrayCache();
 
-        $instance->setNamespace('sf_orm_default_5a3258a998279ee0b5dda1c59c3e70a567fc7305bb4ae2569108c423f4924ba4');
+        $instance->setNamespace('sf_orm_default_26e7f6552a9e8a89622f3077bb0cd6279300dbde75ca179a8b7e1ed59b68ea37');
 
         return $instance;
     }
@@ -871,7 +1087,7 @@ class appProdProjectContainer extends Container
     {
         $this->services['doctrine_cache.providers.doctrine.orm.default_result_cache'] = $instance = new \Doctrine\Common\Cache\ArrayCache();
 
-        $instance->setNamespace('sf_orm_default_5a3258a998279ee0b5dda1c59c3e70a567fc7305bb4ae2569108c423f4924ba4');
+        $instance->setNamespace('sf_orm_default_26e7f6552a9e8a89622f3077bb0cd6279300dbde75ca179a8b7e1ed59b68ea37');
 
         return $instance;
     }
@@ -971,6 +1187,8 @@ class appProdProjectContainer extends Container
         $instance->addListenerService('kernel.request', array(0 => 'fos_rest.format_listener', 1 => 'onKernelRequest'), 34);
         $instance->addListenerService('kernel.controller', array(0 => 'fos_rest.param_fetcher_listener', 1 => 'onKernelController'), 5);
         $instance->addListenerService('kernel.response', array(0 => 'fos_rest.allowed_methods_listener', 1 => 'onKernelResponse'), 0);
+        $instance->addListenerService('kernel.request', array(0 => 'nelmio_api_doc.event_listener.request', 1 => 'onKernelRequest'), 0);
+        $instance->addListenerService('kernel.response', array(0 => 'sonata.block.cache.handler.default', 1 => 'onKernelResponse'), 0);
         $instance->addSubscriberService('response_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener');
         $instance->addSubscriberService('streamed_response_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\StreamedResponseListener');
         $instance->addSubscriberService('locale_listener', 'Symfony\\Component\\HttpKernel\\EventListener\\LocaleListener');
@@ -1030,6 +1248,16 @@ class appProdProjectContainer extends Container
     }
 
     /*
+     * Gets the public 'form.extension' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Extension\DependencyInjectionExtension
+     */
+    protected function getForm_ExtensionService()
+    {
+        return $this->services['form.extension'] = new \Sonata\CoreBundle\Form\Extension\DependencyInjectionExtension($this, array('form' => 'form.type.form', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\FormType' => 'form.type.form', 'birthday' => 'form.type.birthday', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\BirthdayType' => 'form.type.birthday', 'checkbox' => 'form.type.checkbox', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CheckboxType' => 'form.type.checkbox', 'choice' => 'form.type.choice', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType' => 'form.type.choice', 'collection' => 'form.type.collection', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CollectionType' => 'form.type.collection', 'country' => 'form.type.country', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CountryType' => 'form.type.country', 'date' => 'form.type.date', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType' => 'form.type.date', 'datetime' => 'form.type.datetime', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateTimeType' => 'form.type.datetime', 'email' => 'form.type.email', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\EmailType' => 'form.type.email', 'file' => 'form.type.file', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\FileType' => 'form.type.file', 'hidden' => 'form.type.hidden', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType' => 'form.type.hidden', 'integer' => 'form.type.integer', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\IntegerType' => 'form.type.integer', 'language' => 'form.type.language', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\LanguageType' => 'form.type.language', 'locale' => 'form.type.locale', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\LocaleType' => 'form.type.locale', 'money' => 'form.type.money', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\MoneyType' => 'form.type.money', 'number' => 'form.type.number', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType' => 'form.type.number', 'password' => 'form.type.password', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\PasswordType' => 'form.type.password', 'percent' => 'form.type.percent', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\PercentType' => 'form.type.percent', 'radio' => 'form.type.radio', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\RadioType' => 'form.type.radio', 'range' => 'form.type.range', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\RangeType' => 'form.type.range', 'repeated' => 'form.type.repeated', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\RepeatedType' => 'form.type.repeated', 'search' => 'form.type.search', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\SearchType' => 'form.type.search', 'textarea' => 'form.type.textarea', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType' => 'form.type.textarea', 'text' => 'form.type.text', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType' => 'form.type.text', 'time' => 'form.type.time', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TimeType' => 'form.type.time', 'timezone' => 'form.type.timezone', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TimezoneType' => 'form.type.timezone', 'url' => 'form.type.url', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\UrlType' => 'form.type.url', 'button' => 'form.type.button', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ButtonType' => 'form.type.button', 'submit' => 'form.type.submit', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\SubmitType' => 'form.type.submit', 'reset' => 'form.type.reset', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ResetType' => 'form.type.reset', 'currency' => 'form.type.currency', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CurrencyType' => 'form.type.currency', 'entity' => 'form.type.entity', 'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType' => 'form.type.entity', 'sonata_type_immutable_array' => 'sonata.core.form.type.array', 'Sonata\\CoreBundle\\Form\\Type\\ImmutableArrayType' => 'sonata.core.form.type.array', 'sonata_type_boolean' => 'sonata.core.form.type.boolean', 'Sonata\\CoreBundle\\Form\\Type\\BooleanType' => 'sonata.core.form.type.boolean', 'sonata_type_collection' => 'sonata.core.form.type.collection', 'Sonata\\CoreBundle\\Form\\Type\\CollectionType' => 'sonata.core.form.type.collection', 'sonata_type_translatable_choice' => 'sonata.core.form.type.translatable_choice', 'Sonata\\CoreBundle\\Form\\Type\\TranslatableChoiceType' => 'sonata.core.form.type.translatable_choice', 'sonata_type_date_range' => 'sonata.core.form.type.date_range', 'Sonata\\CoreBundle\\Form\\Type\\DateRangeType' => 'sonata.core.form.type.date_range', 'sonata_type_datetime_range' => 'sonata.core.form.type.datetime_range', 'Sonata\\CoreBundle\\Form\\Type\\DateTimeRangeType' => 'sonata.core.form.type.datetime_range', 'sonata_type_date_picker' => 'sonata.core.form.type.date_picker', 'Sonata\\CoreBundle\\Form\\Type\\DatePickerType' => 'sonata.core.form.type.date_picker', 'sonata_type_datetime_picker' => 'sonata.core.form.type.datetime_picker', 'Sonata\\CoreBundle\\Form\\Type\\DateTimePickerType' => 'sonata.core.form.type.datetime_picker', 'sonata_type_date_range_picker' => 'sonata.core.form.type.date_range_picker', 'Sonata\\CoreBundle\\Form\\Type\\DateRangePickerType' => 'sonata.core.form.type.date_range_picker', 'sonata_type_datetime_range_picker' => 'sonata.core.form.type.datetime_range_picker', 'Sonata\\CoreBundle\\Form\\Type\\DateTimeRangePickerType' => 'sonata.core.form.type.datetime_range_picker', 'sonata_type_equal' => 'sonata.core.form.type.equal', 'Sonata\\CoreBundle\\Form\\Type\\EqualType' => 'sonata.core.form.type.equal', 'sonata_type_color_selector' => 'sonata.core.form.type.color_selector', 'Sonata\\CoreBundle\\Form\\Type\\ColorSelectorType' => 'sonata.core.form.type.color_selector', 'sonata_type_color' => 'sonata.core.form.type.color', 'Sonata\\CoreBundle\\Form\\Type\\ColorType' => 'sonata.core.form.type.color', 'sonata_block_service_choice' => 'sonata.block.form.type.block', 'Sonata\\BlockBundle\\Form\\Type\\ServiceListType' => 'sonata.block.form.type.block', 'sonata_type_container_template_choice' => 'sonata.block.form.type.container_template', 'Sonata\\BlockBundle\\Form\\Type\\ContainerTemplateType' => 'sonata.block.form.type.container_template', 'sonata_type_admin' => 'sonata.admin.form.type.admin', 'Sonata\\AdminBundle\\Form\\Type\\AdminType' => 'sonata.admin.form.type.admin', 'sonata_type_model' => 'sonata.admin.form.type.model_choice', 'Sonata\\AdminBundle\\Form\\Type\\ModelType' => 'sonata.admin.form.type.model_choice', 'sonata_type_model_list' => 'sonata.admin.form.type.model_list', 'Sonata\\AdminBundle\\Form\\Type\\ModelListType' => 'sonata.admin.form.type.model_list', 'sonata_type_model_reference' => 'sonata.admin.form.type.model_reference', 'Sonata\\AdminBundle\\Form\\Type\\ModelReferenceType' => 'sonata.admin.form.type.model_reference', 'sonata_type_model_hidden' => 'sonata.admin.form.type.model_hidden', 'Sonata\\AdminBundle\\Form\\Type\\ModelHiddenType' => 'sonata.admin.form.type.model_hidden', 'sonata_type_model_autocomplete' => 'sonata.admin.form.type.model_autocomplete', 'Sonata\\AdminBundle\\Form\\Type\\ModelAutocompleteType' => 'sonata.admin.form.type.model_autocomplete', 'sonata_type_native_collection' => 'sonata.admin.form.type.collection', 'Sonata\\AdminBundle\\Form\\Type\\CollectionType' => 'sonata.admin.form.type.collection', 'sonata_type_choice_field_mask' => 'sonata.admin.doctrine_orm.form.type.choice_field_mask', 'Sonata\\AdminBundle\\Form\\Type\\ChoiceFieldMaskType' => 'sonata.admin.doctrine_orm.form.type.choice_field_mask', 'sonata_type_filter_number' => 'sonata.admin.form.filter.type.number', 'Sonata\\AdminBundle\\Form\\Type\\Filter\\NumberType' => 'sonata.admin.form.filter.type.number', 'sonata_type_filter_choice' => 'sonata.admin.form.filter.type.choice', 'Sonata\\AdminBundle\\Form\\Type\\Filter\\ChoiceType' => 'sonata.admin.form.filter.type.choice', 'sonata_type_filter_default' => 'sonata.admin.form.filter.type.default', 'Sonata\\AdminBundle\\Form\\Type\\Filter\\DefaultType' => 'sonata.admin.form.filter.type.default', 'sonata_type_filter_date' => 'sonata.admin.form.filter.type.date', 'Sonata\\AdminBundle\\Form\\Type\\Filter\\DateType' => 'sonata.admin.form.filter.type.date', 'sonata_type_filter_date_range' => 'sonata.admin.form.filter.type.daterange', 'Sonata\\AdminBundle\\Form\\Type\\Filter\\DateRangeType' => 'sonata.admin.form.filter.type.daterange', 'sonata_type_filter_datetime' => 'sonata.admin.form.filter.type.datetime', 'Sonata\\AdminBundle\\Form\\Type\\Filter\\DateTimeType' => 'sonata.admin.form.filter.type.datetime', 'sonata_type_filter_datetime_range' => 'sonata.admin.form.filter.type.datetime_range', 'Sonata\\AdminBundle\\Form\\Type\\Filter\\DateTimeRangeType' => 'sonata.admin.form.filter.type.datetime_range'), array('Symfony\\Component\\Form\\Extension\\Core\\Type\\FormType' => array(0 => 'form.type_extension.form.http_foundation', 1 => 'form.type_extension.form.validator', 2 => 'form.type_extension.upload.validator', 3 => 'form.type_extension.csrf', 4 => 'fos_rest.form.extension.csrf_disable', 5 => 'nelmio_api_doc.form.extension.description_form_type_extension', 6 => 'sonata.admin.form.extension.field', 7 => 'sonata.admin.form.extension.field.mopa'), 'Symfony\\Component\\Form\\Extension\\Core\\Type\\RepeatedType' => array(0 => 'form.type_extension.repeated.validator'), 'Symfony\\Component\\Form\\Extension\\Core\\Type\\SubmitType' => array(0 => 'form.type_extension.submit.validator'), 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType' => array(0 => 'sonata.admin.form.extension.choice')), array(0 => 'form.type_guesser.validator', 1 => 'form.type_guesser.doctrine'), array('form' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\FormType', 'birthday' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\BirthdayType', 'checkbox' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CheckboxType', 'choice' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType', 'collection' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CollectionType', 'country' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CountryType', 'date' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType', 'datetime' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateTimeType', 'email' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\EmailType', 'file' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\FileType', 'hidden' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType', 'integer' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\IntegerType', 'language' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\LanguageType', 'locale' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\LocaleType', 'money' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\MoneyType', 'number' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType', 'password' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\PasswordType', 'percent' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\PercentType', 'radio' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\RadioType', 'repeated' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\RepeatedType', 'search' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\SearchType', 'textarea' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType', 'text' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType', 'time' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TimeType', 'timezone' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TimezoneType', 'url' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\UrlType', 'button' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ButtonType', 'submit' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\SubmitType', 'reset' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ResetType', 'currency' => 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CurrencyType', 'entity' => 'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType', 'sonata_type_immutable_array' => 'Sonata\\CoreBundle\\Form\\Type\\ImmutableArrayType', 'sonata_type_boolean' => 'Sonata\\CoreBundle\\Form\\Type\\BooleanType', 'sonata_type_collection' => 'Sonata\\CoreBundle\\Form\\Type\\CollectionType', 'sonata_type_translatable_choice' => 'Sonata\\CoreBundle\\Form\\Type\\TranslatableChoiceType', 'sonata_type_date_range' => 'Sonata\\CoreBundle\\Form\\Type\\DateRangeType', 'sonata_type_datetime_range' => 'Sonata\\CoreBundle\\Form\\Type\\DateTimeRangeType', 'sonata_type_date_picker' => 'Sonata\\CoreBundle\\Form\\Type\\DatePickerType', 'sonata_type_datetime_picker' => 'Sonata\\CoreBundle\\Form\\Type\\DateTimePickerType', 'sonata_type_date_range_picker' => 'Sonata\\CoreBundle\\Form\\Type\\DateRangePickerType', 'sonata_type_datetime_range_picker' => 'Sonata\\CoreBundle\\Form\\Type\\DateTimeRangePickerType', 'sonata_type_equal' => 'Sonata\\CoreBundle\\Form\\Type\\EqualType', 'sonata_type_color' => 'Sonata\\CoreBundle\\Form\\Type\\ColorType', 'sonata_type_color_selector' => 'Sonata\\CoreBundle\\Form\\Type\\ColorSelectorType', 'sonata_block_service_choice' => 'Sonata\\BlockBundle\\Form\\Type\\ServiceListType', 'sonata_type_container_template_choice' => 'Sonata\\BlockBundle\\Form\\Type\\ContainerTemplateType', 'sonata_type_admin' => 'Sonata\\AdminBundle\\Form\\Type\\AdminType', 'sonata_type_model' => 'Sonata\\AdminBundle\\Form\\Type\\ModelType', 'sonata_type_model_list' => 'Sonata\\AdminBundle\\Form\\Type\\ModelListType', 'sonata_type_model_reference' => 'Sonata\\AdminBundle\\Form\\Type\\ModelReferenceType', 'sonata_type_model_hidden' => 'Sonata\\AdminBundle\\Form\\Type\\ModelHiddenType', 'sonata_type_model_autocomplete' => 'Sonata\\AdminBundle\\Form\\Type\\ModelAutocompleteType', 'sonata_type_native_collection' => 'Sonata\\AdminBundle\\Form\\Type\\CollectionType', 'sonata_type_choice_field_mask' => 'Sonata\\AdminBundle\\Form\\Type\\ChoiceFieldMaskType', 'sonata_type_filter_number' => 'Sonata\\AdminBundle\\Form\\Type\\Filter\\NumberType', 'sonata_type_filter_choice' => 'Sonata\\AdminBundle\\Form\\Type\\Filter\\ChoiceType', 'sonata_type_filter_default' => 'Sonata\\AdminBundle\\Form\\Type\\Filter\\DefaultType', 'sonata_type_filter_date' => 'Sonata\\AdminBundle\\Form\\Type\\Filter\\DateType', 'sonata_type_filter_date_range' => 'Sonata\\AdminBundle\\Form\\Type\\Filter\\DateRangeType', 'sonata_type_filter_datetime' => 'Sonata\\AdminBundle\\Form\\Type\\Filter\\DateTimeType', 'sonata_type_filter_datetime_range' => 'Sonata\\AdminBundle\\Form\\Type\\Filter\\DateTimeRangeType', 'tab' => 'Mopa\\Bundle\\BootstrapBundle\\Form\\Type\\TabType'), array('form' => array(0 => 'form.type_extension.form.http_foundation', 1 => 'form.type_extension.form.validator', 2 => 'form.type_extension.csrf', 3 => 'form.type_extension.form.data_collector', 4 => 'nelmio_api_doc.form.extension.description_form_type_extension', 5 => 'sonata.admin.form.extension.field', 6 => 'mopa_bootstrap.form.type_extension.help', 7 => 'mopa_bootstrap.form.type_extension.legend', 8 => 'mopa_bootstrap.form.type_extension.error', 9 => 'mopa_bootstrap.form.type_extension.widget', 10 => 'mopa_bootstrap.form.type_extension.horizontal', 11 => 'mopa_bootstrap.form.type_extension.widget_collection', 12 => 'mopa_bootstrap.form.type_extension.tabbed', 13 => 'form.type_extension.form.http_foundation', 14 => 'form.type_extension.form.validator', 15 => 'form.type_extension.csrf', 16 => 'form.type_extension.form.data_collector', 17 => 'nelmio_api_doc.form.extension.description_form_type_extension', 18 => 'sonata.admin.form.extension.field', 19 => 'mopa_bootstrap.form.type_extension.help', 20 => 'mopa_bootstrap.form.type_extension.legend', 21 => 'mopa_bootstrap.form.type_extension.error', 22 => 'mopa_bootstrap.form.type_extension.widget', 23 => 'mopa_bootstrap.form.type_extension.horizontal', 24 => 'mopa_bootstrap.form.type_extension.widget_collection', 25 => 'mopa_bootstrap.form.type_extension.tabbed', 26 => 'form.type_extension.form.http_foundation', 27 => 'form.type_extension.form.validator', 28 => 'form.type_extension.csrf', 29 => 'form.type_extension.form.data_collector', 30 => 'nelmio_api_doc.form.extension.description_form_type_extension', 31 => 'sonata.admin.form.extension.field', 32 => 'mopa_bootstrap.form.type_extension.help', 33 => 'mopa_bootstrap.form.type_extension.legend', 34 => 'mopa_bootstrap.form.type_extension.error', 35 => 'mopa_bootstrap.form.type_extension.widget', 36 => 'mopa_bootstrap.form.type_extension.horizontal', 37 => 'mopa_bootstrap.form.type_extension.widget_collection', 38 => 'mopa_bootstrap.form.type_extension.tabbed'), 'repeated' => array(0 => 'form.type_extension.repeated.validator', 1 => 'form.type_extension.repeated.validator', 2 => 'form.type_extension.repeated.validator'), 'submit' => array(0 => 'form.type_extension.submit.validator', 1 => 'form.type_extension.submit.validator', 2 => 'form.type_extension.submit.validator'), 'choice' => array(0 => 'sonata.admin.form.extension.choice', 1 => 'sonata.admin.form.extension.choice', 2 => 'sonata.admin.form.extension.choice'), 'button' => array(0 => 'mopa_bootstrap.form.type_extension.button', 1 => 'mopa_bootstrap.form.type_extension.button', 2 => 'mopa_bootstrap.form.type_extension.button'), 'date' => array(0 => 'mopa_bootstrap.form.type_extension.date', 1 => 'mopa_bootstrap.form.type_extension.date', 2 => 'mopa_bootstrap.form.type_extension.date')), array());
+    }
+
+    /*
      * Gets the public 'form.factory' shared service.
      *
      * @return \Symfony\Component\Form\FormFactory
@@ -1046,7 +1274,7 @@ class appProdProjectContainer extends Container
      */
     protected function getForm_RegistryService()
     {
-        return $this->services['form.registry'] = new \Symfony\Component\Form\FormRegistry(array(0 => new \Symfony\Component\Form\Extension\DependencyInjection\DependencyInjectionExtension($this, array('form' => 'form.type.form', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\FormType' => 'form.type.form', 'birthday' => 'form.type.birthday', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\BirthdayType' => 'form.type.birthday', 'checkbox' => 'form.type.checkbox', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CheckboxType' => 'form.type.checkbox', 'choice' => 'form.type.choice', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType' => 'form.type.choice', 'collection' => 'form.type.collection', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CollectionType' => 'form.type.collection', 'country' => 'form.type.country', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CountryType' => 'form.type.country', 'date' => 'form.type.date', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType' => 'form.type.date', 'datetime' => 'form.type.datetime', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateTimeType' => 'form.type.datetime', 'email' => 'form.type.email', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\EmailType' => 'form.type.email', 'file' => 'form.type.file', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\FileType' => 'form.type.file', 'hidden' => 'form.type.hidden', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\HiddenType' => 'form.type.hidden', 'integer' => 'form.type.integer', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\IntegerType' => 'form.type.integer', 'language' => 'form.type.language', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\LanguageType' => 'form.type.language', 'locale' => 'form.type.locale', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\LocaleType' => 'form.type.locale', 'money' => 'form.type.money', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\MoneyType' => 'form.type.money', 'number' => 'form.type.number', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\NumberType' => 'form.type.number', 'password' => 'form.type.password', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\PasswordType' => 'form.type.password', 'percent' => 'form.type.percent', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\PercentType' => 'form.type.percent', 'radio' => 'form.type.radio', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\RadioType' => 'form.type.radio', 'range' => 'form.type.range', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\RangeType' => 'form.type.range', 'repeated' => 'form.type.repeated', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\RepeatedType' => 'form.type.repeated', 'search' => 'form.type.search', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\SearchType' => 'form.type.search', 'textarea' => 'form.type.textarea', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType' => 'form.type.textarea', 'text' => 'form.type.text', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType' => 'form.type.text', 'time' => 'form.type.time', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TimeType' => 'form.type.time', 'timezone' => 'form.type.timezone', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TimezoneType' => 'form.type.timezone', 'url' => 'form.type.url', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\UrlType' => 'form.type.url', 'button' => 'form.type.button', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ButtonType' => 'form.type.button', 'submit' => 'form.type.submit', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\SubmitType' => 'form.type.submit', 'reset' => 'form.type.reset', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ResetType' => 'form.type.reset', 'currency' => 'form.type.currency', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\CurrencyType' => 'form.type.currency', 'entity' => 'form.type.entity', 'Symfony\\Bridge\\Doctrine\\Form\\Type\\EntityType' => 'form.type.entity'), array('Symfony\\Component\\Form\\Extension\\Core\\Type\\FormType' => array(0 => 'form.type_extension.form.http_foundation', 1 => 'form.type_extension.form.validator', 2 => 'form.type_extension.upload.validator', 3 => 'form.type_extension.csrf', 4 => 'fos_rest.form.extension.csrf_disable'), 'Symfony\\Component\\Form\\Extension\\Core\\Type\\RepeatedType' => array(0 => 'form.type_extension.repeated.validator'), 'Symfony\\Component\\Form\\Extension\\Core\\Type\\SubmitType' => array(0 => 'form.type_extension.submit.validator')), array(0 => 'form.type_guesser.validator', 1 => 'form.type_guesser.doctrine'))), $this->get('form.resolved_type_factory'));
+        return $this->services['form.registry'] = new \Symfony\Component\Form\FormRegistry(array(0 => $this->get('form.extension')), $this->get('form.resolved_type_factory'));
     }
 
     /*
@@ -1436,7 +1664,7 @@ class appProdProjectContainer extends Container
      */
     protected function getForm_TypeExtension_Upload_ValidatorService()
     {
-        return $this->services['form.type_extension.upload.validator'] = new \Symfony\Component\Form\Extension\Validator\Type\UploadValidatorExtension($this->get('translator'), 'validators');
+        return $this->services['form.type_extension.upload.validator'] = new \Symfony\Component\Form\Extension\Validator\Type\UploadValidatorExtension($this->get('translator.default'), 'validators');
     }
 
     /*
@@ -1749,7 +1977,7 @@ class appProdProjectContainer extends Container
         if ($lazyLoad) {
             $container = $this;
 
-            return $this->services['fos_rest.serializer'] = new FOSRestBundleSerializerJMSSerializerAdapter_000000001ef932d70000557aadcec6479487dc380a120219db386a12b507ab17(
+            return $this->services['fos_rest.serializer'] = new FOSRestBundleSerializerJMSSerializerAdapter_000000007357b3aa000055f36ab4e7450ebf9a199e96bd580fe343b8287f47cf(
                 function (&$wrappedInstance, \ProxyManager\Proxy\LazyLoadingInterface $proxy) use ($container) {
                     $wrappedInstance = $container->getFosRest_SerializerService(false);
 
@@ -1770,7 +1998,7 @@ class appProdProjectContainer extends Container
      */
     protected function getFosRest_Serializer_ExceptionWrapperNormalizerService()
     {
-        return $this->services['fos_rest.serializer.exception_wrapper_normalizer'] = new \FOS\RestBundle\Serializer\ExceptionWrapperNormalizer($this->get('translator'));
+        return $this->services['fos_rest.serializer.exception_wrapper_normalizer'] = new \FOS\RestBundle\Serializer\ExceptionWrapperNormalizer($this->get('translator.default'));
     }
 
     /*
@@ -1901,13 +2129,10 @@ class appProdProjectContainer extends Container
      */
     protected function getJmsSerializerService()
     {
-        $a = new \Metadata\MetadataFactory(new \Metadata\Driver\LazyLoadingDriver($this, 'jms_serializer.metadata_driver'), 'Metadata\\ClassHierarchyMetadata', false);
-        $a->setCache(new \Metadata\Cache\FileCache((__DIR__.'/jms_serializer')));
+        $a = new \JMS\Serializer\EventDispatcher\LazyEventDispatcher($this);
+        $a->setListeners(array('serializer.pre_serialize' => array(0 => array(0 => array(0 => 'jms_serializer.doctrine_proxy_subscriber', 1 => 'onPreSerializeTypedProxy'), 1 => NULL, 2 => NULL), 1 => array(0 => array(0 => 'jms_serializer.doctrine_proxy_subscriber', 1 => 'onPreSerialize'), 1 => NULL, 2 => NULL))));
 
-        $b = new \JMS\Serializer\EventDispatcher\LazyEventDispatcher($this);
-        $b->setListeners(array('serializer.pre_serialize' => array(0 => array(0 => array(0 => 'jms_serializer.doctrine_proxy_subscriber', 1 => 'onPreSerializeTypedProxy'), 1 => NULL, 2 => NULL), 1 => array(0 => array(0 => 'jms_serializer.doctrine_proxy_subscriber', 1 => 'onPreSerialize'), 1 => NULL, 2 => NULL))));
-
-        $this->services['jms_serializer'] = $instance = new \JMS\Serializer\Serializer($a, $this->get('jms_serializer.handler_registry'), $this->get('jms_serializer.unserialize_object_constructor'), new \PhpCollection\Map(array('json' => $this->get('jms_serializer.json_serialization_visitor'), 'xml' => $this->get('jms_serializer.xml_serialization_visitor'), 'yml' => $this->get('jms_serializer.yaml_serialization_visitor'))), new \PhpCollection\Map(array('json' => $this->get('jms_serializer.json_deserialization_visitor'), 'xml' => $this->get('jms_serializer.xml_deserialization_visitor'))), $b, NULL, $this->get('jms_serializer.expression_evaluator'));
+        $this->services['jms_serializer'] = $instance = new \JMS\Serializer\Serializer($this->get('jms_serializer.metadata_factory'), $this->get('jms_serializer.handler_registry'), $this->get('jms_serializer.unserialize_object_constructor'), new \PhpCollection\Map(array('json' => $this->get('jms_serializer.json_serialization_visitor'), 'xml' => $this->get('jms_serializer.xml_serialization_visitor'), 'yml' => $this->get('jms_serializer.yaml_serialization_visitor'))), new \PhpCollection\Map(array('json' => $this->get('jms_serializer.json_deserialization_visitor'), 'xml' => $this->get('jms_serializer.xml_deserialization_visitor'))), $a, NULL, $this->get('jms_serializer.expression_evaluator'));
 
         $instance->setSerializationContextFactory($this->get('jms_serializer.serialization_context_factory'));
         $instance->setDeserializationContextFactory($this->get('jms_serializer.deserialization_context_factory'));
@@ -1995,7 +2220,7 @@ class appProdProjectContainer extends Container
      */
     protected function getJmsSerializer_FormErrorHandlerService()
     {
-        return $this->services['jms_serializer.form_error_handler'] = new \JMS\Serializer\Handler\FormErrorHandler($this->get('translator'));
+        return $this->services['jms_serializer.form_error_handler'] = new \JMS\Serializer\Handler\FormErrorHandler($this->get('translator.default'));
     }
 
     /*
@@ -2039,7 +2264,7 @@ class appProdProjectContainer extends Container
      */
     protected function getJmsSerializer_MetadataDriverService()
     {
-        $a = new \Metadata\Driver\FileLocator(array('Symfony\\Bundle\\FrameworkBundle' => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer'), 'Symfony\\Bundle\\SecurityBundle' => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/config/serializer'), 'Symfony\\Bundle\\TwigBundle' => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/config/serializer'), 'Symfony\\Bundle\\MonologBundle' => ($this->targetDirs[3].'/vendor/symfony/monolog-bundle/Resources/config/serializer'), 'Symfony\\Bundle\\SwiftmailerBundle' => ($this->targetDirs[3].'/vendor/symfony/swiftmailer-bundle/Resources/config/serializer'), 'Doctrine\\Bundle\\DoctrineBundle' => ($this->targetDirs[3].'/vendor/doctrine/doctrine-bundle/Resources/config/serializer'), 'Sensio\\Bundle\\FrameworkExtraBundle' => ($this->targetDirs[3].'/vendor/sensio/framework-extra-bundle/Resources/config/serializer'), 'Sch\\MainBundle' => ($this->targetDirs[3].'/src/Sch/MainBundle/Resources/config/serializer'), 'Doctrine\\Bundle\\MigrationsBundle' => ($this->targetDirs[3].'/vendor/doctrine/doctrine-migrations-bundle/Resources/config/serializer'), 'FOS\\RestBundle' => ($this->targetDirs[3].'/vendor/friendsofsymfony/rest-bundle/FOS/RestBundle/Resources/config/serializer'), 'JMS\\SerializerBundle' => ($this->targetDirs[3].'/vendor/jms/serializer-bundle/JMS/SerializerBundle/Resources/config/serializer')));
+        $a = new \Metadata\Driver\FileLocator(array('Symfony\\Bundle\\FrameworkBundle' => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/config/serializer'), 'Symfony\\Bundle\\SecurityBundle' => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/config/serializer'), 'Symfony\\Bundle\\TwigBundle' => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/config/serializer'), 'Symfony\\Bundle\\MonologBundle' => ($this->targetDirs[3].'/vendor/symfony/monolog-bundle/Resources/config/serializer'), 'Symfony\\Bundle\\SwiftmailerBundle' => ($this->targetDirs[3].'/vendor/symfony/swiftmailer-bundle/Resources/config/serializer'), 'Doctrine\\Bundle\\DoctrineBundle' => ($this->targetDirs[3].'/vendor/doctrine/doctrine-bundle/Resources/config/serializer'), 'Sensio\\Bundle\\FrameworkExtraBundle' => ($this->targetDirs[3].'/vendor/sensio/framework-extra-bundle/Resources/config/serializer'), 'Sch\\MainBundle' => ($this->targetDirs[3].'/src/Sch/MainBundle/Resources/config/serializer'), 'Doctrine\\Bundle\\MigrationsBundle' => ($this->targetDirs[3].'/vendor/doctrine/doctrine-migrations-bundle/Resources/config/serializer'), 'FOS\\RestBundle' => ($this->targetDirs[3].'/vendor/friendsofsymfony/rest-bundle/FOS/RestBundle/Resources/config/serializer'), 'Nelmio\\ApiDocBundle' => ($this->targetDirs[3].'/vendor/nelmio/api-doc-bundle/Nelmio/ApiDocBundle/Resources/config/serializer'), 'JMS\\SerializerBundle' => ($this->targetDirs[3].'/vendor/jms/serializer-bundle/JMS/SerializerBundle/Resources/config/serializer'), 'Sonata\\CoreBundle' => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/config/serializer'), 'Sonata\\BlockBundle' => ($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src/Resources/config/serializer'), 'Knp\\Bundle\\MenuBundle' => ($this->targetDirs[3].'/vendor/knplabs/knp-menu-bundle/src/Resources/config/serializer'), 'Sonata\\DoctrineORMAdminBundle' => ($this->targetDirs[3].'/vendor/sonata-project/doctrine-orm-admin-bundle/src/Resources/config/serializer'), 'Sonata\\AdminBundle' => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/config/serializer')));
 
         return $this->services['jms_serializer.metadata_driver'] = new \JMS\Serializer\Metadata\Driver\DoctrineTypeDriver(new \Metadata\Driver\DriverChain(array(0 => new \JMS\Serializer\Metadata\Driver\YamlDriver($a), 1 => new \JMS\Serializer\Metadata\Driver\XmlDriver($a), 2 => new \JMS\Serializer\Metadata\Driver\PhpDriver($a), 3 => new \JMS\Serializer\Metadata\Driver\AnnotationDriver($this->get('annotation_reader')))), $this->get('doctrine'));
     }
@@ -2153,13 +2378,89 @@ class appProdProjectContainer extends Container
     }
 
     /*
+     * Gets the public 'knp_menu.factory' shared service.
+     *
+     * @return \Knp\Menu\MenuFactory
+     */
+    protected function getKnpMenu_FactoryService()
+    {
+        $this->services['knp_menu.factory'] = $instance = new \Knp\Menu\MenuFactory();
+
+        $instance->addExtension(new \Knp\Menu\Integration\Symfony\RoutingExtension($this->get('router')), 0);
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'knp_menu.matcher' shared service.
+     *
+     * @return \Knp\Menu\Matcher\Matcher
+     */
+    protected function getKnpMenu_MatcherService()
+    {
+        return $this->services['knp_menu.matcher'] = new \Knp\Menu\Matcher\Matcher(array(0 => $this->get('knp_menu.voter.router'), 1 => $this->get('sonata.admin.menu.matcher.voter.admin'), 2 => $this->get('sonata.admin.menu.matcher.voter.active')));
+    }
+
+    /*
+     * Gets the public 'knp_menu.menu_provider' shared service.
+     *
+     * @return \Knp\Menu\Provider\ChainProvider
+     */
+    protected function getKnpMenu_MenuProviderService()
+    {
+        $a = $this->get('knp_menu.factory');
+
+        return $this->services['knp_menu.menu_provider'] = new \Knp\Menu\Provider\ChainProvider(array(0 => new \Knp\Bundle\MenuBundle\Provider\ContainerAwareProvider($this, array('sonata_admin_sidebar' => 'sonata.admin.sidebar_menu')), 1 => new \Knp\Bundle\MenuBundle\Provider\BuilderServiceProvider($this, array()), 2 => new \Knp\Bundle\MenuBundle\Provider\BuilderAliasProvider($this->get('kernel'), $this, $a), 3 => new \Sonata\AdminBundle\Menu\Provider\GroupMenuProvider($a, $this->get('sonata.admin.pool'), $this->get('security.authorization_checker'))));
+    }
+
+    /*
+     * Gets the public 'knp_menu.renderer.list' shared service.
+     *
+     * @return \Knp\Menu\Renderer\ListRenderer
+     */
+    protected function getKnpMenu_Renderer_ListService()
+    {
+        return $this->services['knp_menu.renderer.list'] = new \Knp\Menu\Renderer\ListRenderer($this->get('knp_menu.matcher'), array(), 'UTF-8');
+    }
+
+    /*
+     * Gets the public 'knp_menu.renderer.twig' shared service.
+     *
+     * @return \Knp\Menu\Renderer\TwigRenderer
+     */
+    protected function getKnpMenu_Renderer_TwigService()
+    {
+        return $this->services['knp_menu.renderer.twig'] = new \Knp\Menu\Renderer\TwigRenderer($this->get('twig'), '@KnpMenu/menu.html.twig', $this->get('knp_menu.matcher'), array());
+    }
+
+    /*
+     * Gets the public 'knp_menu.renderer_provider' shared service.
+     *
+     * @return \Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider
+     */
+    protected function getKnpMenu_RendererProviderService()
+    {
+        return $this->services['knp_menu.renderer_provider'] = new \Knp\Bundle\MenuBundle\Renderer\ContainerAwareProvider($this, 'twig', array('list' => 'knp_menu.renderer.list', 'twig' => 'knp_menu.renderer.twig'), false);
+    }
+
+    /*
+     * Gets the public 'knp_menu.voter.router' shared service.
+     *
+     * @return \Knp\Menu\Matcher\Voter\RouteVoter
+     */
+    protected function getKnpMenu_Voter_RouterService()
+    {
+        return $this->services['knp_menu.voter.router'] = new \Knp\Menu\Matcher\Voter\RouteVoter($this->get('request_stack'));
+    }
+
+    /*
      * Gets the public 'locale_listener' shared service.
      *
      * @return \Symfony\Component\HttpKernel\EventListener\LocaleListener
      */
     protected function getLocaleListenerService()
     {
-        return $this->services['locale_listener'] = new \Symfony\Component\HttpKernel\EventListener\LocaleListener($this->get('request_stack'), 'en', $this->get('router', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['locale_listener'] = new \Symfony\Component\HttpKernel\EventListener\LocaleListener($this->get('request_stack'), 'fi', $this->get('router', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     /*
@@ -2176,6 +2477,145 @@ class appProdProjectContainer extends Container
         $instance->pushHandler($this->get('monolog.handler.main'));
 
         return $instance;
+    }
+
+    /*
+     * Gets the public 'main.admin.blog_post' service.
+     *
+     * @return \Sch\MainBundle\Admin\BlogPostAdmin
+     */
+    protected function getMain_Admin_BlogPostService()
+    {
+        $instance = new \Sch\MainBundle\Admin\BlogPostAdmin('main.admin.blog_post', 'Sch\\MainBundle\\Entity\\BlogPost', 'SonataAdminBundle:CRUD');
+
+        $instance->setTranslationDomain('Sch:MainBundle');
+        $instance->setFormTheme(array(0 => '@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig'));
+        $instance->setFilterTheme(array(0 => '@SonataDoctrineORMAdmin/Form/filter_admin_fields.html.twig'));
+        $instance->setManagerType('orm');
+        $instance->setModelManager($this->get('sonata.admin.manager.orm'));
+        $instance->setFormContractor($this->get('sonata.admin.builder.orm_form'));
+        $instance->setShowBuilder($this->get('sonata.admin.builder.orm_show'));
+        $instance->setListBuilder($this->get('sonata.admin.builder.orm_list'));
+        $instance->setDatagridBuilder($this->get('sonata.admin.builder.orm_datagrid'));
+        $instance->setTranslator($this->get('translator.default'), false);
+        $instance->setConfigurationPool($this->get('sonata.admin.pool'));
+        $instance->setRouteGenerator($this->get('sonata.admin.route.default_generator'));
+        $instance->setValidator($this->get('validator'));
+        $instance->setSecurityHandler($this->get('sonata.admin.security.handler'));
+        $instance->setMenuFactory($this->get('knp_menu.factory'));
+        $instance->setRouteBuilder($this->get('sonata.admin.route.path_info'));
+        $instance->setLabelTranslatorStrategy($this->get('sonata.admin.label.strategy.native'));
+        $instance->setPagerType('default');
+        $instance->setLabel('Blog Post');
+        $instance->showMosaicButton(true);
+        $instance->setTemplateRegistry($this->get('main.admin.blog_post.template_registry'));
+        $instance->setSecurityInformation(array());
+        $instance->initialize();
+        $instance->addExtension($this->get('sonata.admin.event.extension'));
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'main.admin.blog_post.template_registry' shared service.
+     *
+     * @return \Sonata\AdminBundle\Templating\TemplateRegistry
+     */
+    protected function getMain_Admin_BlogPost_TemplateRegistryService()
+    {
+        return $this->services['main.admin.blog_post.template_registry'] = new \Sonata\AdminBundle\Templating\TemplateRegistry(array('user_block' => '@SonataAdmin/Core/user_block.html.twig', 'add_block' => '@SonataAdmin/Core/add_block.html.twig', 'layout' => '@SonataAdmin/standard_layout.html.twig', 'ajax' => '@SonataAdmin/ajax_layout.html.twig', 'dashboard' => '@SonataAdmin/Core/dashboard.html.twig', 'search' => '@SonataAdmin/Core/search.html.twig', 'list' => '@SonataAdmin/CRUD/list.html.twig', 'filter' => '@SonataAdmin/Form/filter_admin_fields.html.twig', 'show' => '@SonataAdmin/CRUD/show.html.twig', 'show_compare' => '@SonataAdmin/CRUD/show_compare.html.twig', 'edit' => '@SonataAdmin/CRUD/edit.html.twig', 'preview' => '@SonataAdmin/CRUD/preview.html.twig', 'history' => '@SonataAdmin/CRUD/history.html.twig', 'acl' => '@SonataAdmin/CRUD/acl.html.twig', 'history_revision_timestamp' => '@SonataAdmin/CRUD/history_revision_timestamp.html.twig', 'action' => '@SonataAdmin/CRUD/action.html.twig', 'select' => '@SonataAdmin/CRUD/list__select.html.twig', 'list_block' => '@SonataAdmin/Block/block_admin_list.html.twig', 'search_result_block' => '@SonataAdmin/Block/block_search_result.html.twig', 'short_object_description' => '@SonataAdmin/Helper/short-object-description.html.twig', 'delete' => '@SonataAdmin/CRUD/delete.html.twig', 'batch' => '@SonataAdmin/CRUD/list__batch.html.twig', 'batch_confirmation' => '@SonataAdmin/CRUD/batch_confirmation.html.twig', 'inner_list_row' => '@SonataAdmin/CRUD/list_inner_row.html.twig', 'outer_list_rows_mosaic' => '@SonataAdmin/CRUD/list_outer_rows_mosaic.html.twig', 'outer_list_rows_list' => '@SonataAdmin/CRUD/list_outer_rows_list.html.twig', 'outer_list_rows_tree' => '@SonataAdmin/CRUD/list_outer_rows_tree.html.twig', 'base_list_field' => '@SonataAdmin/CRUD/base_list_field.html.twig', 'pager_links' => '@SonataAdmin/Pager/links.html.twig', 'pager_results' => '@SonataAdmin/Pager/results.html.twig', 'tab_menu_template' => '@SonataAdmin/Core/tab_menu_template.html.twig', 'knp_menu_template' => '@SonataAdmin/Menu/sonata_menu.html.twig', 'action_create' => '@SonataAdmin/CRUD/dashboard__action_create.html.twig', 'button_acl' => '@SonataAdmin/Button/acl_button.html.twig', 'button_create' => '@SonataAdmin/Button/create_button.html.twig', 'button_edit' => '@SonataAdmin/Button/edit_button.html.twig', 'button_history' => '@SonataAdmin/Button/history_button.html.twig', 'button_list' => '@SonataAdmin/Button/list_button.html.twig', 'button_show' => '@SonataAdmin/Button/show_button.html.twig'));
+    }
+
+    /*
+     * Gets the public 'main.admin.category' service.
+     *
+     * @return \Sch\MainBundle\Admin\CategoryAdmin
+     */
+    protected function getMain_Admin_CategoryService()
+    {
+        $instance = new \Sch\MainBundle\Admin\CategoryAdmin('main.admin.category', 'Sch\\MainBundle\\Entity\\Category', 'SonataAdminBundle:CRUD');
+
+        $instance->setFormTheme(array(0 => '@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig'));
+        $instance->setFilterTheme(array(0 => '@SonataDoctrineORMAdmin/Form/filter_admin_fields.html.twig'));
+        $instance->setManagerType('orm');
+        $instance->setModelManager($this->get('sonata.admin.manager.orm'));
+        $instance->setFormContractor($this->get('sonata.admin.builder.orm_form'));
+        $instance->setShowBuilder($this->get('sonata.admin.builder.orm_show'));
+        $instance->setListBuilder($this->get('sonata.admin.builder.orm_list'));
+        $instance->setDatagridBuilder($this->get('sonata.admin.builder.orm_datagrid'));
+        $instance->setTranslator($this->get('translator.default'), false);
+        $instance->setConfigurationPool($this->get('sonata.admin.pool'));
+        $instance->setRouteGenerator($this->get('sonata.admin.route.default_generator'));
+        $instance->setValidator($this->get('validator'));
+        $instance->setSecurityHandler($this->get('sonata.admin.security.handler'));
+        $instance->setMenuFactory($this->get('knp_menu.factory'));
+        $instance->setRouteBuilder($this->get('sonata.admin.route.path_info'));
+        $instance->setLabelTranslatorStrategy($this->get('sonata.admin.label.strategy.native'));
+        $instance->setPagerType('default');
+        $instance->setLabel('Category');
+        $instance->showMosaicButton(true);
+        $instance->setTemplateRegistry($this->get('main.admin.category.template_registry'));
+        $instance->setSecurityInformation(array());
+        $instance->initialize();
+        $instance->addExtension($this->get('sonata.admin.event.extension'));
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'main.admin.category.template_registry' shared service.
+     *
+     * @return \Sonata\AdminBundle\Templating\TemplateRegistry
+     */
+    protected function getMain_Admin_Category_TemplateRegistryService()
+    {
+        return $this->services['main.admin.category.template_registry'] = new \Sonata\AdminBundle\Templating\TemplateRegistry(array('user_block' => '@SonataAdmin/Core/user_block.html.twig', 'add_block' => '@SonataAdmin/Core/add_block.html.twig', 'layout' => '@SonataAdmin/standard_layout.html.twig', 'ajax' => '@SonataAdmin/ajax_layout.html.twig', 'dashboard' => '@SonataAdmin/Core/dashboard.html.twig', 'search' => '@SonataAdmin/Core/search.html.twig', 'list' => '@SonataAdmin/CRUD/list.html.twig', 'filter' => '@SonataAdmin/Form/filter_admin_fields.html.twig', 'show' => '@SonataAdmin/CRUD/show.html.twig', 'show_compare' => '@SonataAdmin/CRUD/show_compare.html.twig', 'edit' => '@SonataAdmin/CRUD/edit.html.twig', 'preview' => '@SonataAdmin/CRUD/preview.html.twig', 'history' => '@SonataAdmin/CRUD/history.html.twig', 'acl' => '@SonataAdmin/CRUD/acl.html.twig', 'history_revision_timestamp' => '@SonataAdmin/CRUD/history_revision_timestamp.html.twig', 'action' => '@SonataAdmin/CRUD/action.html.twig', 'select' => '@SonataAdmin/CRUD/list__select.html.twig', 'list_block' => '@SonataAdmin/Block/block_admin_list.html.twig', 'search_result_block' => '@SonataAdmin/Block/block_search_result.html.twig', 'short_object_description' => '@SonataAdmin/Helper/short-object-description.html.twig', 'delete' => '@SonataAdmin/CRUD/delete.html.twig', 'batch' => '@SonataAdmin/CRUD/list__batch.html.twig', 'batch_confirmation' => '@SonataAdmin/CRUD/batch_confirmation.html.twig', 'inner_list_row' => '@SonataAdmin/CRUD/list_inner_row.html.twig', 'outer_list_rows_mosaic' => '@SonataAdmin/CRUD/list_outer_rows_mosaic.html.twig', 'outer_list_rows_list' => '@SonataAdmin/CRUD/list_outer_rows_list.html.twig', 'outer_list_rows_tree' => '@SonataAdmin/CRUD/list_outer_rows_tree.html.twig', 'base_list_field' => '@SonataAdmin/CRUD/base_list_field.html.twig', 'pager_links' => '@SonataAdmin/Pager/links.html.twig', 'pager_results' => '@SonataAdmin/Pager/results.html.twig', 'tab_menu_template' => '@SonataAdmin/Core/tab_menu_template.html.twig', 'knp_menu_template' => '@SonataAdmin/Menu/sonata_menu.html.twig', 'action_create' => '@SonataAdmin/CRUD/dashboard__action_create.html.twig', 'button_acl' => '@SonataAdmin/Button/acl_button.html.twig', 'button_create' => '@SonataAdmin/Button/create_button.html.twig', 'button_edit' => '@SonataAdmin/Button/edit_button.html.twig', 'button_history' => '@SonataAdmin/Button/history_button.html.twig', 'button_list' => '@SonataAdmin/Button/list_button.html.twig', 'button_show' => '@SonataAdmin/Button/show_button.html.twig'));
+    }
+
+    /*
+     * Gets the public 'main.admin.test' service.
+     *
+     * @return \Sch\MainBundle\Admin\TestAdmin
+     */
+    protected function getMain_Admin_TestService()
+    {
+        $instance = new \Sch\MainBundle\Admin\TestAdmin('main.admin.test', '\\Sch\\MainBundle\\Entity\\Test', 'SonataAdminBundle:CRUD');
+
+        $instance->setFormTheme(array(0 => '@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig'));
+        $instance->setFilterTheme(array(0 => '@SonataDoctrineORMAdmin/Form/filter_admin_fields.html.twig'));
+        $instance->setManagerType('orm');
+        $instance->setModelManager($this->get('sonata.admin.manager.orm'));
+        $instance->setFormContractor($this->get('sonata.admin.builder.orm_form'));
+        $instance->setShowBuilder($this->get('sonata.admin.builder.orm_show'));
+        $instance->setListBuilder($this->get('sonata.admin.builder.orm_list'));
+        $instance->setDatagridBuilder($this->get('sonata.admin.builder.orm_datagrid'));
+        $instance->setTranslator($this->get('translator.default'), false);
+        $instance->setConfigurationPool($this->get('sonata.admin.pool'));
+        $instance->setRouteGenerator($this->get('sonata.admin.route.default_generator'));
+        $instance->setValidator($this->get('validator'));
+        $instance->setSecurityHandler($this->get('sonata.admin.security.handler'));
+        $instance->setMenuFactory($this->get('knp_menu.factory'));
+        $instance->setRouteBuilder($this->get('sonata.admin.route.path_info'));
+        $instance->setLabelTranslatorStrategy($this->get('sonata.admin.label.strategy.native'));
+        $instance->setPagerType('default');
+        $instance->setLabel('Test');
+        $instance->showMosaicButton(true);
+        $instance->setTemplateRegistry($this->get('main.admin.test.template_registry'));
+        $instance->setSecurityInformation(array());
+        $instance->initialize();
+        $instance->addExtension($this->get('sonata.admin.event.extension'));
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'main.admin.test.template_registry' shared service.
+     *
+     * @return \Sonata\AdminBundle\Templating\TemplateRegistry
+     */
+    protected function getMain_Admin_Test_TemplateRegistryService()
+    {
+        return $this->services['main.admin.test.template_registry'] = new \Sonata\AdminBundle\Templating\TemplateRegistry(array('user_block' => '@SonataAdmin/Core/user_block.html.twig', 'add_block' => '@SonataAdmin/Core/add_block.html.twig', 'layout' => '@SonataAdmin/standard_layout.html.twig', 'ajax' => '@SonataAdmin/ajax_layout.html.twig', 'dashboard' => '@SonataAdmin/Core/dashboard.html.twig', 'search' => '@SonataAdmin/Core/search.html.twig', 'list' => '@SonataAdmin/CRUD/list.html.twig', 'filter' => '@SonataAdmin/Form/filter_admin_fields.html.twig', 'show' => '@SonataAdmin/CRUD/show.html.twig', 'show_compare' => '@SonataAdmin/CRUD/show_compare.html.twig', 'edit' => '@SonataAdmin/CRUD/edit.html.twig', 'preview' => '@SonataAdmin/CRUD/preview.html.twig', 'history' => '@SonataAdmin/CRUD/history.html.twig', 'acl' => '@SonataAdmin/CRUD/acl.html.twig', 'history_revision_timestamp' => '@SonataAdmin/CRUD/history_revision_timestamp.html.twig', 'action' => '@SonataAdmin/CRUD/action.html.twig', 'select' => '@SonataAdmin/CRUD/list__select.html.twig', 'list_block' => '@SonataAdmin/Block/block_admin_list.html.twig', 'search_result_block' => '@SonataAdmin/Block/block_search_result.html.twig', 'short_object_description' => '@SonataAdmin/Helper/short-object-description.html.twig', 'delete' => '@SonataAdmin/CRUD/delete.html.twig', 'batch' => '@SonataAdmin/CRUD/list__batch.html.twig', 'batch_confirmation' => '@SonataAdmin/CRUD/batch_confirmation.html.twig', 'inner_list_row' => '@SonataAdmin/CRUD/list_inner_row.html.twig', 'outer_list_rows_mosaic' => '@SonataAdmin/CRUD/list_outer_rows_mosaic.html.twig', 'outer_list_rows_list' => '@SonataAdmin/CRUD/list_outer_rows_list.html.twig', 'outer_list_rows_tree' => '@SonataAdmin/CRUD/list_outer_rows_tree.html.twig', 'base_list_field' => '@SonataAdmin/CRUD/base_list_field.html.twig', 'pager_links' => '@SonataAdmin/Pager/links.html.twig', 'pager_results' => '@SonataAdmin/Pager/results.html.twig', 'tab_menu_template' => '@SonataAdmin/Core/tab_menu_template.html.twig', 'knp_menu_template' => '@SonataAdmin/Menu/sonata_menu.html.twig', 'action_create' => '@SonataAdmin/CRUD/dashboard__action_create.html.twig', 'button_acl' => '@SonataAdmin/Button/acl_button.html.twig', 'button_create' => '@SonataAdmin/Button/create_button.html.twig', 'button_edit' => '@SonataAdmin/Button/edit_button.html.twig', 'button_history' => '@SonataAdmin/Button/history_button.html.twig', 'button_list' => '@SonataAdmin/Button/list_button.html.twig', 'button_show' => '@SonataAdmin/Button/show_button.html.twig'));
     }
 
     /*
@@ -2306,6 +2746,190 @@ class appProdProjectContainer extends Container
     }
 
     /*
+     * Gets the public 'nelmio_api_doc.doc_comment_extractor' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Util\DocCommentExtractor
+     */
+    protected function getNelmioApiDoc_DocCommentExtractorService()
+    {
+        return $this->services['nelmio_api_doc.doc_comment_extractor'] = new \Nelmio\ApiDocBundle\Util\DocCommentExtractor();
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.event_listener.request' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\EventListener\RequestListener
+     */
+    protected function getNelmioApiDoc_EventListener_RequestService()
+    {
+        return $this->services['nelmio_api_doc.event_listener.request'] = new \Nelmio\ApiDocBundle\EventListener\RequestListener($this->get('nelmio_api_doc.extractor.api_doc_extractor'), $this->get('nelmio_api_doc.formatter.html_formatter'), '_doc');
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.extractor.api_doc_extractor' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Extractor\ApiDocExtractor
+     */
+    protected function getNelmioApiDoc_Extractor_ApiDocExtractorService()
+    {
+        $a = $this->get('nelmio_api_doc.doc_comment_extractor');
+
+        $this->services['nelmio_api_doc.extractor.api_doc_extractor'] = $instance = new \Nelmio\ApiDocBundle\Extractor\ApiDocExtractor($this, $this->get('router'), $this->get('annotation_reader'), $a, new \Symfony\Bundle\FrameworkBundle\Controller\ControllerNameParser($this->get('kernel')), array(0 => new \Nelmio\ApiDocBundle\Extractor\Handler\FosRestHandler(), 1 => new \Nelmio\ApiDocBundle\Extractor\Handler\JmsSecurityExtraHandler(), 2 => new \Nelmio\ApiDocBundle\Extractor\Handler\SensioFrameworkExtraHandler(), 3 => new \Nelmio\ApiDocBundle\Extractor\Handler\PhpDocHandler($a)), array());
+
+        $instance->addParser($this->get('nelmio_api_doc.parser.json_serializable_parser'));
+        $instance->addParser($this->get('nelmio_api_doc.parser.collection_parser'));
+        $instance->addParser($this->get('nelmio_api_doc.parser.form_errors_parser'));
+        $instance->addParser($this->get('nelmio_api_doc.parser.form_type_parser'));
+        $instance->addParser($this->get('nelmio_api_doc.parser.validation_parser'));
+        $instance->addParser($this->get('nelmio_api_doc.parser.jms_metadata_parser'));
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.form.extension.description_form_type_extension' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Form\Extension\DescriptionFormTypeExtension
+     */
+    protected function getNelmioApiDoc_Form_Extension_DescriptionFormTypeExtensionService()
+    {
+        return $this->services['nelmio_api_doc.form.extension.description_form_type_extension'] = new \Nelmio\ApiDocBundle\Form\Extension\DescriptionFormTypeExtension();
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.formatter.html_formatter' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Formatter\HtmlFormatter
+     */
+    protected function getNelmioApiDoc_Formatter_HtmlFormatterService()
+    {
+        $this->services['nelmio_api_doc.formatter.html_formatter'] = $instance = new \Nelmio\ApiDocBundle\Formatter\HtmlFormatter();
+
+        $instance->setTemplatingEngine($this->get('templating'));
+        $instance->setMotdTemplate('NelmioApiDocBundle::Components/motd.html.twig');
+        $instance->setApiName('API documentation');
+        $instance->setEnableSandbox(true);
+        $instance->setEndpoint(NULL);
+        $instance->setRequestFormatMethod('format_param');
+        $instance->setRequestFormats(array('json' => 'application/json', 'xml' => 'application/xml'));
+        $instance->setDefaultRequestFormat('json');
+        $instance->setAcceptType(NULL);
+        $instance->setBodyFormats(array(0 => 'form', 1 => 'json'));
+        $instance->setDefaultBodyFormat('form');
+        $instance->setAuthentication(NULL);
+        $instance->setDefaultSectionsOpened(true);
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.formatter.markdown_formatter' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Formatter\MarkdownFormatter
+     */
+    protected function getNelmioApiDoc_Formatter_MarkdownFormatterService()
+    {
+        return $this->services['nelmio_api_doc.formatter.markdown_formatter'] = new \Nelmio\ApiDocBundle\Formatter\MarkdownFormatter();
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.formatter.simple_formatter' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Formatter\SimpleFormatter
+     */
+    protected function getNelmioApiDoc_Formatter_SimpleFormatterService()
+    {
+        return $this->services['nelmio_api_doc.formatter.simple_formatter'] = new \Nelmio\ApiDocBundle\Formatter\SimpleFormatter();
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.formatter.swagger_formatter' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Formatter\SwaggerFormatter
+     */
+    protected function getNelmioApiDoc_Formatter_SwaggerFormatterService()
+    {
+        $this->services['nelmio_api_doc.formatter.swagger_formatter'] = $instance = new \Nelmio\ApiDocBundle\Formatter\SwaggerFormatter('dot_notation');
+
+        $instance->setBasePath('/api');
+        $instance->setApiVersion('0.1');
+        $instance->setSwaggerVersion('1.2');
+        $instance->setInfo(array('title' => 'Symfony2', 'description' => 'My awesome Symfony2 app!', 'TermsOfServiceUrl' => NULL, 'contact' => NULL, 'license' => NULL, 'licenseUrl' => NULL));
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.parser.collection_parser' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Parser\CollectionParser
+     */
+    protected function getNelmioApiDoc_Parser_CollectionParserService()
+    {
+        return $this->services['nelmio_api_doc.parser.collection_parser'] = new \Nelmio\ApiDocBundle\Parser\CollectionParser();
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.parser.form_errors_parser' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Parser\FormErrorsParser
+     */
+    protected function getNelmioApiDoc_Parser_FormErrorsParserService()
+    {
+        return $this->services['nelmio_api_doc.parser.form_errors_parser'] = new \Nelmio\ApiDocBundle\Parser\FormErrorsParser();
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.parser.form_type_parser' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Parser\FormTypeParser
+     */
+    protected function getNelmioApiDoc_Parser_FormTypeParserService()
+    {
+        return $this->services['nelmio_api_doc.parser.form_type_parser'] = new \Nelmio\ApiDocBundle\Parser\FormTypeParser($this->get('form.factory'), true);
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.parser.jms_metadata_parser' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Parser\JmsMetadataParser
+     */
+    protected function getNelmioApiDoc_Parser_JmsMetadataParserService()
+    {
+        return $this->services['nelmio_api_doc.parser.jms_metadata_parser'] = new \Nelmio\ApiDocBundle\Parser\JmsMetadataParser($this->get('jms_serializer.metadata_factory'), $this->get('jms_serializer.naming_strategy'), $this->get('nelmio_api_doc.doc_comment_extractor'));
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.parser.json_serializable_parser' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Parser\JsonSerializableParser
+     */
+    protected function getNelmioApiDoc_Parser_JsonSerializableParserService()
+    {
+        return $this->services['nelmio_api_doc.parser.json_serializable_parser'] = new \Nelmio\ApiDocBundle\Parser\JsonSerializableParser();
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.parser.validation_parser' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Parser\ValidationParser
+     */
+    protected function getNelmioApiDoc_Parser_ValidationParserService()
+    {
+        return $this->services['nelmio_api_doc.parser.validation_parser'] = new \Nelmio\ApiDocBundle\Parser\ValidationParser($this->get('validator'));
+    }
+
+    /*
+     * Gets the public 'nelmio_api_doc.twig.extension.extra_markdown' shared service.
+     *
+     * @return \Nelmio\ApiDocBundle\Twig\Extension\MarkdownExtension
+     */
+    protected function getNelmioApiDoc_Twig_Extension_ExtraMarkdownService()
+    {
+        return $this->services['nelmio_api_doc.twig.extension.extra_markdown'] = new \Nelmio\ApiDocBundle\Twig\Extension\MarkdownExtension();
+    }
+
+    /*
      * Gets the public 'property_accessor' shared service.
      *
      * @return \Symfony\Component\PropertyAccess\PropertyAccessor
@@ -2400,8 +3024,29 @@ class appProdProjectContainer extends Container
         $d->addLoader($this->get('fos_rest.routing.loader.controller'));
         $d->addLoader($this->get('fos_rest.routing.loader.yaml_collection'));
         $d->addLoader($this->get('fos_rest.routing.loader.xml_collection'));
+        $d->addLoader($this->get('sonata.admin.route_loader'));
 
         return $this->services['routing.loader'] = new \Symfony\Bundle\FrameworkBundle\Routing\DelegatingLoader($this->get('controller_name_converter'), $d);
+    }
+
+    /*
+     * Gets the public 'sch_main.import_csv' shared service.
+     *
+     * @return \Sch\MainBundle\Service\ImportCSVService
+     */
+    protected function getSchMain_ImportCsvService()
+    {
+        return $this->services['sch_main.import_csv'] = new \Sch\MainBundle\Service\ImportCSVService($this, $this->get('file_locator'));
+    }
+
+    /*
+     * Gets the public 'sch_main.phone' shared service.
+     *
+     * @return \Sch\MainBundle\Service\PhoneService
+     */
+    protected function getSchMain_PhoneService()
+    {
+        return $this->services['sch_main.phone'] = new \Sch\MainBundle\Service\PhoneService($this);
     }
 
     /*
@@ -2489,7 +3134,7 @@ class appProdProjectContainer extends Container
      */
     protected function getSecurity_FirewallService()
     {
-        return $this->services['security.firewall'] = new \Symfony\Component\Security\Http\Firewall(new \Symfony\Bundle\SecurityBundle\Security\FirewallMap($this, array('security.firewall.map.context.dev' => new \Symfony\Component\HttpFoundation\RequestMatcher('^/(_(profiler|wdt)|css|images|js)/'), 'security.firewall.map.context.main' => NULL)), $this->get('event_dispatcher'));
+        return $this->services['security.firewall'] = new \Symfony\Component\Security\Http\Firewall(new \Symfony\Bundle\SecurityBundle\Security\FirewallMap($this, array('security.firewall.map.context.dev' => new \Symfony\Component\HttpFoundation\RequestMatcher('^/(_(profiler|wdt)|css|images|js)/'), 'security.firewall.map.context.main' => NULL, 'security.firewall.map.context.secured_area' => NULL)), $this->get('event_dispatcher'));
     }
 
     /*
@@ -2509,14 +3154,33 @@ class appProdProjectContainer extends Container
      */
     protected function getSecurity_Firewall_Map_Context_MainService()
     {
-        $a = $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE);
-        $b = $this->get('security.token_storage');
-        $c = $this->get('security.authentication.manager');
-        $d = $this->get('router', ContainerInterface::NULL_ON_INVALID_REFERENCE);
+        $a = $this->get('security.token_storage');
+        $b = $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE);
 
-        $e = new \Symfony\Component\Security\Http\AccessMap();
+        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('security.user.provider.concrete.in_memory')), 'main', $b, $this->get('event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE)), 2 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($a, '5bbc485dc60052.94825618', $b, $this->get('security.authentication.manager')), 3 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $this->get('security.http_utils'), 'main', NULL, NULL, NULL, $b, false), NULL);
+    }
 
-        return $this->services['security.firewall.map.context.main'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => new \Symfony\Component\Security\Http\Firewall\ChannelListener($e, new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $a), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($b, array(0 => new \Symfony\Component\Security\Core\User\InMemoryUserProvider(array())), 'main', $a, $this->get('event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE)), 2 => new \Symfony\Component\Security\Http\Firewall\AnonymousAuthenticationListener($b, '5b7e3e723dbcc0.38337212', $a, $c), 3 => new \Symfony\Component\Security\Http\Firewall\AccessListener($b, $this->get('security.access.decision_manager'), $e, $c)), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($b, $this->get('security.authentication.trust_resolver'), new \Symfony\Component\Security\Http\HttpUtils($d, $d, '{^https?://%s$}i'), 'main', NULL, NULL, NULL, $a, false), NULL);
+    /*
+     * Gets the public 'security.firewall.map.context.secured_area' shared service.
+     *
+     * @return \Symfony\Bundle\SecurityBundle\Security\FirewallContext
+     */
+    protected function getSecurity_Firewall_Map_Context_SecuredAreaService()
+    {
+        $a = $this->get('security.token_storage');
+        $b = $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE);
+        $c = $this->get('event_dispatcher', ContainerInterface::NULL_ON_INVALID_REFERENCE);
+        $d = $this->get('security.http_utils');
+        $e = $this->get('http_kernel');
+
+        $f = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationSuccessHandler($d, array());
+        $f->setOptions(array('always_use_default_target_path' => false, 'default_target_path' => '/', 'login_path' => '/login', 'target_path_parameter' => '_target_path', 'use_referer' => false));
+        $f->setProviderKey('secured_area');
+
+        $g = new \Symfony\Component\Security\Http\Authentication\DefaultAuthenticationFailureHandler($e, $d, array(), $b);
+        $g->setOptions(array('login_path' => '/login', 'failure_path' => NULL, 'failure_forward' => false, 'failure_path_parameter' => '_failure_path'));
+
+        return $this->services['security.firewall.map.context.secured_area'] = new \Symfony\Bundle\SecurityBundle\Security\FirewallContext(array(0 => $this->get('security.channel_listener'), 1 => new \Symfony\Component\Security\Http\Firewall\ContextListener($a, array(0 => $this->get('security.user.provider.concrete.in_memory')), 'secured_area', $b, $c), 2 => new \Symfony\Component\Security\Http\Firewall\UsernamePasswordFormAuthenticationListener($a, $this->get('security.authentication.manager'), $this->get('security.authentication.session_strategy.main'), $d, 'secured_area', $f, $g, array('csrf_parameter' => '_csrf_security_token', 'csrf_token_id' => 'a_private_string', 'check_path' => '/login_check', 'use_forward' => false, 'require_previous_session' => true, 'username_parameter' => '_username', 'password_parameter' => '_password', 'post_only' => true), $b, $c, NULL), 3 => $this->get('security.access_listener')), new \Symfony\Component\Security\Http\Firewall\ExceptionListener($a, $this->get('security.authentication.trust_resolver'), $d, 'secured_area', new \Symfony\Component\Security\Http\EntryPoint\FormAuthenticationEntryPoint($e, $d, '/login', false), NULL, NULL, $b, false), NULL);
     }
 
     /*
@@ -2736,6 +3400,1592 @@ class appProdProjectContainer extends Container
     protected function getSessionListenerService()
     {
         return $this->services['session_listener'] = new \Symfony\Bundle\FrameworkBundle\EventListener\SessionListener($this);
+    }
+
+    /*
+     * Gets the public 'sonata.admin.action.append_form_field_element' shared service.
+     *
+     * @return \Sonata\AdminBundle\Action\AppendFormFieldElementAction
+     */
+    protected function getSonata_Admin_Action_AppendFormFieldElementService()
+    {
+        return $this->services['sonata.admin.action.append_form_field_element'] = new \Sonata\AdminBundle\Action\AppendFormFieldElementAction($this->get('twig'), $this->get('sonata.admin.pool'), $this->get('sonata.admin.helper'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.action.get_short_object_description' shared service.
+     *
+     * @return \Sonata\AdminBundle\Action\GetShortObjectDescriptionAction
+     */
+    protected function getSonata_Admin_Action_GetShortObjectDescriptionService()
+    {
+        return $this->services['sonata.admin.action.get_short_object_description'] = new \Sonata\AdminBundle\Action\GetShortObjectDescriptionAction($this->get('twig'), $this->get('sonata.admin.pool'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.action.retrieve_autocomplete_items' shared service.
+     *
+     * @return \Sonata\AdminBundle\Action\RetrieveAutocompleteItemsAction
+     */
+    protected function getSonata_Admin_Action_RetrieveAutocompleteItemsService()
+    {
+        return $this->services['sonata.admin.action.retrieve_autocomplete_items'] = new \Sonata\AdminBundle\Action\RetrieveAutocompleteItemsAction($this->get('sonata.admin.pool'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.action.retrieve_form_field_element' shared service.
+     *
+     * @return \Sonata\AdminBundle\Action\RetrieveFormFieldElementAction
+     */
+    protected function getSonata_Admin_Action_RetrieveFormFieldElementService()
+    {
+        return $this->services['sonata.admin.action.retrieve_form_field_element'] = new \Sonata\AdminBundle\Action\RetrieveFormFieldElementAction($this->get('twig'), $this->get('sonata.admin.pool'), $this->get('sonata.admin.helper'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.action.set_object_field_value' shared service.
+     *
+     * @return \Sonata\AdminBundle\Action\SetObjectFieldValueAction
+     */
+    protected function getSonata_Admin_Action_SetObjectFieldValueService()
+    {
+        return $this->services['sonata.admin.action.set_object_field_value'] = new \Sonata\AdminBundle\Action\SetObjectFieldValueAction($this->get('twig'), $this->get('sonata.admin.pool'), $this->get('validator'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.audit.manager' shared service.
+     *
+     * @return \Sonata\AdminBundle\Model\AuditManager
+     */
+    protected function getSonata_Admin_Audit_ManagerService()
+    {
+        return $this->services['sonata.admin.audit.manager'] = new \Sonata\AdminBundle\Model\AuditManager($this);
+    }
+
+    /*
+     * Gets the public 'sonata.admin.block.admin_list' shared service.
+     *
+     * @return \Sonata\AdminBundle\Block\AdminListBlockService
+     */
+    protected function getSonata_Admin_Block_AdminListService()
+    {
+        return $this->services['sonata.admin.block.admin_list'] = new \Sonata\AdminBundle\Block\AdminListBlockService('sonata.admin.block.admin_list', $this->get('sonata.templating'), $this->get('sonata.admin.pool'), $this->get('sonata.admin.global_template_registry'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.block.search_result' shared service.
+     *
+     * @return \Sonata\AdminBundle\Block\AdminSearchBlockService
+     */
+    protected function getSonata_Admin_Block_SearchResultService()
+    {
+        return $this->services['sonata.admin.block.search_result'] = new \Sonata\AdminBundle\Block\AdminSearchBlockService('sonata.admin.block.search_result', $this->get('sonata.templating'), $this->get('sonata.admin.pool'), $this->get('sonata.admin.search.handler'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.block.stats' shared service.
+     *
+     * @return \Sonata\AdminBundle\Block\AdminStatsBlockService
+     */
+    protected function getSonata_Admin_Block_StatsService()
+    {
+        return $this->services['sonata.admin.block.stats'] = new \Sonata\AdminBundle\Block\AdminStatsBlockService('sonata.admin.block.stats', $this->get('sonata.templating'), $this->get('sonata.admin.pool'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.breadcrumbs_builder' shared service.
+     *
+     * @return \Sonata\AdminBundle\Admin\BreadcrumbsBuilder
+     */
+    protected function getSonata_Admin_BreadcrumbsBuilderService()
+    {
+        return $this->services['sonata.admin.breadcrumbs_builder'] = new \Sonata\AdminBundle\Admin\BreadcrumbsBuilder(array('child_admin_route' => 'edit'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.builder.filter.factory' shared service.
+     *
+     * @return \Sonata\AdminBundle\Filter\FilterFactory
+     */
+    protected function getSonata_Admin_Builder_Filter_FactoryService()
+    {
+        return $this->services['sonata.admin.builder.filter.factory'] = new \Sonata\AdminBundle\Filter\FilterFactory($this, array('Sonata\\DoctrineORMAdminBundle\\Filter\\BooleanFilter' => 'sonata.admin.orm.filter.type.boolean', 'doctrine_orm_boolean' => 'sonata.admin.orm.filter.type.boolean', 'Sonata\\DoctrineORMAdminBundle\\Filter\\CallbackFilter' => 'sonata.admin.orm.filter.type.callback', 'doctrine_orm_callback' => 'sonata.admin.orm.filter.type.callback', 'Sonata\\DoctrineORMAdminBundle\\Filter\\ChoiceFilter' => 'sonata.admin.orm.filter.type.choice', 'doctrine_orm_choice' => 'sonata.admin.orm.filter.type.choice', 'Sonata\\DoctrineORMAdminBundle\\Filter\\ModelFilter' => 'sonata.admin.orm.filter.type.model', 'doctrine_orm_model' => 'sonata.admin.orm.filter.type.model', 'Sonata\\DoctrineORMAdminBundle\\Filter\\ModelAutocompleteFilter' => 'sonata.admin.orm.filter.type.model_autocomplete', 'doctrine_orm_model_autocomplete' => 'sonata.admin.orm.filter.type.model_autocomplete', 'Sonata\\DoctrineORMAdminBundle\\Filter\\StringFilter' => 'sonata.admin.orm.filter.type.string', 'doctrine_orm_string' => 'sonata.admin.orm.filter.type.string', 'Sonata\\DoctrineORMAdminBundle\\Filter\\NumberFilter' => 'sonata.admin.orm.filter.type.number', 'doctrine_orm_number' => 'sonata.admin.orm.filter.type.number', 'Sonata\\DoctrineORMAdminBundle\\Filter\\DateFilter' => 'sonata.admin.orm.filter.type.date', 'doctrine_orm_date' => 'sonata.admin.orm.filter.type.date', 'Sonata\\DoctrineORMAdminBundle\\Filter\\DateRangeFilter' => 'sonata.admin.orm.filter.type.date_range', 'doctrine_orm_date_range' => 'sonata.admin.orm.filter.type.date_range', 'Sonata\\DoctrineORMAdminBundle\\Filter\\DateTimeFilter' => 'sonata.admin.orm.filter.type.datetime', 'doctrine_orm_datetime' => 'sonata.admin.orm.filter.type.datetime', 'Sonata\\DoctrineORMAdminBundle\\Filter\\TimeFilter' => 'sonata.admin.orm.filter.type.time', 'doctrine_orm_time' => 'sonata.admin.orm.filter.type.time', 'Sonata\\DoctrineORMAdminBundle\\Filter\\DateTimeRangeFilter' => 'sonata.admin.orm.filter.type.datetime_range', 'doctrine_orm_datetime_range' => 'sonata.admin.orm.filter.type.datetime_range', 'Sonata\\DoctrineORMAdminBundle\\Filter\\ClassFilter' => 'sonata.admin.orm.filter.type.class', 'doctrine_orm_class' => 'sonata.admin.orm.filter.type.class'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.builder.orm_datagrid' shared service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Builder\DatagridBuilder
+     */
+    protected function getSonata_Admin_Builder_OrmDatagridService()
+    {
+        return $this->services['sonata.admin.builder.orm_datagrid'] = new \Sonata\DoctrineORMAdminBundle\Builder\DatagridBuilder($this->get('form.factory'), $this->get('sonata.admin.builder.filter.factory'), $this->get('sonata.admin.guesser.orm_datagrid_chain'), true);
+    }
+
+    /*
+     * Gets the public 'sonata.admin.builder.orm_form' shared service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Builder\FormContractor
+     */
+    protected function getSonata_Admin_Builder_OrmFormService()
+    {
+        return $this->services['sonata.admin.builder.orm_form'] = new \Sonata\DoctrineORMAdminBundle\Builder\FormContractor($this->get('form.factory'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.builder.orm_list' shared service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Builder\ListBuilder
+     */
+    protected function getSonata_Admin_Builder_OrmListService()
+    {
+        return $this->services['sonata.admin.builder.orm_list'] = new \Sonata\DoctrineORMAdminBundle\Builder\ListBuilder($this->get('sonata.admin.guesser.orm_list_chain'), array('array' => '@SonataAdmin/CRUD/list_array.html.twig', 'boolean' => '@SonataAdmin/CRUD/list_boolean.html.twig', 'date' => '@SonataAdmin/CRUD/list_date.html.twig', 'time' => '@SonataAdmin/CRUD/list_time.html.twig', 'datetime' => '@SonataAdmin/CRUD/list_datetime.html.twig', 'text' => '@SonataAdmin/CRUD/list_string.html.twig', 'textarea' => '@SonataAdmin/CRUD/list_string.html.twig', 'email' => '@SonataAdmin/CRUD/list_email.html.twig', 'trans' => '@SonataAdmin/CRUD/list_trans.html.twig', 'string' => '@SonataAdmin/CRUD/list_string.html.twig', 'smallint' => '@SonataAdmin/CRUD/list_string.html.twig', 'bigint' => '@SonataAdmin/CRUD/list_string.html.twig', 'integer' => '@SonataAdmin/CRUD/list_string.html.twig', 'decimal' => '@SonataAdmin/CRUD/list_string.html.twig', 'identifier' => '@SonataAdmin/CRUD/list_string.html.twig', 'currency' => '@SonataAdmin/CRUD/list_currency.html.twig', 'percent' => '@SonataAdmin/CRUD/list_percent.html.twig', 'choice' => '@SonataAdmin/CRUD/list_choice.html.twig', 'url' => '@SonataAdmin/CRUD/list_url.html.twig', 'html' => '@SonataAdmin/CRUD/list_html.html.twig'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.builder.orm_show' shared service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Builder\ShowBuilder
+     */
+    protected function getSonata_Admin_Builder_OrmShowService()
+    {
+        return $this->services['sonata.admin.builder.orm_show'] = new \Sonata\DoctrineORMAdminBundle\Builder\ShowBuilder($this->get('sonata.admin.guesser.orm_show_chain'), array('array' => '@SonataAdmin/CRUD/show_array.html.twig', 'boolean' => '@SonataAdmin/CRUD/show_boolean.html.twig', 'date' => '@SonataAdmin/CRUD/show_date.html.twig', 'time' => '@SonataAdmin/CRUD/show_time.html.twig', 'datetime' => '@SonataAdmin/CRUD/show_datetime.html.twig', 'text' => '@SonataAdmin/CRUD/base_show_field.html.twig', 'email' => '@SonataAdmin/CRUD/show_email.html.twig', 'trans' => '@SonataAdmin/CRUD/show_trans.html.twig', 'string' => '@SonataAdmin/CRUD/base_show_field.html.twig', 'smallint' => '@SonataAdmin/CRUD/base_show_field.html.twig', 'bigint' => '@SonataAdmin/CRUD/base_show_field.html.twig', 'integer' => '@SonataAdmin/CRUD/base_show_field.html.twig', 'decimal' => '@SonataAdmin/CRUD/base_show_field.html.twig', 'currency' => '@SonataAdmin/CRUD/show_currency.html.twig', 'percent' => '@SonataAdmin/CRUD/show_percent.html.twig', 'choice' => '@SonataAdmin/CRUD/show_choice.html.twig', 'url' => '@SonataAdmin/CRUD/show_url.html.twig', 'html' => '@SonataAdmin/CRUD/show_html.html.twig'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.controller.admin' shared service.
+     *
+     * @return \Sonata\AdminBundle\Controller\HelperController
+     *
+     * @deprecated The controller service "sonata.admin.controller.admin" is deprecated in favor of several action services since version 3.38.0 and will be removed in 4.0.
+     */
+    protected function getSonata_Admin_Controller_AdminService()
+    {
+        @trigger_error('The controller service "sonata.admin.controller.admin" is deprecated in favor of several action services since version 3.38.0 and will be removed in 4.0.', E_USER_DEPRECATED);
+
+        return $this->services['sonata.admin.controller.admin'] = new \Sonata\AdminBundle\Controller\HelperController($this->get('twig'), $this->get('sonata.admin.pool'), $this->get('sonata.admin.helper'), $this->get('validator'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.doctrine_orm.form.type.choice_field_mask' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType
+     */
+    protected function getSonata_Admin_DoctrineOrm_Form_Type_ChoiceFieldMaskService()
+    {
+        return $this->services['sonata.admin.doctrine_orm.form.type.choice_field_mask'] = new \Sonata\AdminBundle\Form\Type\ChoiceFieldMaskType();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.event.extension' shared service.
+     *
+     * @return \Sonata\AdminBundle\Event\AdminEventExtension
+     */
+    protected function getSonata_Admin_Event_ExtensionService()
+    {
+        return $this->services['sonata.admin.event.extension'] = new \Sonata\AdminBundle\Event\AdminEventExtension($this->get('event_dispatcher'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.exporter' shared service.
+     *
+     * @return \Sonata\AdminBundle\Export\Exporter
+     *
+     * @deprecated The service "sonata.admin.exporter" is deprecated in favor of the "sonata.exporter.exporter" service since version 3.14 and will be removed in 4.0.
+     */
+    protected function getSonata_Admin_ExporterService()
+    {
+        @trigger_error('The service "sonata.admin.exporter" is deprecated in favor of the "sonata.exporter.exporter" service since version 3.14 and will be removed in 4.0.', E_USER_DEPRECATED);
+
+        return $this->services['sonata.admin.exporter'] = new \Sonata\AdminBundle\Export\Exporter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.filter_persister.session' shared service.
+     *
+     * @return \Sonata\AdminBundle\Filter\Persister\SessionFilterPersister
+     */
+    protected function getSonata_Admin_FilterPersister_SessionService()
+    {
+        return $this->services['sonata.admin.filter_persister.session'] = new \Sonata\AdminBundle\Filter\Persister\SessionFilterPersister($this->get('session'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.extension.choice' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Extension\ChoiceTypeExtension
+     */
+    protected function getSonata_Admin_Form_Extension_ChoiceService()
+    {
+        return $this->services['sonata.admin.form.extension.choice'] = new \Sonata\AdminBundle\Form\Extension\ChoiceTypeExtension();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.extension.field' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Extension\Field\Type\FormTypeFieldExtension
+     */
+    protected function getSonata_Admin_Form_Extension_FieldService()
+    {
+        return $this->services['sonata.admin.form.extension.field'] = new \Sonata\AdminBundle\Form\Extension\Field\Type\FormTypeFieldExtension(array('email' => '', 'textarea' => '', 'text' => '', 'choice' => '', 'integer' => '', 'datetime' => 'sonata-medium-date', 'date' => 'sonata-medium-date', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\ChoiceType' => '', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateType' => 'sonata-medium-date', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\DateTimeType' => 'sonata-medium-date', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\EmailType' => '', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\IntegerType' => '', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextareaType' => '', 'Symfony\\Component\\Form\\Extension\\Core\\Type\\TextType' => ''), array('html5_validate' => true, 'sort_admins' => false, 'confirm_exit' => true, 'use_select2' => true, 'use_icheck' => true, 'use_bootlint' => false, 'use_stickyforms' => true, 'pager_links' => NULL, 'form_type' => 'standard', 'dropdown_number_groups_per_colums' => 2, 'title_mode' => 'both', 'lock_protection' => false, 'enable_jms_di_extra_autoregistration' => true, 'javascripts' => array(0 => 'bundles/sonatacore/vendor/jquery/dist/jquery.min.js', 1 => 'bundles/sonataadmin/vendor/jquery.scrollTo/jquery.scrollTo.min.js', 2 => 'bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js', 3 => 'bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js', 4 => 'bundles/sonatacore/vendor/moment/min/moment.min.js', 5 => 'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js', 6 => 'bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js', 7 => 'bundles/sonataadmin/vendor/jquery-form/jquery.form.js', 8 => 'bundles/sonataadmin/jquery/jquery.confirmExit.js', 9 => 'bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js', 10 => 'bundles/sonatacore/vendor/select2/select2.min.js', 11 => 'bundles/sonataadmin/vendor/admin-lte/dist/js/app.min.js', 12 => 'bundles/sonataadmin/vendor/iCheck/icheck.min.js', 13 => 'bundles/sonataadmin/vendor/slimScroll/jquery.slimscroll.min.js', 14 => 'bundles/sonataadmin/vendor/waypoints/lib/jquery.waypoints.min.js', 15 => 'bundles/sonataadmin/vendor/waypoints/lib/shortcuts/sticky.min.js', 16 => 'bundles/sonataadmin/vendor/readmore-js/readmore.min.js', 17 => 'bundles/sonataadmin/vendor/masonry/dist/masonry.pkgd.min.js', 18 => 'bundles/sonataadmin/Admin.js', 19 => 'bundles/sonataadmin/treeview.js', 20 => 'bundles/sonataadmin/sidebar.js'), 'stylesheets' => array(0 => 'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css', 1 => 'bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css', 2 => 'bundles/sonatacore/vendor/ionicons/css/ionicons.min.css', 3 => 'bundles/sonataadmin/vendor/admin-lte/dist/css/AdminLTE.min.css', 4 => 'bundles/sonataadmin/vendor/admin-lte/dist/css/skins/skin-black.min.css', 5 => 'bundles/sonataadmin/vendor/iCheck/skins/square/blue.css', 6 => 'bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css', 7 => 'bundles/sonataadmin/vendor/jqueryui/themes/base/jquery-ui.css', 8 => 'bundles/sonatacore/vendor/select2/select2.css', 9 => 'bundles/sonatacore/vendor/select2-bootstrap-css/select2-bootstrap.min.css', 10 => 'bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css', 11 => 'bundles/sonataadmin/css/styles.css', 12 => 'bundles/sonataadmin/css/layout.css', 13 => 'bundles/sonataadmin/css/tree.css'), 'role_admin' => 'ROLE_SONATA_ADMIN', 'role_super_admin' => 'ROLE_SUPER_ADMIN', 'search' => true));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.extension.field.mopa' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Extension\Field\Type\MopaCompatibilityTypeFieldExtension
+     */
+    protected function getSonata_Admin_Form_Extension_Field_MopaService()
+    {
+        return $this->services['sonata.admin.form.extension.field.mopa'] = new \Sonata\AdminBundle\Form\Extension\Field\Type\MopaCompatibilityTypeFieldExtension();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.filter.type.choice' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\Filter\ChoiceType
+     */
+    protected function getSonata_Admin_Form_Filter_Type_ChoiceService()
+    {
+        return $this->services['sonata.admin.form.filter.type.choice'] = new \Sonata\AdminBundle\Form\Type\Filter\ChoiceType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.filter.type.date' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\Filter\DateType
+     */
+    protected function getSonata_Admin_Form_Filter_Type_DateService()
+    {
+        return $this->services['sonata.admin.form.filter.type.date'] = new \Sonata\AdminBundle\Form\Type\Filter\DateType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.filter.type.daterange' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\Filter\DateRangeType
+     */
+    protected function getSonata_Admin_Form_Filter_Type_DaterangeService()
+    {
+        return $this->services['sonata.admin.form.filter.type.daterange'] = new \Sonata\AdminBundle\Form\Type\Filter\DateRangeType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.filter.type.datetime' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\Filter\DateTimeType
+     */
+    protected function getSonata_Admin_Form_Filter_Type_DatetimeService()
+    {
+        return $this->services['sonata.admin.form.filter.type.datetime'] = new \Sonata\AdminBundle\Form\Type\Filter\DateTimeType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.filter.type.datetime_range' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\Filter\DateTimeRangeType
+     */
+    protected function getSonata_Admin_Form_Filter_Type_DatetimeRangeService()
+    {
+        return $this->services['sonata.admin.form.filter.type.datetime_range'] = new \Sonata\AdminBundle\Form\Type\Filter\DateTimeRangeType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.filter.type.default' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\Filter\DefaultType
+     */
+    protected function getSonata_Admin_Form_Filter_Type_DefaultService()
+    {
+        return $this->services['sonata.admin.form.filter.type.default'] = new \Sonata\AdminBundle\Form\Type\Filter\DefaultType();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.filter.type.number' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\Filter\NumberType
+     */
+    protected function getSonata_Admin_Form_Filter_Type_NumberService()
+    {
+        return $this->services['sonata.admin.form.filter.type.number'] = new \Sonata\AdminBundle\Form\Type\Filter\NumberType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.type.admin' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\AdminType
+     */
+    protected function getSonata_Admin_Form_Type_AdminService()
+    {
+        return $this->services['sonata.admin.form.type.admin'] = new \Sonata\AdminBundle\Form\Type\AdminType();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.type.collection' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\CollectionType
+     */
+    protected function getSonata_Admin_Form_Type_CollectionService()
+    {
+        return $this->services['sonata.admin.form.type.collection'] = new \Sonata\AdminBundle\Form\Type\CollectionType();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.type.model_autocomplete' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\ModelAutocompleteType
+     */
+    protected function getSonata_Admin_Form_Type_ModelAutocompleteService()
+    {
+        return $this->services['sonata.admin.form.type.model_autocomplete'] = new \Sonata\AdminBundle\Form\Type\ModelAutocompleteType();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.type.model_choice' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\ModelType
+     */
+    protected function getSonata_Admin_Form_Type_ModelChoiceService()
+    {
+        return $this->services['sonata.admin.form.type.model_choice'] = new \Sonata\AdminBundle\Form\Type\ModelType($this->get('property_accessor'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.type.model_hidden' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\ModelHiddenType
+     */
+    protected function getSonata_Admin_Form_Type_ModelHiddenService()
+    {
+        return $this->services['sonata.admin.form.type.model_hidden'] = new \Sonata\AdminBundle\Form\Type\ModelHiddenType();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.type.model_list' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\ModelListType
+     */
+    protected function getSonata_Admin_Form_Type_ModelListService()
+    {
+        return $this->services['sonata.admin.form.type.model_list'] = new \Sonata\AdminBundle\Form\Type\ModelListType();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.form.type.model_reference' shared service.
+     *
+     * @return \Sonata\AdminBundle\Form\Type\ModelReferenceType
+     */
+    protected function getSonata_Admin_Form_Type_ModelReferenceService()
+    {
+        return $this->services['sonata.admin.form.type.model_reference'] = new \Sonata\AdminBundle\Form\Type\ModelReferenceType();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.global_template_registry' shared service.
+     *
+     * @return \Sonata\AdminBundle\Templating\TemplateRegistry
+     */
+    protected function getSonata_Admin_GlobalTemplateRegistryService()
+    {
+        return $this->services['sonata.admin.global_template_registry'] = new \Sonata\AdminBundle\Templating\TemplateRegistry(array('user_block' => '@SonataAdmin/Core/user_block.html.twig', 'add_block' => '@SonataAdmin/Core/add_block.html.twig', 'layout' => '@SonataAdmin/standard_layout.html.twig', 'ajax' => '@SonataAdmin/ajax_layout.html.twig', 'dashboard' => '@SonataAdmin/Core/dashboard.html.twig', 'search' => '@SonataAdmin/Core/search.html.twig', 'list' => '@SonataAdmin/CRUD/list.html.twig', 'filter' => '@SonataAdmin/Form/filter_admin_fields.html.twig', 'show' => '@SonataAdmin/CRUD/show.html.twig', 'show_compare' => '@SonataAdmin/CRUD/show_compare.html.twig', 'edit' => '@SonataAdmin/CRUD/edit.html.twig', 'preview' => '@SonataAdmin/CRUD/preview.html.twig', 'history' => '@SonataAdmin/CRUD/history.html.twig', 'acl' => '@SonataAdmin/CRUD/acl.html.twig', 'history_revision_timestamp' => '@SonataAdmin/CRUD/history_revision_timestamp.html.twig', 'action' => '@SonataAdmin/CRUD/action.html.twig', 'select' => '@SonataAdmin/CRUD/list__select.html.twig', 'list_block' => '@SonataAdmin/Block/block_admin_list.html.twig', 'search_result_block' => '@SonataAdmin/Block/block_search_result.html.twig', 'short_object_description' => '@SonataAdmin/Helper/short-object-description.html.twig', 'delete' => '@SonataAdmin/CRUD/delete.html.twig', 'batch' => '@SonataAdmin/CRUD/list__batch.html.twig', 'batch_confirmation' => '@SonataAdmin/CRUD/batch_confirmation.html.twig', 'inner_list_row' => '@SonataAdmin/CRUD/list_inner_row.html.twig', 'outer_list_rows_mosaic' => '@SonataAdmin/CRUD/list_outer_rows_mosaic.html.twig', 'outer_list_rows_list' => '@SonataAdmin/CRUD/list_outer_rows_list.html.twig', 'outer_list_rows_tree' => '@SonataAdmin/CRUD/list_outer_rows_tree.html.twig', 'base_list_field' => '@SonataAdmin/CRUD/base_list_field.html.twig', 'pager_links' => '@SonataAdmin/Pager/links.html.twig', 'pager_results' => '@SonataAdmin/Pager/results.html.twig', 'tab_menu_template' => '@SonataAdmin/Core/tab_menu_template.html.twig', 'knp_menu_template' => '@SonataAdmin/Menu/sonata_menu.html.twig', 'action_create' => '@SonataAdmin/CRUD/dashboard__action_create.html.twig', 'button_acl' => '@SonataAdmin/Button/acl_button.html.twig', 'button_create' => '@SonataAdmin/Button/create_button.html.twig', 'button_edit' => '@SonataAdmin/Button/edit_button.html.twig', 'button_history' => '@SonataAdmin/Button/history_button.html.twig', 'button_list' => '@SonataAdmin/Button/list_button.html.twig', 'button_show' => '@SonataAdmin/Button/show_button.html.twig'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.guesser.orm_datagrid' shared service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Guesser\FilterTypeGuesser
+     */
+    protected function getSonata_Admin_Guesser_OrmDatagridService()
+    {
+        return $this->services['sonata.admin.guesser.orm_datagrid'] = new \Sonata\DoctrineORMAdminBundle\Guesser\FilterTypeGuesser();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.guesser.orm_datagrid_chain' shared service.
+     *
+     * @return \Sonata\AdminBundle\Guesser\TypeGuesserChain
+     */
+    protected function getSonata_Admin_Guesser_OrmDatagridChainService()
+    {
+        return $this->services['sonata.admin.guesser.orm_datagrid_chain'] = new \Sonata\AdminBundle\Guesser\TypeGuesserChain(array(0 => $this->get('sonata.admin.guesser.orm_datagrid')));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.guesser.orm_list' shared service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Guesser\TypeGuesser
+     */
+    protected function getSonata_Admin_Guesser_OrmListService()
+    {
+        return $this->services['sonata.admin.guesser.orm_list'] = new \Sonata\DoctrineORMAdminBundle\Guesser\TypeGuesser();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.guesser.orm_list_chain' shared service.
+     *
+     * @return \Sonata\AdminBundle\Guesser\TypeGuesserChain
+     */
+    protected function getSonata_Admin_Guesser_OrmListChainService()
+    {
+        return $this->services['sonata.admin.guesser.orm_list_chain'] = new \Sonata\AdminBundle\Guesser\TypeGuesserChain(array(0 => $this->get('sonata.admin.guesser.orm_list')));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.guesser.orm_show' shared service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Guesser\TypeGuesser
+     */
+    protected function getSonata_Admin_Guesser_OrmShowService()
+    {
+        return $this->services['sonata.admin.guesser.orm_show'] = new \Sonata\DoctrineORMAdminBundle\Guesser\TypeGuesser();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.guesser.orm_show_chain' shared service.
+     *
+     * @return \Sonata\AdminBundle\Guesser\TypeGuesserChain
+     */
+    protected function getSonata_Admin_Guesser_OrmShowChainService()
+    {
+        return $this->services['sonata.admin.guesser.orm_show_chain'] = new \Sonata\AdminBundle\Guesser\TypeGuesserChain(array(0 => $this->get('sonata.admin.guesser.orm_show')));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.helper' shared service.
+     *
+     * @return \Sonata\AdminBundle\Admin\AdminHelper
+     */
+    protected function getSonata_Admin_HelperService()
+    {
+        return $this->services['sonata.admin.helper'] = new \Sonata\AdminBundle\Admin\AdminHelper($this->get('sonata.admin.pool'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.label.strategy.bc' shared service.
+     *
+     * @return \Sonata\AdminBundle\Translator\BCLabelTranslatorStrategy
+     */
+    protected function getSonata_Admin_Label_Strategy_BcService()
+    {
+        return $this->services['sonata.admin.label.strategy.bc'] = new \Sonata\AdminBundle\Translator\BCLabelTranslatorStrategy();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.label.strategy.form_component' shared service.
+     *
+     * @return \Sonata\AdminBundle\Translator\FormLabelTranslatorStrategy
+     */
+    protected function getSonata_Admin_Label_Strategy_FormComponentService()
+    {
+        return $this->services['sonata.admin.label.strategy.form_component'] = new \Sonata\AdminBundle\Translator\FormLabelTranslatorStrategy();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.label.strategy.native' shared service.
+     *
+     * @return \Sonata\AdminBundle\Translator\NativeLabelTranslatorStrategy
+     */
+    protected function getSonata_Admin_Label_Strategy_NativeService()
+    {
+        return $this->services['sonata.admin.label.strategy.native'] = new \Sonata\AdminBundle\Translator\NativeLabelTranslatorStrategy();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.label.strategy.noop' shared service.
+     *
+     * @return \Sonata\AdminBundle\Translator\NoopLabelTranslatorStrategy
+     */
+    protected function getSonata_Admin_Label_Strategy_NoopService()
+    {
+        return $this->services['sonata.admin.label.strategy.noop'] = new \Sonata\AdminBundle\Translator\NoopLabelTranslatorStrategy();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.label.strategy.underscore' shared service.
+     *
+     * @return \Sonata\AdminBundle\Translator\UnderscoreLabelTranslatorStrategy
+     */
+    protected function getSonata_Admin_Label_Strategy_UnderscoreService()
+    {
+        return $this->services['sonata.admin.label.strategy.underscore'] = new \Sonata\AdminBundle\Translator\UnderscoreLabelTranslatorStrategy();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.manager.orm' shared service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Model\ModelManager
+     */
+    protected function getSonata_Admin_Manager_OrmService()
+    {
+        return $this->services['sonata.admin.manager.orm'] = new \Sonata\DoctrineORMAdminBundle\Model\ModelManager($this->get('doctrine'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.manipulator.acl.admin' shared service.
+     *
+     * @return \Sonata\AdminBundle\Util\AdminAclManipulator
+     */
+    protected function getSonata_Admin_Manipulator_Acl_AdminService()
+    {
+        return $this->services['sonata.admin.manipulator.acl.admin'] = new \Sonata\AdminBundle\Util\AdminAclManipulator('Sonata\\AdminBundle\\Security\\Acl\\Permission\\MaskBuilder');
+    }
+
+    /*
+     * Gets the public 'sonata.admin.manipulator.acl.object.orm' shared service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Util\ObjectAclManipulator
+     */
+    protected function getSonata_Admin_Manipulator_Acl_Object_OrmService()
+    {
+        return $this->services['sonata.admin.manipulator.acl.object.orm'] = new \Sonata\DoctrineORMAdminBundle\Util\ObjectAclManipulator();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.menu.matcher.voter.active' shared service.
+     *
+     * @return \Sonata\AdminBundle\Menu\Matcher\Voter\ActiveVoter
+     */
+    protected function getSonata_Admin_Menu_Matcher_Voter_ActiveService()
+    {
+        return $this->services['sonata.admin.menu.matcher.voter.active'] = new \Sonata\AdminBundle\Menu\Matcher\Voter\ActiveVoter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.menu.matcher.voter.admin' shared service.
+     *
+     * @return \Sonata\AdminBundle\Menu\Matcher\Voter\AdminVoter
+     */
+    protected function getSonata_Admin_Menu_Matcher_Voter_AdminService()
+    {
+        return $this->services['sonata.admin.menu.matcher.voter.admin'] = new \Sonata\AdminBundle\Menu\Matcher\Voter\AdminVoter($this->get('request_stack'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.menu.matcher.voter.children' shared service.
+     *
+     * @return \Sonata\AdminBundle\Menu\Matcher\Voter\ChildrenVoter
+     *
+     * @deprecated The "sonata.admin.menu.matcher.voter.children" service is deprecated since 3.28 and will be removed in 4.0.
+     */
+    protected function getSonata_Admin_Menu_Matcher_Voter_ChildrenService()
+    {
+        @trigger_error('The "sonata.admin.menu.matcher.voter.children" service is deprecated since 3.28 and will be removed in 4.0.', E_USER_DEPRECATED);
+
+        return $this->services['sonata.admin.menu.matcher.voter.children'] = new \Sonata\AdminBundle\Menu\Matcher\Voter\ChildrenVoter($this->get('knp_menu.matcher'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.menu_builder' shared service.
+     *
+     * @return \Sonata\AdminBundle\Menu\MenuBuilder
+     */
+    protected function getSonata_Admin_MenuBuilderService()
+    {
+        return $this->services['sonata.admin.menu_builder'] = new \Sonata\AdminBundle\Menu\MenuBuilder($this->get('sonata.admin.pool'), $this->get('knp_menu.factory'), $this->get('knp_menu.menu_provider'), $this->get('event_dispatcher'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.object.manipulator.acl.admin' shared service.
+     *
+     * @return \Sonata\AdminBundle\Util\AdminObjectAclManipulator
+     */
+    protected function getSonata_Admin_Object_Manipulator_Acl_AdminService()
+    {
+        return $this->services['sonata.admin.object.manipulator.acl.admin'] = new \Sonata\AdminBundle\Util\AdminObjectAclManipulator($this->get('form.factory'), 'Sonata\\AdminBundle\\Security\\Acl\\Permission\\MaskBuilder');
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.boolean' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\BooleanFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_BooleanService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\BooleanFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.callback' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_CallbackService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\CallbackFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.choice' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_ChoiceService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\ChoiceFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.class' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\ClassFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_ClassService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\ClassFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.date' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\DateFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_DateService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\DateFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.date_range' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_DateRangeService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\DateRangeFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.datetime' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\DateTimeFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_DatetimeService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\DateTimeFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.datetime_range' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\DateTimeRangeFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_DatetimeRangeService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\DateTimeRangeFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.model' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\ModelFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_ModelService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\ModelFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.model_autocomplete' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_ModelAutocompleteService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.number' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\NumberFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_NumberService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\NumberFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.string' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\StringFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_StringService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\StringFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.orm.filter.type.time' service.
+     *
+     * @return \Sonata\DoctrineORMAdminBundle\Filter\TimeFilter
+     */
+    protected function getSonata_Admin_Orm_Filter_Type_TimeService()
+    {
+        return new \Sonata\DoctrineORMAdminBundle\Filter\TimeFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.pool' shared service.
+     *
+     * @return \Sonata\AdminBundle\Admin\Pool
+     */
+    protected function getSonata_Admin_PoolService()
+    {
+        $this->services['sonata.admin.pool'] = $instance = new \Sonata\AdminBundle\Admin\Pool($this, 'Sonata Admin', 'https://dribbble.com/shots/2383317-Lion-head', array('html5_validate' => true, 'sort_admins' => false, 'confirm_exit' => true, 'use_select2' => true, 'use_icheck' => true, 'use_bootlint' => false, 'use_stickyforms' => true, 'pager_links' => NULL, 'form_type' => 'standard', 'dropdown_number_groups_per_colums' => 2, 'title_mode' => 'both', 'lock_protection' => false, 'enable_jms_di_extra_autoregistration' => true, 'javascripts' => array(0 => 'bundles/sonatacore/vendor/jquery/dist/jquery.min.js', 1 => 'bundles/sonataadmin/vendor/jquery.scrollTo/jquery.scrollTo.min.js', 2 => 'bundles/sonataadmin/vendor/jqueryui/ui/minified/jquery-ui.min.js', 3 => 'bundles/sonataadmin/vendor/jqueryui/ui/minified/i18n/jquery-ui-i18n.min.js', 4 => 'bundles/sonatacore/vendor/moment/min/moment.min.js', 5 => 'bundles/sonatacore/vendor/bootstrap/dist/js/bootstrap.min.js', 6 => 'bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js', 7 => 'bundles/sonataadmin/vendor/jquery-form/jquery.form.js', 8 => 'bundles/sonataadmin/jquery/jquery.confirmExit.js', 9 => 'bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/js/bootstrap-editable.min.js', 10 => 'bundles/sonatacore/vendor/select2/select2.min.js', 11 => 'bundles/sonataadmin/vendor/admin-lte/dist/js/app.min.js', 12 => 'bundles/sonataadmin/vendor/iCheck/icheck.min.js', 13 => 'bundles/sonataadmin/vendor/slimScroll/jquery.slimscroll.min.js', 14 => 'bundles/sonataadmin/vendor/waypoints/lib/jquery.waypoints.min.js', 15 => 'bundles/sonataadmin/vendor/waypoints/lib/shortcuts/sticky.min.js', 16 => 'bundles/sonataadmin/vendor/readmore-js/readmore.min.js', 17 => 'bundles/sonataadmin/vendor/masonry/dist/masonry.pkgd.min.js', 18 => 'bundles/sonataadmin/Admin.js', 19 => 'bundles/sonataadmin/treeview.js', 20 => 'bundles/sonataadmin/sidebar.js'), 'stylesheets' => array(0 => 'bundles/sonatacore/vendor/bootstrap/dist/css/bootstrap.min.css', 1 => 'bundles/sonatacore/vendor/components-font-awesome/css/font-awesome.min.css', 2 => 'bundles/sonatacore/vendor/ionicons/css/ionicons.min.css', 3 => 'bundles/sonataadmin/vendor/admin-lte/dist/css/AdminLTE.min.css', 4 => 'bundles/sonataadmin/vendor/admin-lte/dist/css/skins/skin-black.min.css', 5 => 'bundles/sonataadmin/vendor/iCheck/skins/square/blue.css', 6 => 'bundles/sonatacore/vendor/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css', 7 => 'bundles/sonataadmin/vendor/jqueryui/themes/base/jquery-ui.css', 8 => 'bundles/sonatacore/vendor/select2/select2.css', 9 => 'bundles/sonatacore/vendor/select2-bootstrap-css/select2-bootstrap.min.css', 10 => 'bundles/sonataadmin/vendor/x-editable/dist/bootstrap3-editable/css/bootstrap-editable.css', 11 => 'bundles/sonataadmin/css/styles.css', 12 => 'bundles/sonataadmin/css/layout.css', 13 => 'bundles/sonataadmin/css/tree.css'), 'role_admin' => 'ROLE_SONATA_ADMIN', 'role_super_admin' => 'ROLE_SUPER_ADMIN', 'search' => true), $this->get('property_accessor'));
+
+        $instance->setTemplateRegistry($this->get('sonata.admin.global_template_registry'));
+        $instance->setAdminServiceIds(array(0 => 'main.admin.test', 1 => 'main.admin.category', 2 => 'main.admin.blog_post'));
+        $instance->setAdminGroups(array('admin' => array('label' => 'admin', 'label_catalogue' => 'SonataAdminBundle', 'icon' => '<i class="fa fa-folder"></i>', 'roles' => array(), 'on_top' => false, 'keep_open' => false, 'items' => array(0 => array('admin' => 'main.admin.test', 'label' => 'Test', 'route' => '', 'route_params' => array(), 'route_absolute' => false), 1 => array('admin' => 'main.admin.category', 'label' => 'Category', 'route' => '', 'route_params' => array(), 'route_absolute' => false), 2 => array('admin' => 'main.admin.blog_post', 'label' => 'Blog Post', 'route' => '', 'route_params' => array(), 'route_absolute' => false)))));
+        $instance->setAdminClasses(array('\\Sch\\MainBundle\\Entity\\Test' => array(0 => 'main.admin.test'), 'Sch\\MainBundle\\Entity\\Category' => array(0 => 'main.admin.category'), 'Sch\\MainBundle\\Entity\\BlogPost' => array(0 => 'main.admin.blog_post')));
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'sonata.admin.route.cache' shared service.
+     *
+     * @return \Sonata\AdminBundle\Route\RoutesCache
+     */
+    protected function getSonata_Admin_Route_CacheService()
+    {
+        return $this->services['sonata.admin.route.cache'] = new \Sonata\AdminBundle\Route\RoutesCache((__DIR__.'/sonata/admin'), false);
+    }
+
+    /*
+     * Gets the public 'sonata.admin.route.cache_warmup' shared service.
+     *
+     * @return \Sonata\AdminBundle\Route\RoutesCacheWarmUp
+     */
+    protected function getSonata_Admin_Route_CacheWarmupService()
+    {
+        return $this->services['sonata.admin.route.cache_warmup'] = new \Sonata\AdminBundle\Route\RoutesCacheWarmUp($this->get('sonata.admin.route.cache'), $this->get('sonata.admin.pool'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.route.default_generator' shared service.
+     *
+     * @return \Sonata\AdminBundle\Route\DefaultRouteGenerator
+     */
+    protected function getSonata_Admin_Route_DefaultGeneratorService()
+    {
+        return $this->services['sonata.admin.route.default_generator'] = new \Sonata\AdminBundle\Route\DefaultRouteGenerator($this->get('router'), $this->get('sonata.admin.route.cache'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.route.path_info' shared service.
+     *
+     * @return \Sonata\AdminBundle\Route\PathInfoBuilder
+     */
+    protected function getSonata_Admin_Route_PathInfoService()
+    {
+        return $this->services['sonata.admin.route.path_info'] = new \Sonata\AdminBundle\Route\PathInfoBuilder($this->get('sonata.admin.audit.manager'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.route.query_string' shared service.
+     *
+     * @return \Sonata\AdminBundle\Route\QueryStringBuilder
+     */
+    protected function getSonata_Admin_Route_QueryStringService()
+    {
+        return $this->services['sonata.admin.route.query_string'] = new \Sonata\AdminBundle\Route\QueryStringBuilder($this->get('sonata.admin.audit.manager'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.route_loader' shared service.
+     *
+     * @return \Sonata\AdminBundle\Route\AdminPoolLoader
+     */
+    protected function getSonata_Admin_RouteLoaderService()
+    {
+        return $this->services['sonata.admin.route_loader'] = new \Sonata\AdminBundle\Route\AdminPoolLoader($this->get('sonata.admin.pool'), array(0 => 'main.admin.test', 1 => 'main.admin.category', 2 => 'main.admin.blog_post'), $this);
+    }
+
+    /*
+     * Gets the public 'sonata.admin.search.handler' shared service.
+     *
+     * @return \Sonata\AdminBundle\Search\SearchHandler
+     */
+    protected function getSonata_Admin_Search_HandlerService()
+    {
+        return $this->services['sonata.admin.search.handler'] = new \Sonata\AdminBundle\Search\SearchHandler($this->get('sonata.admin.pool'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.security.handler' shared service.
+     *
+     * @return \Sonata\AdminBundle\Security\Handler\NoopSecurityHandler
+     */
+    protected function getSonata_Admin_Security_HandlerService()
+    {
+        return $this->services['sonata.admin.security.handler'] = new \Sonata\AdminBundle\Security\Handler\NoopSecurityHandler();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.sidebar_menu' shared service.
+     *
+     * @return \Knp\Menu\MenuItem
+     */
+    protected function getSonata_Admin_SidebarMenuService()
+    {
+        return $this->services['sonata.admin.sidebar_menu'] = $this->get('sonata.admin.menu_builder')->createSidebarMenu();
+    }
+
+    /*
+     * Gets the public 'sonata.admin.twig.extension' shared service.
+     *
+     * @return \Sonata\AdminBundle\Twig\Extension\SonataAdminExtension
+     */
+    protected function getSonata_Admin_Twig_ExtensionService()
+    {
+        $this->services['sonata.admin.twig.extension'] = $instance = new \Sonata\AdminBundle\Twig\Extension\SonataAdminExtension($this->get('sonata.admin.pool'), $this->get('logger', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('translator.default'), $this, $this->get('security.authorization_checker'));
+
+        $instance->setXEditableTypeMapping(array('choice' => 'select', 'boolean' => 'select', 'text' => 'text', 'textarea' => 'textarea', 'html' => 'textarea', 'email' => 'email', 'string' => 'text', 'smallint' => 'text', 'bigint' => 'text', 'integer' => 'number', 'decimal' => 'number', 'currency' => 'number', 'percent' => 'number', 'url' => 'url', 'date' => 'date'));
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'sonata.admin.twig.global' shared service.
+     *
+     * @return \Sonata\AdminBundle\Twig\GlobalVariables
+     */
+    protected function getSonata_Admin_Twig_GlobalService()
+    {
+        return $this->services['sonata.admin.twig.global'] = new \Sonata\AdminBundle\Twig\GlobalVariables($this->get('sonata.admin.pool'));
+    }
+
+    /*
+     * Gets the public 'sonata.admin.validator.inline' shared service.
+     *
+     * @return \Sonata\CoreBundle\Validator\InlineValidator
+     */
+    protected function getSonata_Admin_Validator_InlineService()
+    {
+        return $this->services['sonata.admin.validator.inline'] = new \Sonata\CoreBundle\Validator\InlineValidator($this, $this->get('validator.validator_factory'));
+    }
+
+    /*
+     * Gets the public 'sonata.block.cache.handler.default' shared service.
+     *
+     * @return \Sonata\BlockBundle\Cache\HttpCacheHandler
+     */
+    protected function getSonata_Block_Cache_Handler_DefaultService()
+    {
+        return $this->services['sonata.block.cache.handler.default'] = new \Sonata\BlockBundle\Cache\HttpCacheHandler();
+    }
+
+    /*
+     * Gets the public 'sonata.block.cache.handler.noop' shared service.
+     *
+     * @return \Sonata\BlockBundle\Cache\NoopHttpCacheHandler
+     */
+    protected function getSonata_Block_Cache_Handler_NoopService()
+    {
+        return $this->services['sonata.block.cache.handler.noop'] = new \Sonata\BlockBundle\Cache\NoopHttpCacheHandler();
+    }
+
+    /*
+     * Gets the public 'sonata.block.context_manager.default' shared service.
+     *
+     * @return \Sonata\BlockBundle\Block\BlockContextManager
+     */
+    protected function getSonata_Block_ContextManager_DefaultService()
+    {
+        return $this->services['sonata.block.context_manager.default'] = new \Sonata\BlockBundle\Block\BlockContextManager($this->get('sonata.block.loader.chain'), $this->get('sonata.block.manager'), array('by_type' => array('sonata.admin.block.admin_list' => 'sonata.cache.noop')), $this->get('logger', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+    }
+
+    /*
+     * Gets the public 'sonata.block.exception.filter.debug_only' shared service.
+     *
+     * @return \Sonata\BlockBundle\Exception\Filter\DebugOnlyFilter
+     */
+    protected function getSonata_Block_Exception_Filter_DebugOnlyService()
+    {
+        return $this->services['sonata.block.exception.filter.debug_only'] = new \Sonata\BlockBundle\Exception\Filter\DebugOnlyFilter(false);
+    }
+
+    /*
+     * Gets the public 'sonata.block.exception.filter.ignore_block_exception' shared service.
+     *
+     * @return \Sonata\BlockBundle\Exception\Filter\IgnoreClassFilter
+     */
+    protected function getSonata_Block_Exception_Filter_IgnoreBlockExceptionService()
+    {
+        return $this->services['sonata.block.exception.filter.ignore_block_exception'] = new \Sonata\BlockBundle\Exception\Filter\IgnoreClassFilter('Sonata\\BlockBundle\\Exception\\BlockExceptionInterface');
+    }
+
+    /*
+     * Gets the public 'sonata.block.exception.filter.keep_all' shared service.
+     *
+     * @return \Sonata\BlockBundle\Exception\Filter\KeepAllFilter
+     */
+    protected function getSonata_Block_Exception_Filter_KeepAllService()
+    {
+        return $this->services['sonata.block.exception.filter.keep_all'] = new \Sonata\BlockBundle\Exception\Filter\KeepAllFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.block.exception.filter.keep_none' shared service.
+     *
+     * @return \Sonata\BlockBundle\Exception\Filter\KeepNoneFilter
+     */
+    protected function getSonata_Block_Exception_Filter_KeepNoneService()
+    {
+        return $this->services['sonata.block.exception.filter.keep_none'] = new \Sonata\BlockBundle\Exception\Filter\KeepNoneFilter();
+    }
+
+    /*
+     * Gets the public 'sonata.block.exception.renderer.inline' shared service.
+     *
+     * @return \Sonata\BlockBundle\Exception\Renderer\InlineRenderer
+     */
+    protected function getSonata_Block_Exception_Renderer_InlineService()
+    {
+        return $this->services['sonata.block.exception.renderer.inline'] = new \Sonata\BlockBundle\Exception\Renderer\InlineRenderer($this->get('sonata.templating'), '@SonataBlock/Block/block_exception.html.twig');
+    }
+
+    /*
+     * Gets the public 'sonata.block.exception.renderer.inline_debug' shared service.
+     *
+     * @return \Sonata\BlockBundle\Exception\Renderer\InlineDebugRenderer
+     */
+    protected function getSonata_Block_Exception_Renderer_InlineDebugService()
+    {
+        return $this->services['sonata.block.exception.renderer.inline_debug'] = new \Sonata\BlockBundle\Exception\Renderer\InlineDebugRenderer($this->get('sonata.templating'), '@SonataBlock/Block/block_exception_debug.html.twig', false, true);
+    }
+
+    /*
+     * Gets the public 'sonata.block.exception.renderer.throw' shared service.
+     *
+     * @return \Sonata\BlockBundle\Exception\Renderer\MonkeyThrowRenderer
+     */
+    protected function getSonata_Block_Exception_Renderer_ThrowService()
+    {
+        return $this->services['sonata.block.exception.renderer.throw'] = new \Sonata\BlockBundle\Exception\Renderer\MonkeyThrowRenderer();
+    }
+
+    /*
+     * Gets the public 'sonata.block.exception.strategy.manager' shared service.
+     *
+     * @return \Sonata\BlockBundle\Exception\Strategy\StrategyManager
+     */
+    protected function getSonata_Block_Exception_Strategy_ManagerService()
+    {
+        $this->services['sonata.block.exception.strategy.manager'] = $instance = new \Sonata\BlockBundle\Exception\Strategy\StrategyManager($this, array('debug_only' => 'sonata.block.exception.filter.debug_only', 'ignore_block_exception' => 'sonata.block.exception.filter.ignore_block_exception', 'keep_all' => 'sonata.block.exception.filter.keep_all', 'keep_none' => 'sonata.block.exception.filter.keep_none'), array('inline' => 'sonata.block.exception.renderer.inline', 'inline_debug' => 'sonata.block.exception.renderer.inline_debug', 'throw' => 'sonata.block.exception.renderer.throw'), array(), array());
+
+        $instance->setDefaultFilter('debug_only');
+        $instance->setDefaultRenderer('throw');
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'sonata.block.form.type.block' shared service.
+     *
+     * @return \Sonata\BlockBundle\Form\Type\ServiceListType
+     */
+    protected function getSonata_Block_Form_Type_BlockService()
+    {
+        return $this->services['sonata.block.form.type.block'] = new \Sonata\BlockBundle\Form\Type\ServiceListType($this->get('sonata.block.manager'));
+    }
+
+    /*
+     * Gets the public 'sonata.block.form.type.container_template' shared service.
+     *
+     * @return \Sonata\BlockBundle\Form\Type\ContainerTemplateType
+     */
+    protected function getSonata_Block_Form_Type_ContainerTemplateService()
+    {
+        return $this->services['sonata.block.form.type.container_template'] = new \Sonata\BlockBundle\Form\Type\ContainerTemplateType(array('@SonataBlock/Block/block_container.html.twig' => 'SonataBlockBundle default template'));
+    }
+
+    /*
+     * Gets the public 'sonata.block.loader.chain' shared service.
+     *
+     * @return \Sonata\BlockBundle\Block\BlockLoaderChain
+     */
+    protected function getSonata_Block_Loader_ChainService()
+    {
+        return $this->services['sonata.block.loader.chain'] = new \Sonata\BlockBundle\Block\BlockLoaderChain(array(0 => $this->get('sonata.block.loader.service')));
+    }
+
+    /*
+     * Gets the public 'sonata.block.loader.service' shared service.
+     *
+     * @return \Sonata\BlockBundle\Block\Loader\ServiceLoader
+     */
+    protected function getSonata_Block_Loader_ServiceService()
+    {
+        return $this->services['sonata.block.loader.service'] = new \Sonata\BlockBundle\Block\Loader\ServiceLoader(array(0 => 'sonata.admin.block.admin_list'));
+    }
+
+    /*
+     * Gets the public 'sonata.block.manager' shared service.
+     *
+     * @return \Sonata\BlockBundle\Block\BlockServiceManager
+     */
+    protected function getSonata_Block_ManagerService()
+    {
+        $this->services['sonata.block.manager'] = $instance = new \Sonata\BlockBundle\Block\BlockServiceManager($this, false, $this->get('logger', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+
+        $instance->add('sonata.block.service.container', 'sonata.block.service.container', array());
+        $instance->add('sonata.block.service.empty', 'sonata.block.service.empty', array());
+        $instance->add('sonata.block.service.text', 'sonata.block.service.text', array());
+        $instance->add('sonata.block.service.rss', 'sonata.block.service.rss', array());
+        $instance->add('sonata.block.service.menu', 'sonata.block.service.menu', array());
+        $instance->add('sonata.block.service.template', 'sonata.block.service.template', array());
+        $instance->add('sonata.admin.block.admin_list', 'sonata.admin.block.admin_list', array(0 => 'admin'));
+        $instance->add('sonata.admin.block.search_result', 'sonata.admin.block.search_result', array());
+        $instance->add('sonata.admin.block.stats', 'sonata.admin.block.stats', array());
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'sonata.block.menu.registry' shared service.
+     *
+     * @return \Sonata\BlockBundle\Menu\MenuRegistry
+     */
+    protected function getSonata_Block_Menu_RegistryService()
+    {
+        $this->services['sonata.block.menu.registry'] = $instance = new \Sonata\BlockBundle\Menu\MenuRegistry(array());
+
+        $instance->add('sonata_admin_sidebar');
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'sonata.block.renderer.default' shared service.
+     *
+     * @return \Sonata\BlockBundle\Block\BlockRenderer
+     */
+    protected function getSonata_Block_Renderer_DefaultService()
+    {
+        return $this->services['sonata.block.renderer.default'] = new \Sonata\BlockBundle\Block\BlockRenderer($this->get('sonata.block.manager'), $this->get('sonata.block.exception.strategy.manager'), $this->get('logger', ContainerInterface::NULL_ON_INVALID_REFERENCE), false);
+    }
+
+    /*
+     * Gets the public 'sonata.block.service.container' shared service.
+     *
+     * @return \Sonata\BlockBundle\Block\Service\ContainerBlockService
+     */
+    protected function getSonata_Block_Service_ContainerService()
+    {
+        return $this->services['sonata.block.service.container'] = new \Sonata\BlockBundle\Block\Service\ContainerBlockService('sonata.block.container', $this->get('sonata.templating'));
+    }
+
+    /*
+     * Gets the public 'sonata.block.service.empty' shared service.
+     *
+     * @return \Sonata\BlockBundle\Block\Service\EmptyBlockService
+     */
+    protected function getSonata_Block_Service_EmptyService()
+    {
+        return $this->services['sonata.block.service.empty'] = new \Sonata\BlockBundle\Block\Service\EmptyBlockService('sonata.block.empty', $this->get('sonata.templating'));
+    }
+
+    /*
+     * Gets the public 'sonata.block.service.menu' shared service.
+     *
+     * @return \Sonata\BlockBundle\Block\Service\MenuBlockService
+     */
+    protected function getSonata_Block_Service_MenuService()
+    {
+        return $this->services['sonata.block.service.menu'] = new \Sonata\BlockBundle\Block\Service\MenuBlockService('sonata.block.menu', $this->get('sonata.templating'), $this->get('knp_menu.menu_provider'), $this->get('sonata.block.menu.registry'));
+    }
+
+    /*
+     * Gets the public 'sonata.block.service.rss' shared service.
+     *
+     * @return \Sonata\BlockBundle\Block\Service\RssBlockService
+     */
+    protected function getSonata_Block_Service_RssService()
+    {
+        return $this->services['sonata.block.service.rss'] = new \Sonata\BlockBundle\Block\Service\RssBlockService('sonata.block.rss', $this->get('sonata.templating'));
+    }
+
+    /*
+     * Gets the public 'sonata.block.service.template' shared service.
+     *
+     * @return \Sonata\BlockBundle\Block\Service\TemplateBlockService
+     */
+    protected function getSonata_Block_Service_TemplateService()
+    {
+        return $this->services['sonata.block.service.template'] = new \Sonata\BlockBundle\Block\Service\TemplateBlockService('sonata.block.template', $this->get('sonata.templating'));
+    }
+
+    /*
+     * Gets the public 'sonata.block.service.text' shared service.
+     *
+     * @return \Sonata\BlockBundle\Block\Service\TextBlockService
+     */
+    protected function getSonata_Block_Service_TextService()
+    {
+        return $this->services['sonata.block.service.text'] = new \Sonata\BlockBundle\Block\Service\TextBlockService('sonata.block.text', $this->get('sonata.templating'));
+    }
+
+    /*
+     * Gets the public 'sonata.block.templating.helper' shared service.
+     *
+     * @return \Sonata\BlockBundle\Templating\Helper\BlockHelper
+     */
+    protected function getSonata_Block_Templating_HelperService()
+    {
+        return $this->services['sonata.block.templating.helper'] = new \Sonata\BlockBundle\Templating\Helper\BlockHelper($this->get('sonata.block.manager'), array('by_type' => array('sonata.admin.block.admin_list' => 'sonata.cache.noop')), $this->get('sonata.block.renderer.default'), $this->get('sonata.block.context_manager.default'), $this->get('event_dispatcher'), NULL, $this->get('sonata.block.cache.handler.default', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('debug.stopwatch', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+    }
+
+    /*
+     * Gets the public 'sonata.block.twig.global' shared service.
+     *
+     * @return \Sonata\BlockBundle\Twig\GlobalVariables
+     */
+    protected function getSonata_Block_Twig_GlobalService()
+    {
+        return $this->services['sonata.block.twig.global'] = new \Sonata\BlockBundle\Twig\GlobalVariables(array('block_base' => '@SonataBlock/Block/block_base.html.twig', 'block_container' => '@SonataBlock/Block/block_container.html.twig'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.date.moment_format_converter' shared service.
+     *
+     * @return \Sonata\CoreBundle\Date\MomentFormatConverter
+     */
+    protected function getSonata_Core_Date_MomentFormatConverterService()
+    {
+        return $this->services['sonata.core.date.moment_format_converter'] = new \Sonata\CoreBundle\Date\MomentFormatConverter();
+    }
+
+    /*
+     * Gets the public 'sonata.core.flashmessage.manager' shared service.
+     *
+     * @return \Sonata\CoreBundle\FlashMessage\FlashManager
+     */
+    protected function getSonata_Core_Flashmessage_ManagerService()
+    {
+        return $this->services['sonata.core.flashmessage.manager'] = new \Sonata\CoreBundle\FlashMessage\FlashManager($this->get('session'), $this->get('translator.default'), array('success' => array('success' => array('domain' => 'SonataCoreBundle'), 'sonata_flash_success' => array('domain' => 'SonataAdminBundle'), 'sonata_user_success' => array('domain' => 'SonataUserBundle'), 'fos_user_success' => array('domain' => 'FOSUserBundle')), 'warning' => array('warning' => array('domain' => 'SonataCoreBundle'), 'sonata_flash_info' => array('domain' => 'SonataAdminBundle')), 'danger' => array('error' => array('domain' => 'SonataCoreBundle'), 'sonata_flash_error' => array('domain' => 'SonataAdminBundle'), 'sonata_user_error' => array('domain' => 'SonataUserBundle'))), array('success' => 'success', 'warning' => 'warning', 'danger' => 'danger'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.flashmessage.twig.extension' shared service.
+     *
+     * @return \Sonata\CoreBundle\Twig\Extension\FlashMessageExtension
+     */
+    protected function getSonata_Core_Flashmessage_Twig_ExtensionService()
+    {
+        return $this->services['sonata.core.flashmessage.twig.extension'] = new \Sonata\CoreBundle\Twig\Extension\FlashMessageExtension($this->get('sonata.core.flashmessage.manager'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.flashmessage.twig.runtime' shared service.
+     *
+     * @return \Sonata\CoreBundle\Twig\Extension\FlashMessageRuntime
+     */
+    protected function getSonata_Core_Flashmessage_Twig_RuntimeService()
+    {
+        return $this->services['sonata.core.flashmessage.twig.runtime'] = new \Sonata\CoreBundle\Twig\Extension\FlashMessageRuntime($this->get('sonata.core.flashmessage.manager'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.array' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\ImmutableArrayType
+     */
+    protected function getSonata_Core_Form_Type_ArrayService()
+    {
+        return $this->services['sonata.core.form.type.array'] = new \Sonata\CoreBundle\Form\Type\ImmutableArrayType();
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.boolean' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\BooleanType
+     */
+    protected function getSonata_Core_Form_Type_BooleanService()
+    {
+        return $this->services['sonata.core.form.type.boolean'] = new \Sonata\CoreBundle\Form\Type\BooleanType();
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.collection' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\CollectionType
+     */
+    protected function getSonata_Core_Form_Type_CollectionService()
+    {
+        return $this->services['sonata.core.form.type.collection'] = new \Sonata\CoreBundle\Form\Type\CollectionType();
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.color' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\ColorType
+     */
+    protected function getSonata_Core_Form_Type_ColorService()
+    {
+        return $this->services['sonata.core.form.type.color'] = new \Sonata\CoreBundle\Form\Type\ColorType();
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.color_selector' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\ColorSelectorType
+     *
+     * @deprecated The "sonata.core.form.type.color_selector" service is deprecated since 3.5 and will be removed in 4.0.
+     */
+    protected function getSonata_Core_Form_Type_ColorSelectorService()
+    {
+        @trigger_error('The "sonata.core.form.type.color_selector" service is deprecated since 3.5 and will be removed in 4.0.', E_USER_DEPRECATED);
+
+        return $this->services['sonata.core.form.type.color_selector'] = new \Sonata\CoreBundle\Form\Type\ColorSelectorType();
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.date_picker' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\DatePickerType
+     */
+    protected function getSonata_Core_Form_Type_DatePickerService()
+    {
+        return $this->services['sonata.core.form.type.date_picker'] = new \Sonata\CoreBundle\Form\Type\DatePickerType($this->get('sonata.core.date.moment_format_converter'), $this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.date_range' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\DateRangeType
+     */
+    protected function getSonata_Core_Form_Type_DateRangeService()
+    {
+        return $this->services['sonata.core.form.type.date_range'] = new \Sonata\CoreBundle\Form\Type\DateRangeType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.date_range_picker' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\DateRangePickerType
+     */
+    protected function getSonata_Core_Form_Type_DateRangePickerService()
+    {
+        return $this->services['sonata.core.form.type.date_range_picker'] = new \Sonata\CoreBundle\Form\Type\DateRangePickerType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.datetime_picker' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\DateTimePickerType
+     */
+    protected function getSonata_Core_Form_Type_DatetimePickerService()
+    {
+        return $this->services['sonata.core.form.type.datetime_picker'] = new \Sonata\CoreBundle\Form\Type\DateTimePickerType($this->get('sonata.core.date.moment_format_converter'), $this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.datetime_range' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\DateTimeRangeType
+     */
+    protected function getSonata_Core_Form_Type_DatetimeRangeService()
+    {
+        return $this->services['sonata.core.form.type.datetime_range'] = new \Sonata\CoreBundle\Form\Type\DateTimeRangeType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.datetime_range_picker' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\DateTimeRangePickerType
+     */
+    protected function getSonata_Core_Form_Type_DatetimeRangePickerService()
+    {
+        return $this->services['sonata.core.form.type.datetime_range_picker'] = new \Sonata\CoreBundle\Form\Type\DateTimeRangePickerType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.equal' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\EqualType
+     */
+    protected function getSonata_Core_Form_Type_EqualService()
+    {
+        return $this->services['sonata.core.form.type.equal'] = new \Sonata\CoreBundle\Form\Type\EqualType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.form.type.translatable_choice' shared service.
+     *
+     * @return \Sonata\CoreBundle\Form\Type\TranslatableChoiceType
+     *
+     * @deprecated The "sonata.core.form.type.translatable_choice" service is deprecated since 2.2.0 and will be removed in 4.0.
+     */
+    protected function getSonata_Core_Form_Type_TranslatableChoiceService()
+    {
+        @trigger_error('The "sonata.core.form.type.translatable_choice" service is deprecated since 2.2.0 and will be removed in 4.0.', E_USER_DEPRECATED);
+
+        return $this->services['sonata.core.form.type.translatable_choice'] = new \Sonata\CoreBundle\Form\Type\TranslatableChoiceType($this->get('translator.default'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.model.adapter.chain' shared service.
+     *
+     * @return \Sonata\CoreBundle\Model\Adapter\AdapterChain
+     */
+    protected function getSonata_Core_Model_Adapter_ChainService()
+    {
+        $this->services['sonata.core.model.adapter.chain'] = $instance = new \Sonata\CoreBundle\Model\Adapter\AdapterChain();
+
+        $instance->addAdapter(new \Sonata\CoreBundle\Model\Adapter\DoctrineORMAdapter($this->get('doctrine', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'sonata.core.slugify.cocur' shared service.
+     *
+     * @return \Cocur\Slugify\Slugify
+     *
+     * @deprecated The "sonata.core.slugify.cocur" service is deprecated. You should stop using it, as it will soon be removed.
+     */
+    protected function getSonata_Core_Slugify_CocurService()
+    {
+        @trigger_error('The "sonata.core.slugify.cocur" service is deprecated. You should stop using it, as it will soon be removed.', E_USER_DEPRECATED);
+
+        return $this->services['sonata.core.slugify.cocur'] = new \Cocur\Slugify\Slugify();
+    }
+
+    /*
+     * Gets the public 'sonata.core.slugify.native' shared service.
+     *
+     * @return \Sonata\CoreBundle\Component\NativeSlugify
+     *
+     * @deprecated The "sonata.core.slugify.native" service is deprecated since 2.3 and will be removed in 4.0.
+     */
+    protected function getSonata_Core_Slugify_NativeService()
+    {
+        @trigger_error('The "sonata.core.slugify.native" service is deprecated since 2.3 and will be removed in 4.0.', E_USER_DEPRECATED);
+
+        return $this->services['sonata.core.slugify.native'] = new \Sonata\CoreBundle\Component\NativeSlugify();
+    }
+
+    /*
+     * Gets the public 'sonata.core.twig.deprecated_template_extension' shared service.
+     *
+     * @return \Sonata\CoreBundle\Twig\Extension\DeprecatedTemplateExtension
+     */
+    protected function getSonata_Core_Twig_DeprecatedTemplateExtensionService()
+    {
+        return $this->services['sonata.core.twig.deprecated_template_extension'] = new \Sonata\CoreBundle\Twig\Extension\DeprecatedTemplateExtension();
+    }
+
+    /*
+     * Gets the public 'sonata.core.twig.extension.text' shared service.
+     *
+     * @return \Sonata\CoreBundle\Twig\Extension\DeprecatedTextExtension
+     */
+    protected function getSonata_Core_Twig_Extension_TextService()
+    {
+        return $this->services['sonata.core.twig.extension.text'] = new \Sonata\CoreBundle\Twig\Extension\DeprecatedTextExtension();
+    }
+
+    /*
+     * Gets the public 'sonata.core.twig.extension.wrapping' shared service.
+     *
+     * @return \Sonata\CoreBundle\Twig\Extension\FormTypeExtension
+     */
+    protected function getSonata_Core_Twig_Extension_WrappingService()
+    {
+        return $this->services['sonata.core.twig.extension.wrapping'] = new \Sonata\CoreBundle\Twig\Extension\FormTypeExtension('standard');
+    }
+
+    /*
+     * Gets the public 'sonata.core.twig.status_extension' shared service.
+     *
+     * @return \Sonata\CoreBundle\Twig\Extension\StatusExtension
+     */
+    protected function getSonata_Core_Twig_StatusExtensionService()
+    {
+        $this->services['sonata.core.twig.status_extension'] = $instance = new \Sonata\CoreBundle\Twig\Extension\StatusExtension();
+
+        $instance->addStatusService($this->get('sonata.core.flashmessage.manager'));
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'sonata.core.twig.status_runtime' shared service.
+     *
+     * @return \Sonata\CoreBundle\Twig\Extension\StatusRuntime
+     */
+    protected function getSonata_Core_Twig_StatusRuntimeService()
+    {
+        return $this->services['sonata.core.twig.status_runtime'] = new \Sonata\CoreBundle\Twig\Extension\StatusRuntime();
+    }
+
+    /*
+     * Gets the public 'sonata.core.twig.template_extension' shared service.
+     *
+     * @return \Sonata\CoreBundle\Twig\Extension\TemplateExtension
+     */
+    protected function getSonata_Core_Twig_TemplateExtensionService()
+    {
+        return $this->services['sonata.core.twig.template_extension'] = new \Sonata\CoreBundle\Twig\Extension\TemplateExtension(false, $this->get('translator.default'), $this->get('sonata.core.model.adapter.chain'));
+    }
+
+    /*
+     * Gets the public 'sonata.core.validator.inline' shared service.
+     *
+     * @return \Sonata\CoreBundle\Validator\InlineValidator
+     */
+    protected function getSonata_Core_Validator_InlineService()
+    {
+        return $this->services['sonata.core.validator.inline'] = new \Sonata\CoreBundle\Validator\InlineValidator($this, $this->get('validator.validator_factory'));
+    }
+
+    /*
+     * Gets the public 'sonata.templating' shared service.
+     *
+     * @return \Sonata\BlockBundle\Templating\TwigEngine
+     */
+    protected function getSonata_TemplatingService()
+    {
+        return $this->services['sonata.templating'] = new \Sonata\BlockBundle\Templating\TwigEngine($this->get('twig'), $this->get('sonata.templating.name_parser'), $this->get('sonata.templating.locator'));
+    }
+
+    /*
+     * Gets the public 'sonata.templating.locator' shared service.
+     *
+     * @return \Sonata\BlockBundle\Templating\TemplateLocator
+     */
+    protected function getSonata_Templating_LocatorService()
+    {
+        return $this->services['sonata.templating.locator'] = new \Sonata\BlockBundle\Templating\TemplateLocator($this->get('file_locator'), __DIR__);
+    }
+
+    /*
+     * Gets the public 'sonata.templating.name_parser' shared service.
+     *
+     * @return \Sonata\BlockBundle\Templating\TemplateNameParser
+     */
+    protected function getSonata_Templating_NameParserService()
+    {
+        return $this->services['sonata.templating.name_parser'] = new \Sonata\BlockBundle\Templating\TemplateNameParser($this->get('kernel'));
+    }
+
+    /*
+     * Gets the public 'sonata\adminbundle\action\dashboardaction' shared service.
+     *
+     * @return \Sonata\AdminBundle\Action\DashboardAction
+     */
+    protected function getSonata_Adminbundle_Action_DashboardactionService()
+    {
+        $this->services['sonata\adminbundle\action\dashboardaction'] = $instance = new \Sonata\AdminBundle\Action\DashboardAction(array(0 => array('position' => 'left', 'settings' => array(), 'type' => 'sonata.admin.block.admin_list', 'roles' => array())), $this->get('sonata.admin.breadcrumbs_builder'), $this->get('sonata.admin.global_template_registry'), $this->get('sonata.admin.pool'));
+
+        $instance->setContainer($this);
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'sonata\adminbundle\action\searchaction' shared service.
+     *
+     * @return \Sonata\AdminBundle\Action\SearchAction
+     */
+    protected function getSonata_Adminbundle_Action_SearchactionService()
+    {
+        $this->services['sonata\adminbundle\action\searchaction'] = $instance = new \Sonata\AdminBundle\Action\SearchAction($this->get('sonata.admin.pool'), $this->get('sonata.admin.search.handler'), $this->get('sonata.admin.global_template_registry'), $this->get('sonata.admin.breadcrumbs_builder'));
+
+        $instance->setContainer($this);
+
+        return $instance;
+    }
+
+    /*
+     * Gets the public 'sonata\adminbundle\command\createclasscachecommand' shared service.
+     *
+     * @return \Sonata\AdminBundle\Command\CreateClassCacheCommand
+     */
+    protected function getSonata_Adminbundle_Command_CreateclasscachecommandService()
+    {
+        return $this->services['sonata\adminbundle\command\createclasscachecommand'] = new \Sonata\AdminBundle\Command\CreateClassCacheCommand();
+    }
+
+    /*
+     * Gets the public 'sonata\adminbundle\command\explainadmincommand' shared service.
+     *
+     * @return \Sonata\AdminBundle\Command\ExplainAdminCommand
+     */
+    protected function getSonata_Adminbundle_Command_ExplainadmincommandService()
+    {
+        return $this->services['sonata\adminbundle\command\explainadmincommand'] = new \Sonata\AdminBundle\Command\ExplainAdminCommand();
+    }
+
+    /*
+     * Gets the public 'sonata\adminbundle\command\generateadmincommand' shared service.
+     *
+     * @return \Sonata\AdminBundle\Command\GenerateAdminCommand
+     */
+    protected function getSonata_Adminbundle_Command_GenerateadmincommandService()
+    {
+        return $this->services['sonata\adminbundle\command\generateadmincommand'] = new \Sonata\AdminBundle\Command\GenerateAdminCommand();
+    }
+
+    /*
+     * Gets the public 'sonata\adminbundle\command\generateobjectaclcommand' shared service.
+     *
+     * @return \Sonata\AdminBundle\Command\GenerateObjectAclCommand
+     */
+    protected function getSonata_Adminbundle_Command_GenerateobjectaclcommandService()
+    {
+        return $this->services['sonata\adminbundle\command\generateobjectaclcommand'] = new \Sonata\AdminBundle\Command\GenerateObjectAclCommand();
+    }
+
+    /*
+     * Gets the public 'sonata\adminbundle\command\listadmincommand' shared service.
+     *
+     * @return \Sonata\AdminBundle\Command\ListAdminCommand
+     */
+    protected function getSonata_Adminbundle_Command_ListadmincommandService()
+    {
+        return $this->services['sonata\adminbundle\command\listadmincommand'] = new \Sonata\AdminBundle\Command\ListAdminCommand();
+    }
+
+    /*
+     * Gets the public 'sonata\adminbundle\command\setupaclcommand' shared service.
+     *
+     * @return \Sonata\AdminBundle\Command\SetupAclCommand
+     */
+    protected function getSonata_Adminbundle_Command_SetupaclcommandService()
+    {
+        return $this->services['sonata\adminbundle\command\setupaclcommand'] = new \Sonata\AdminBundle\Command\SetupAclCommand();
+    }
+
+    /*
+     * Gets the public 'sonata\blockbundle\command\debugblockscommand' shared service.
+     *
+     * @return \Sonata\BlockBundle\Command\DebugBlocksCommand
+     */
+    protected function getSonata_Blockbundle_Command_DebugblockscommandService()
+    {
+        return $this->services['sonata\blockbundle\command\debugblockscommand'] = new \Sonata\BlockBundle\Command\DebugBlocksCommand();
+    }
+
+    /*
+     * Gets the public 'sonata\corebundle\command\sonatadumpdoctrinemetacommand' shared service.
+     *
+     * @return \Sonata\CoreBundle\Command\SonataDumpDoctrineMetaCommand
+     */
+    protected function getSonata_Corebundle_Command_SonatadumpdoctrinemetacommandService()
+    {
+        return $this->services['sonata\corebundle\command\sonatadumpdoctrinemetacommand'] = new \Sonata\CoreBundle\Command\SonataDumpDoctrineMetaCommand();
+    }
+
+    /*
+     * Gets the public 'sonata\corebundle\command\sonatalistformmappingcommand' shared service.
+     *
+     * @return \Sonata\CoreBundle\Command\SonataListFormMappingCommand
+     */
+    protected function getSonata_Corebundle_Command_SonatalistformmappingcommandService()
+    {
+        return $this->services['sonata\corebundle\command\sonatalistformmappingcommand'] = new \Sonata\CoreBundle\Command\SonataListFormMappingCommand();
     }
 
     /*
@@ -3178,25 +5428,16 @@ class appProdProjectContainer extends Container
     }
 
     /*
-     * Gets the public 'translator' shared service.
-     *
-     * @return \Symfony\Component\Translation\IdentityTranslator
-     */
-    protected function getTranslatorService()
-    {
-        return $this->services['translator'] = new \Symfony\Component\Translation\IdentityTranslator($this->get('translator.selector'));
-    }
-
-    /*
      * Gets the public 'translator.default' shared service.
      *
      * @return \Symfony\Bundle\FrameworkBundle\Translation\Translator
      */
     protected function getTranslator_DefaultService()
     {
-        $this->services['translator.default'] = $instance = new \Symfony\Bundle\FrameworkBundle\Translation\Translator($this, $this->get('translator.selector'), array('translation.loader.php' => array(0 => 'php'), 'translation.loader.yml' => array(0 => 'yml'), 'translation.loader.xliff' => array(0 => 'xlf', 1 => 'xliff'), 'translation.loader.po' => array(0 => 'po'), 'translation.loader.mo' => array(0 => 'mo'), 'translation.loader.qt' => array(0 => 'ts'), 'translation.loader.csv' => array(0 => 'csv'), 'translation.loader.res' => array(0 => 'res'), 'translation.loader.dat' => array(0 => 'dat'), 'translation.loader.ini' => array(0 => 'ini'), 'translation.loader.json' => array(0 => 'json')), array('cache_dir' => (__DIR__.'/translations'), 'debug' => false), array());
+        $this->services['translator.default'] = $instance = new \Symfony\Bundle\FrameworkBundle\Translation\Translator($this, new \Symfony\Component\Translation\MessageSelector(), array('translation.loader.php' => array(0 => 'php'), 'translation.loader.yml' => array(0 => 'yml'), 'translation.loader.xliff' => array(0 => 'xlf', 1 => 'xliff'), 'translation.loader.po' => array(0 => 'po'), 'translation.loader.mo' => array(0 => 'mo'), 'translation.loader.qt' => array(0 => 'ts'), 'translation.loader.csv' => array(0 => 'csv'), 'translation.loader.res' => array(0 => 'res'), 'translation.loader.dat' => array(0 => 'dat'), 'translation.loader.ini' => array(0 => 'ini'), 'translation.loader.json' => array(0 => 'json')), array('cache_dir' => (__DIR__.'/translations'), 'debug' => false, 'resource_files' => array('bg' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.bg.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.bg.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.bg.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.bg.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.bg.xliff')), 'ru' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.ru.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.ru.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.ru.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.ru.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src/Resources/translations/SonataBlockBundle.ru.xliff'), 5 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.ru.xliff')), 'ca' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.ca.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.ca.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.ca.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.ca.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.ca.xliff')), 'he' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.he.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.he.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.he.xlf')), 'hy' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.hy.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.hy.xlf')), 'tl' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.tl.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.tl.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.tl.xlf')), 'ar' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.ar.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.ar.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.ar.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.ar.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.ar.xliff')), 'et' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.et.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.et.xlf')), 'zh_TW' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.zh_TW.xlf')), 'pl' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.pl.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.pl.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.pl.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.pl.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.pl.xliff')), 'nn' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.nn.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.nn.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.nn.xlf')), 'da' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.da.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.da.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.da.xlf')), 'hr' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.hr.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.hr.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.hr.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.hr.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.hr.xliff')), 'nb' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.nb.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.nb.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.nb.xlf')), 'sv' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.sv.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.sv.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.sv.xlf')), 'gl' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.gl.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.gl.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.gl.xlf')), 'lb' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.lb.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.lb.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.lb.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.lb.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.lb.xliff')), 'el' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.el.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.el.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.el.xlf')), 'es' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.es.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.es.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.es.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.es.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.es.xliff')), 'az' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.az.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.az.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.az.xlf')), 'sk' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.sk.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.sk.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.sk.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.sk.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.sk.xliff')), 'mn' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.mn.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.mn.xlf')), 'sr_Latn' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.sr_Latn.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.sr_Latn.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.sr_Latn.xlf')), 'eu' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.eu.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.eu.xlf'), 2 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.eu.xliff'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.eu.xliff')), 'fa' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.fa.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.fa.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.fa.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.fa.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.fa.xliff')), 'zh_CN' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.zh_CN.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.zh_CN.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.zh_CN.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.zh_CN.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.zh_CN.xliff')), 'pt' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.pt.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.pt.xlf'), 2 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.pt.xliff'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.pt.xliff')), 'ja' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.ja.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.ja.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.ja.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.ja.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.ja.xliff')), 'hu' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.hu.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.hu.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.hu.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.hu.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src/Resources/translations/SonataBlockBundle.hu.xliff'), 5 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.hu.xliff')), 'fi' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.fi.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.fi.xlf'), 2 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.fi.xliff')), 'lv' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.lv.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.lv.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.lv.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.lv.xliff')), 'vi' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.vi.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.vi.xlf')), 'cs' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.cs.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.cs.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.cs.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.cs.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.cs.xliff')), 'cy' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.cy.xlf')), 'uk' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.uk.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.uk.xlf'), 2 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.uk.xliff'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.uk.xliff')), 'fr' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.fr.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.fr.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.fr.xlf'), 3 => ($this->targetDirs[3].'/src/Sch/MainBundle/Resources/translations/messages.fr.xlf'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.fr.xliff'), 5 => ($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src/Resources/translations/SonataBlockBundle.fr.xliff'), 6 => ($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src/Resources/translations/validators.fr.xliff'), 7 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.fr.xliff'), 8 => ($this->targetDirs[2].'/Resources/translations/messages.fr.yml'), 9 => ($this->targetDirs[2].'/Resources/translations/messages.fr.xlf')), 'de' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.de.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.de.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.de.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.de.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src/Resources/translations/validators.de.xliff'), 5 => ($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src/Resources/translations/SonataBlockBundle.de.xliff'), 6 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.de.xliff')), 'pt_BR' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.pt_BR.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.pt_BR.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.pt_BR.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.pt_BR.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.pt_BR.xliff')), 'tr' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.tr.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.tr.xlf'), 2 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.tr.xliff')), 'id' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.id.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.id.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.id.xlf')), 'sq' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.sq.xlf')), 'th' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.th.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.th.xlf')), 'it' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.it.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.it.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.it.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.it.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src/Resources/translations/SonataBlockBundle.it.xliff'), 5 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.it.xliff')), 'lt' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.lt.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.lt.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.lt.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.lt.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.lt.xliff')), 'ro' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.ro.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.ro.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.ro.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.ro.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.ro.xliff')), 'en' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.en.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.en.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.en.xlf'), 3 => ($this->targetDirs[3].'/src/Sch/MainBundle/Resources/translations/messages.en.yml'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.en.xliff'), 5 => ($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src/Resources/translations/SonataBlockBundle.en.xliff'), 6 => ($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src/Resources/translations/validators.en.xliff'), 7 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.en.xliff'), 8 => ($this->targetDirs[2].'/Resources/translations/messages.en.xliff')), 'no' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.no.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.no.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.no.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.no.xliff')), 'sr_Cyrl' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.sr_Cyrl.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.sr_Cyrl.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.sr_Cyrl.xlf')), 'af' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.af.xlf')), 'nl' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.nl.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.nl.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.nl.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.nl.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.nl.xliff')), 'sl' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Validator/Resources/translations/validators.sl.xlf'), 1 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/translations/validators.sl.xlf'), 2 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.sl.xlf'), 3 => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/translations/SonataCoreBundle.sl.xliff'), 4 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.sl.xliff')), 'ua' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.ua.xlf')), 'pt_PT' => array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Security/Core/Resources/translations/security.pt_PT.xlf')), 'zh_HK' => array(0 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.zh_HK.xliff')), 'sv_SE' => array(0 => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/translations/SonataAdminBundle.sv_SE.xliff')))), array());
 
         $instance->setConfigCacheFactory($this->get('config_cache_factory'));
+        $instance->setFallbackLocales(array(0 => 'en'));
 
         return $instance;
     }
@@ -3208,7 +5449,7 @@ class appProdProjectContainer extends Container
      */
     protected function getTranslatorListenerService()
     {
-        return $this->services['translator_listener'] = new \Symfony\Component\HttpKernel\EventListener\TranslatorListener($this->get('translator'), $this->get('request_stack'));
+        return $this->services['translator_listener'] = new \Symfony\Component\HttpKernel\EventListener\TranslatorListener($this->get('translator.default'), $this->get('request_stack'));
     }
 
     /*
@@ -3221,26 +5462,29 @@ class appProdProjectContainer extends Container
         $a = $this->get('request_stack');
         $b = $this->get('router.request_context', ContainerInterface::NULL_ON_INVALID_REFERENCE);
         $c = $this->get('fragment.handler');
+        $d = $this->get('knp_menu.matcher');
 
-        $d = new \Symfony\Bridge\Twig\Extension\HttpFoundationExtension($a, $b);
+        $e = new \Symfony\Bridge\Twig\Extension\HttpFoundationExtension($a, $b);
 
-        $e = new \Symfony\Bridge\Twig\AppVariable();
-        $e->setEnvironment('prod');
-        $e->setDebug(false);
+        $f = new \Knp\Menu\Util\MenuManipulator();
+
+        $g = new \Symfony\Bridge\Twig\AppVariable();
+        $g->setEnvironment('prod');
+        $g->setDebug(false);
         if ($this->has('security.token_storage')) {
-            $e->setTokenStorage($this->get('security.token_storage', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+            $g->setTokenStorage($this->get('security.token_storage', ContainerInterface::NULL_ON_INVALID_REFERENCE));
         }
         if ($this->has('request_stack')) {
-            $e->setRequestStack($a);
+            $g->setRequestStack($a);
         }
-        $e->setContainer($this);
+        $g->setContainer($this);
 
-        $this->services['twig'] = $instance = new \Twig\Environment($this->get('twig.loader'), array('debug' => false, 'strict_variables' => false, 'exception_controller' => 'twig.controller.exception:showAction', 'form_themes' => array(0 => 'form_div_layout.html.twig'), 'autoescape' => 'name', 'cache' => (__DIR__.'/twig'), 'charset' => 'UTF-8', 'paths' => array(), 'date' => array('format' => 'F j, Y H:i', 'interval_format' => '%d days', 'timezone' => NULL), 'number_format' => array('decimals' => 0, 'decimal_point' => '.', 'thousands_separator' => ',')));
+        $this->services['twig'] = $instance = new \Twig\Environment($this->get('twig.loader'), array('paths' => array(($this->targetDirs[3].'/vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views') => NULL), 'debug' => false, 'strict_variables' => false, 'exception_controller' => 'twig.controller.exception:showAction', 'form_themes' => array(0 => 'form_div_layout.html.twig'), 'autoescape' => 'name', 'cache' => (__DIR__.'/twig'), 'charset' => 'UTF-8', 'date' => array('format' => 'F j, Y H:i', 'interval_format' => '%d days', 'timezone' => NULL), 'number_format' => array('decimals' => 0, 'decimal_point' => '.', 'thousands_separator' => ',')));
 
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\LogoutUrlExtension($this->get('security.logout_url_generator')));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\SecurityExtension($this->get('security.authorization_checker', ContainerInterface::NULL_ON_INVALID_REFERENCE)));
-        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension($this->get('translator')));
-        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\AssetExtension($this->get('assets.packages'), $d));
+        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\TranslationExtension($this->get('translator.default')));
+        $instance->addExtension(new \Symfony\Bridge\Twig\Extension\AssetExtension($this->get('assets.packages'), $e));
         $instance->addExtension(new \Symfony\Bundle\TwigBundle\Extension\ActionsExtension($c));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\CodeExtension(NULL, $this->targetDirs[2], 'UTF-8'));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\RoutingExtension($this->get('router')));
@@ -3248,11 +5492,24 @@ class appProdProjectContainer extends Container
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\StopwatchExtension($this->get('debug.stopwatch', ContainerInterface::NULL_ON_INVALID_REFERENCE), false));
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\ExpressionExtension());
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\HttpKernelExtension($c));
-        $instance->addExtension($d);
+        $instance->addExtension($e);
         $instance->addExtension(new \Symfony\Bridge\Twig\Extension\FormExtension(new \Symfony\Bridge\Twig\Form\TwigRenderer(new \Symfony\Bridge\Twig\Form\TwigRendererEngine(array(0 => 'form_div_layout.html.twig')), $this->get('security.csrf.token_manager', ContainerInterface::NULL_ON_INVALID_REFERENCE))));
         $instance->addExtension(new \Doctrine\Bundle\DoctrineBundle\Twig\DoctrineExtension());
+        $instance->addExtension($this->get('nelmio_api_doc.twig.extension.extra_markdown'));
         $instance->addExtension(new \JMS\Serializer\Twig\SerializerExtension($this->get('jms_serializer')));
-        $instance->addGlobal('app', $e);
+        $instance->addExtension($this->get('sonata.core.flashmessage.twig.extension'));
+        $instance->addExtension($this->get('sonata.core.twig.extension.wrapping'));
+        $instance->addExtension($this->get('sonata.core.twig.extension.text'));
+        $instance->addExtension($this->get('sonata.core.twig.status_extension'));
+        $instance->addExtension($this->get('sonata.core.twig.deprecated_template_extension'));
+        $instance->addExtension($this->get('sonata.core.twig.template_extension'));
+        $instance->addExtension(new \Sonata\BlockBundle\Twig\Extension\BlockExtension($this->get('sonata.block.templating.helper')));
+        $instance->addExtension(new \Knp\Menu\Twig\MenuExtension(new \Knp\Menu\Twig\Helper($this->get('knp_menu.renderer_provider'), $this->get('knp_menu.menu_provider'), $f, $d), $d, $f));
+        $instance->addExtension($this->get('sonata.admin.twig.extension'));
+        $instance->addExtension(new \Sonata\AdminBundle\Twig\Extension\TemplateRegistryExtension($this->get('sonata.admin.global_template_registry'), $this));
+        $instance->addGlobal('app', $g);
+        $instance->addGlobal('sonata_block', $this->get('sonata.block.twig.global'));
+        $instance->addGlobal('sonata_admin', $this->get('sonata.admin.twig.global'));
         call_user_func(array(new \Symfony\Bundle\TwigBundle\DependencyInjection\Configurator\EnvironmentConfigurator('F j, Y H:i', '%d days', NULL, 0, '.', ','), 'configure'), $instance);
 
         return $instance;
@@ -3287,12 +5544,19 @@ class appProdProjectContainer extends Container
     {
         $this->services['twig.loader'] = $instance = new \Symfony\Bundle\TwigBundle\Loader\FilesystemLoader($this->get('templating.locator'), $this->get('templating.name_parser'));
 
+        $instance->addPath(($this->targetDirs[3].'/vendor/knplabs/knp-menu/src/Knp/Menu/Resources/views'));
         $instance->addPath(($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/FrameworkBundle/Resources/views'), 'Framework');
         $instance->addPath(($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/SecurityBundle/Resources/views'), 'Security');
         $instance->addPath(($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bundle/TwigBundle/Resources/views'), 'Twig');
         $instance->addPath(($this->targetDirs[3].'/vendor/symfony/swiftmailer-bundle/Resources/views'), 'Swiftmailer');
         $instance->addPath(($this->targetDirs[3].'/vendor/doctrine/doctrine-bundle/Resources/views'), 'Doctrine');
         $instance->addPath(($this->targetDirs[3].'/src/Sch/MainBundle/Resources/views'), 'Main');
+        $instance->addPath(($this->targetDirs[3].'/vendor/nelmio/api-doc-bundle/Nelmio/ApiDocBundle/Resources/views'), 'NelmioApiDoc');
+        $instance->addPath(($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src/Resources/views'), 'SonataCore');
+        $instance->addPath(($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src/Resources/views'), 'SonataBlock');
+        $instance->addPath(($this->targetDirs[3].'/vendor/knplabs/knp-menu-bundle/src/Resources/views'), 'KnpMenu');
+        $instance->addPath(($this->targetDirs[3].'/vendor/sonata-project/doctrine-orm-admin-bundle/src/Resources/views'), 'SonataDoctrineORMAdmin');
+        $instance->addPath(($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src/Resources/views'), 'SonataAdmin');
         $instance->addPath(($this->targetDirs[2].'/Resources/views'));
         $instance->addPath(($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Bridge/Twig/Resources/views/Form'));
 
@@ -3317,6 +5581,16 @@ class appProdProjectContainer extends Container
     protected function getTwig_Translation_ExtractorService()
     {
         return $this->services['twig.translation.extractor'] = new \Symfony\Bridge\Twig\Translation\TwigExtractor($this->get('twig'));
+    }
+
+    /*
+     * Gets the public 'twilio.client' shared service.
+     *
+     * @return \Twilio\Rest\Client
+     */
+    protected function getTwilio_ClientService()
+    {
+        return $this->services['twilio.client'] = new \Twilio\Rest\Client('AC7ced9c7a6ab77a57bc3ee41f85beb954', '6fd012f064ec1cb8b2e74a1f68d3daea');
     }
 
     /*
@@ -3358,8 +5632,8 @@ class appProdProjectContainer extends Container
     {
         $this->services['validator.builder'] = $instance = \Symfony\Component\Validator\Validation::createValidatorBuilder();
 
-        $instance->setConstraintValidatorFactory(new \Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory($this, array('validator.expression' => 'validator.expression', 'Symfony\\Component\\Validator\\Constraints\\ExpressionValidator' => 'validator.expression', 'Symfony\\Component\\Validator\\Constraints\\EmailValidator' => 'validator.email', 'security.validator.user_password' => 'security.validator.user_password', 'Symfony\\Component\\Security\\Core\\Validator\\Constraints\\UserPasswordValidator' => 'security.validator.user_password', 'doctrine.orm.validator.unique' => 'doctrine.orm.validator.unique', 'Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntityValidator' => 'doctrine.orm.validator.unique')));
-        $instance->setTranslator($this->get('translator'));
+        $instance->setConstraintValidatorFactory($this->get('validator.validator_factory'));
+        $instance->setTranslator($this->get('translator.default'));
         $instance->setTranslationDomain('validators');
         $instance->addXmlMappings(array(0 => ($this->targetDirs[3].'/vendor/symfony/symfony/src/Symfony/Component/Form/Resources/config/validation.xml')));
         $instance->enableAnnotationMapping($this->get('annotation_reader'));
@@ -3420,6 +5694,20 @@ class appProdProjectContainer extends Container
     }
 
     /*
+     * Gets the private 'jms_serializer.metadata_factory' shared service.
+     *
+     * @return \Metadata\MetadataFactory
+     */
+    protected function getJmsSerializer_MetadataFactoryService()
+    {
+        $this->services['jms_serializer.metadata_factory'] = $instance = new \Metadata\MetadataFactory(new \Metadata\Driver\LazyLoadingDriver($this, 'jms_serializer.metadata_driver'), 'Metadata\\ClassHierarchyMetadata', false);
+
+        $instance->setCache(new \Metadata\Cache\FileCache((__DIR__.'/jms_serializer')));
+
+        return $instance;
+    }
+
+    /*
      * Gets the private 'jms_serializer.unserialize_object_constructor' shared service.
      *
      * @return \JMS\Serializer\Construction\UnserializeObjectConstructor
@@ -3466,13 +5754,33 @@ class appProdProjectContainer extends Container
     }
 
     /*
+     * Gets the private 'security.access_listener' shared service.
+     *
+     * @return \Symfony\Component\Security\Http\Firewall\AccessListener
+     */
+    protected function getSecurity_AccessListenerService()
+    {
+        return $this->services['security.access_listener'] = new \Symfony\Component\Security\Http\Firewall\AccessListener($this->get('security.token_storage'), $this->get('security.access.decision_manager'), $this->get('security.access_map'), $this->get('security.authentication.manager'));
+    }
+
+    /*
+     * Gets the private 'security.access_map' shared service.
+     *
+     * @return \Symfony\Component\Security\Http\AccessMap
+     */
+    protected function getSecurity_AccessMapService()
+    {
+        return $this->services['security.access_map'] = new \Symfony\Component\Security\Http\AccessMap();
+    }
+
+    /*
      * Gets the private 'security.authentication.manager' shared service.
      *
      * @return \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager
      */
     protected function getSecurity_Authentication_ManagerService()
     {
-        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('5b7e3e723dbcc0.38337212')), true);
+        $this->services['security.authentication.manager'] = $instance = new \Symfony\Component\Security\Core\Authentication\AuthenticationProviderManager(array(0 => new \Symfony\Component\Security\Core\Authentication\Provider\AnonymousAuthenticationProvider('5bbc485dc60052.94825618'), 1 => new \Symfony\Component\Security\Core\Authentication\Provider\DaoAuthenticationProvider($this->get('security.user.provider.concrete.in_memory'), $this->get('security.user_checker.main'), 'secured_area', $this->get('security.encoder_factory'), true)), true);
 
         $instance->setEventDispatcher($this->get('event_dispatcher'));
 
@@ -3487,6 +5795,28 @@ class appProdProjectContainer extends Container
     protected function getSecurity_Authentication_TrustResolverService()
     {
         return $this->services['security.authentication.trust_resolver'] = new \Symfony\Component\Security\Core\Authentication\AuthenticationTrustResolver('Symfony\\Component\\Security\\Core\\Authentication\\Token\\AnonymousToken', 'Symfony\\Component\\Security\\Core\\Authentication\\Token\\RememberMeToken');
+    }
+
+    /*
+     * Gets the private 'security.channel_listener' shared service.
+     *
+     * @return \Symfony\Component\Security\Http\Firewall\ChannelListener
+     */
+    protected function getSecurity_ChannelListenerService()
+    {
+        return $this->services['security.channel_listener'] = new \Symfony\Component\Security\Http\Firewall\ChannelListener($this->get('security.access_map'), new \Symfony\Component\Security\Http\EntryPoint\RetryAuthenticationEntryPoint(80, 443), $this->get('monolog.logger.security', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+    }
+
+    /*
+     * Gets the private 'security.http_utils' shared service.
+     *
+     * @return \Symfony\Component\Security\Http\HttpUtils
+     */
+    protected function getSecurity_HttpUtilsService()
+    {
+        $a = $this->get('router', ContainerInterface::NULL_ON_INVALID_REFERENCE);
+
+        return $this->services['security.http_utils'] = new \Symfony\Component\Security\Http\HttpUtils($a, $a, '{^https?://%s$}i');
     }
 
     /*
@@ -3507,6 +5837,16 @@ class appProdProjectContainer extends Container
     protected function getSecurity_RoleHierarchyService()
     {
         return $this->services['security.role_hierarchy'] = new \Symfony\Component\Security\Core\Role\RoleHierarchy(array());
+    }
+
+    /*
+     * Gets the private 'security.user.provider.concrete.in_memory' shared service.
+     *
+     * @return \Symfony\Component\Security\Core\User\InMemoryUserProvider
+     */
+    protected function getSecurity_User_Provider_Concrete_InMemoryService()
+    {
+        return $this->services['security.user.provider.concrete.in_memory'] = new \Symfony\Component\Security\Core\User\InMemoryUserProvider(array());
     }
 
     /*
@@ -3540,13 +5880,13 @@ class appProdProjectContainer extends Container
     }
 
     /*
-     * Gets the private 'translator.selector' shared service.
+     * Gets the private 'validator.validator_factory' shared service.
      *
-     * @return \Symfony\Component\Translation\MessageSelector
+     * @return \Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory
      */
-    protected function getTranslator_SelectorService()
+    protected function getValidator_ValidatorFactoryService()
     {
-        return $this->services['translator.selector'] = new \Symfony\Component\Translation\MessageSelector();
+        return $this->services['validator.validator_factory'] = new \Symfony\Bundle\FrameworkBundle\Validator\ConstraintValidatorFactory($this, array('AppBundle\\Validator\\Constraints\\E164NumberValidator' => 'app.validator.e164_number', 'validator.expression' => 'validator.expression', 'Symfony\\Component\\Validator\\Constraints\\ExpressionValidator' => 'validator.expression', 'Symfony\\Component\\Validator\\Constraints\\EmailValidator' => 'validator.email', 'security.validator.user_password' => 'security.validator.user_password', 'Symfony\\Component\\Security\\Core\\Validator\\Constraints\\UserPasswordValidator' => 'security.validator.user_password', 'doctrine.orm.validator.unique' => 'doctrine.orm.validator.unique', 'Symfony\\Bridge\\Doctrine\\Validator\\Constraints\\UniqueEntityValidator' => 'doctrine.orm.validator.unique', 'sonata.core.validator.inline' => 'sonata.core.validator.inline', 'Sonata\\CoreBundle\\Validator\\InlineValidator' => 'sonata.admin.validator.inline', 'sonata.admin.validator.inline' => 'sonata.admin.validator.inline'));
     }
 
     /*
@@ -3618,7 +5958,13 @@ class appProdProjectContainer extends Container
                 'MainBundle' => 'Sch\\MainBundle\\MainBundle',
                 'DoctrineMigrationsBundle' => 'Doctrine\\Bundle\\MigrationsBundle\\DoctrineMigrationsBundle',
                 'FOSRestBundle' => 'FOS\\RestBundle\\FOSRestBundle',
+                'NelmioApiDocBundle' => 'Nelmio\\ApiDocBundle\\NelmioApiDocBundle',
                 'JMSSerializerBundle' => 'JMS\\SerializerBundle\\JMSSerializerBundle',
+                'SonataCoreBundle' => 'Sonata\\CoreBundle\\SonataCoreBundle',
+                'SonataBlockBundle' => 'Sonata\\BlockBundle\\SonataBlockBundle',
+                'KnpMenuBundle' => 'Knp\\Bundle\\MenuBundle\\KnpMenuBundle',
+                'SonataDoctrineORMAdminBundle' => 'Sonata\\DoctrineORMAdminBundle\\SonataDoctrineORMAdminBundle',
+                'SonataAdminBundle' => 'Sonata\\AdminBundle\\SonataAdminBundle',
             ),
             'kernel.bundles_metadata' => array(
                 'FrameworkBundle' => array(
@@ -3671,10 +6017,40 @@ class appProdProjectContainer extends Container
                     'path' => ($this->targetDirs[3].'/vendor/friendsofsymfony/rest-bundle/FOS/RestBundle'),
                     'namespace' => 'FOS\\RestBundle',
                 ),
+                'NelmioApiDocBundle' => array(
+                    'parent' => NULL,
+                    'path' => ($this->targetDirs[3].'/vendor/nelmio/api-doc-bundle/Nelmio/ApiDocBundle'),
+                    'namespace' => 'Nelmio\\ApiDocBundle',
+                ),
                 'JMSSerializerBundle' => array(
                     'parent' => NULL,
                     'path' => ($this->targetDirs[3].'/vendor/jms/serializer-bundle/JMS/SerializerBundle'),
                     'namespace' => 'JMS\\SerializerBundle',
+                ),
+                'SonataCoreBundle' => array(
+                    'parent' => NULL,
+                    'path' => ($this->targetDirs[3].'/vendor/sonata-project/core-bundle/src'),
+                    'namespace' => 'Sonata\\CoreBundle',
+                ),
+                'SonataBlockBundle' => array(
+                    'parent' => NULL,
+                    'path' => ($this->targetDirs[3].'/vendor/sonata-project/block-bundle/src'),
+                    'namespace' => 'Sonata\\BlockBundle',
+                ),
+                'KnpMenuBundle' => array(
+                    'parent' => NULL,
+                    'path' => ($this->targetDirs[3].'/vendor/knplabs/knp-menu-bundle/src'),
+                    'namespace' => 'Knp\\Bundle\\MenuBundle',
+                ),
+                'SonataDoctrineORMAdminBundle' => array(
+                    'parent' => NULL,
+                    'path' => ($this->targetDirs[3].'/vendor/sonata-project/doctrine-orm-admin-bundle/src'),
+                    'namespace' => 'Sonata\\DoctrineORMAdminBundle',
+                ),
+                'SonataAdminBundle' => array(
+                    'parent' => NULL,
+                    'path' => ($this->targetDirs[3].'/vendor/sonata-project/admin-bundle/src'),
+                    'namespace' => 'Sonata\\AdminBundle',
                 ),
             ),
             'kernel.charset' => 'UTF-8',
@@ -3689,7 +6065,11 @@ class appProdProjectContainer extends Container
             'mailer_user' => NULL,
             'mailer_password' => NULL,
             'secret' => 'ThisTokenIsNotSoSecretChangeIt',
-            'locale' => 'en',
+            'twilio_sid' => 'AC7ced9c7a6ab77a57bc3ee41f85beb954',
+            'twilio_token' => '6fd012f064ec1cb8b2e74a1f68d3daea',
+            'twilio_number' => '+12512731599',
+            'data_dir' => ($this->targetDirs[2].'/../web/Data'),
+            'locale' => 'fi',
             'controller_resolver.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerResolver',
             'controller_name_converter.class' => 'Symfony\\Bundle\\FrameworkBundle\\Controller\\ControllerNameParser',
             'response_listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\ResponseListener',
@@ -3745,7 +6125,7 @@ class appProdProjectContainer extends Container
             'kernel.trusted_proxies' => array(
 
             ),
-            'kernel.default_locale' => 'en',
+            'kernel.default_locale' => 'fi',
             'session.class' => 'Symfony\\Component\\HttpFoundation\\Session\\Session',
             'session.flashbag.class' => 'Symfony\\Component\\HttpFoundation\\Session\\Flash\\FlashBag',
             'session.attribute_bag.class' => 'Symfony\\Component\\HttpFoundation\\Session\\Attribute\\AttributeBag',
@@ -3802,6 +6182,7 @@ class appProdProjectContainer extends Container
             'validator.translation_domain' => 'validators',
             'validator.api' => '2.5-bc',
             'fragment.listener.class' => 'Symfony\\Component\\HttpKernel\\EventListener\\FragmentListener',
+            'translator.logging' => false,
             'data_collector.templates' => array(
 
             ),
@@ -4203,6 +6584,58 @@ class appProdProjectContainer extends Container
                 'json' => true,
             ),
             'fos_rest.access_denied_listener.unauthorized_challenge' => NULL,
+            'nelmio_api_doc.motd.template' => 'NelmioApiDocBundle::Components/motd.html.twig',
+            'nelmio_api_doc.exclude_sections' => array(
+
+            ),
+            'nelmio_api_doc.default_sections_opened' => true,
+            'nelmio_api_doc.api_name' => 'API documentation',
+            'nelmio_api_doc.sandbox.enabled' => true,
+            'nelmio_api_doc.sandbox.endpoint' => NULL,
+            'nelmio_api_doc.sandbox.accept_type' => NULL,
+            'nelmio_api_doc.sandbox.body_format.formats' => array(
+                0 => 'form',
+                1 => 'json',
+            ),
+            'nelmio_api_doc.sandbox.body_format.default_format' => 'form',
+            'nelmio_api_doc.sandbox.request_format.method' => 'format_param',
+            'nelmio_api_doc.sandbox.request_format.default_format' => 'json',
+            'nelmio_api_doc.sandbox.request_format.formats' => array(
+                'json' => 'application/json',
+                'xml' => 'application/xml',
+            ),
+            'nelmio_api_doc.sandbox.entity_to_choice' => true,
+            'nelmio_api_doc.formatter.abstract_formatter.class' => 'Nelmio\\ApiDocBundle\\Formatter\\AbstractFormatter',
+            'nelmio_api_doc.formatter.markdown_formatter.class' => 'Nelmio\\ApiDocBundle\\Formatter\\MarkdownFormatter',
+            'nelmio_api_doc.formatter.simple_formatter.class' => 'Nelmio\\ApiDocBundle\\Formatter\\SimpleFormatter',
+            'nelmio_api_doc.formatter.html_formatter.class' => 'Nelmio\\ApiDocBundle\\Formatter\\HtmlFormatter',
+            'nelmio_api_doc.formatter.swagger_formatter.class' => 'Nelmio\\ApiDocBundle\\Formatter\\SwaggerFormatter',
+            'nelmio_api_doc.sandbox.authentication' => NULL,
+            'nelmio_api_doc.extractor.api_doc_extractor.class' => 'Nelmio\\ApiDocBundle\\Extractor\\ApiDocExtractor',
+            'nelmio_api_doc.form.extension.description_form_type_extension.class' => 'Nelmio\\ApiDocBundle\\Form\\Extension\\DescriptionFormTypeExtension',
+            'nelmio_api_doc.twig.extension.extra_markdown.class' => 'Nelmio\\ApiDocBundle\\Twig\\Extension\\MarkdownExtension',
+            'nelmio_api_doc.doc_comment_extractor.class' => 'Nelmio\\ApiDocBundle\\Util\\DocCommentExtractor',
+            'nelmio_api_doc.extractor.handler.fos_rest.class' => 'Nelmio\\ApiDocBundle\\Extractor\\Handler\\FosRestHandler',
+            'nelmio_api_doc.extractor.handler.jms_security.class' => 'Nelmio\\ApiDocBundle\\Extractor\\Handler\\JmsSecurityExtraHandler',
+            'nelmio_api_doc.extractor.handler.sensio_framework_extra.class' => 'Nelmio\\ApiDocBundle\\Extractor\\Handler\\SensioFrameworkExtraHandler',
+            'nelmio_api_doc.extractor.handler.phpdoc.class' => 'Nelmio\\ApiDocBundle\\Extractor\\Handler\\PhpDocHandler',
+            'nelmio_api_doc.parser.collection_parser.class' => 'Nelmio\\ApiDocBundle\\Parser\\CollectionParser',
+            'nelmio_api_doc.parser.form_errors_parser.class' => 'Nelmio\\ApiDocBundle\\Parser\\FormErrorsParser',
+            'nelmio_api_doc.parser.json_serializable_parser.class' => 'Nelmio\\ApiDocBundle\\Parser\\JsonSerializableParser',
+            'nelmio_api_doc.request_listener.parameter' => '_doc',
+            'nelmio_api_doc.event_listener.request.class' => 'Nelmio\\ApiDocBundle\\EventListener\\RequestListener',
+            'nelmio_api_doc.swagger.base_path' => '/api',
+            'nelmio_api_doc.swagger.swagger_version' => '1.2',
+            'nelmio_api_doc.swagger.api_version' => '0.1',
+            'nelmio_api_doc.swagger.info' => array(
+                'title' => 'Symfony2',
+                'description' => 'My awesome Symfony2 app!',
+                'TermsOfServiceUrl' => NULL,
+                'contact' => NULL,
+                'license' => NULL,
+                'licenseUrl' => NULL,
+            ),
+            'nelmio_api_doc.swagger.model_naming_strategy' => 'dot_notation',
             'jms_serializer.metadata.file_locator.class' => 'Metadata\\Driver\\FileLocator',
             'jms_serializer.metadata.annotation_driver.class' => 'JMS\\Serializer\\Metadata\\Driver\\AnnotationDriver',
             'jms_serializer.metadata.chain_driver.class' => 'Metadata\\Driver\\DriverChain',
@@ -4251,6 +6684,261 @@ class appProdProjectContainer extends Container
             'jms_serializer.expression_language.function_provider.class' => 'JMS\\SerializerBundle\\ExpressionLanguage\\BasicSerializerFunctionsProvider',
             'jms_serializer.accessor_strategy.default.class' => 'JMS\\Serializer\\Accessor\\DefaultAccessorStrategy',
             'jms_serializer.accessor_strategy.expression.class' => 'JMS\\Serializer\\Accessor\\ExpressionAccessorStrategy',
+            'sonata.core.flashmessage.manager.class' => 'Sonata\\CoreBundle\\FlashMessage\\FlashManager',
+            'sonata.core.twig.extension.flashmessage.class' => 'Sonata\\CoreBundle\\Twig\\Extension\\FlashMessageExtension',
+            'sonata.core.form_type' => 'standard',
+            'sonata.core.form.mapping.type' => array(
+
+            ),
+            'sonata.core.form.mapping.extension' => array(
+
+            ),
+            'sonata.block.service.container.class' => 'Sonata\\BlockBundle\\Block\\Service\\ContainerBlockService',
+            'sonata.block.service.empty.class' => 'Sonata\\BlockBundle\\Block\\Service\\EmptyBlockService',
+            'sonata.block.service.text.class' => 'Sonata\\BlockBundle\\Block\\Service\\TextBlockService',
+            'sonata.block.service.rss.class' => 'Sonata\\BlockBundle\\Block\\Service\\RssBlockService',
+            'sonata.block.service.menu.class' => 'Sonata\\BlockBundle\\Block\\Service\\MenuBlockService',
+            'sonata.block.service.template.class' => 'Sonata\\BlockBundle\\Block\\Service\\TemplateBlockService',
+            'sonata.block.exception.strategy.manager.class' => 'Sonata\\BlockBundle\\Exception\\Strategy\\StrategyManager',
+            'sonata.block.container.types' => array(
+                0 => 'sonata.block.service.container',
+                1 => 'sonata.page.block.container',
+                2 => 'sonata.dashboard.block.container',
+                3 => 'cmf.block.container',
+                4 => 'cmf.block.slideshow',
+            ),
+            'sonata_block.blocks' => array(
+                'sonata.admin.block.admin_list' => array(
+                    'contexts' => array(
+                        0 => 'admin',
+                    ),
+                    'templates' => array(
+
+                    ),
+                    'cache' => 'sonata.cache.noop',
+                    'settings' => array(
+
+                    ),
+                ),
+            ),
+            'sonata_block.blocks_by_class' => array(
+
+            ),
+            'sonata_block.cache_blocks' => array(
+                'by_type' => array(
+                    'sonata.admin.block.admin_list' => 'sonata.cache.noop',
+                ),
+            ),
+            'knp_menu.factory.class' => 'Knp\\Menu\\MenuFactory',
+            'knp_menu.factory_extension.routing.class' => 'Knp\\Menu\\Integration\\Symfony\\RoutingExtension',
+            'knp_menu.helper.class' => 'Knp\\Menu\\Twig\\Helper',
+            'knp_menu.matcher.class' => 'Knp\\Menu\\Matcher\\Matcher',
+            'knp_menu.menu_provider.chain.class' => 'Knp\\Menu\\Provider\\ChainProvider',
+            'knp_menu.menu_provider.container_aware.class' => 'Knp\\Bundle\\MenuBundle\\Provider\\ContainerAwareProvider',
+            'knp_menu.menu_provider.builder_alias.class' => 'Knp\\Bundle\\MenuBundle\\Provider\\BuilderAliasProvider',
+            'knp_menu.renderer_provider.class' => 'Knp\\Bundle\\MenuBundle\\Renderer\\ContainerAwareProvider',
+            'knp_menu.renderer.list.class' => 'Knp\\Menu\\Renderer\\ListRenderer',
+            'knp_menu.renderer.list.options' => array(
+
+            ),
+            'knp_menu.listener.voters.class' => 'Knp\\Bundle\\MenuBundle\\EventListener\\VoterInitializerListener',
+            'knp_menu.voter.router.class' => 'Knp\\Menu\\Matcher\\Voter\\RouteVoter',
+            'knp_menu.twig.extension.class' => 'Knp\\Menu\\Twig\\MenuExtension',
+            'knp_menu.renderer.twig.class' => 'Knp\\Menu\\Renderer\\TwigRenderer',
+            'knp_menu.renderer.twig.options' => array(
+
+            ),
+            'knp_menu.renderer.twig.template' => '@KnpMenu/menu.html.twig',
+            'knp_menu.default_renderer' => 'twig',
+            'sonata.admin.manipulator.acl.object.orm.class' => 'Sonata\\DoctrineORMAdminBundle\\Util\\ObjectAclManipulator',
+            'sonata_doctrine_orm_admin.entity_manager' => NULL,
+            'sonata_doctrine_orm_admin.templates' => array(
+                'types' => array(
+                    'list' => array(
+                        'array' => '@SonataAdmin/CRUD/list_array.html.twig',
+                        'boolean' => '@SonataAdmin/CRUD/list_boolean.html.twig',
+                        'date' => '@SonataAdmin/CRUD/list_date.html.twig',
+                        'time' => '@SonataAdmin/CRUD/list_time.html.twig',
+                        'datetime' => '@SonataAdmin/CRUD/list_datetime.html.twig',
+                        'text' => '@SonataAdmin/CRUD/list_string.html.twig',
+                        'textarea' => '@SonataAdmin/CRUD/list_string.html.twig',
+                        'email' => '@SonataAdmin/CRUD/list_email.html.twig',
+                        'trans' => '@SonataAdmin/CRUD/list_trans.html.twig',
+                        'string' => '@SonataAdmin/CRUD/list_string.html.twig',
+                        'smallint' => '@SonataAdmin/CRUD/list_string.html.twig',
+                        'bigint' => '@SonataAdmin/CRUD/list_string.html.twig',
+                        'integer' => '@SonataAdmin/CRUD/list_string.html.twig',
+                        'decimal' => '@SonataAdmin/CRUD/list_string.html.twig',
+                        'identifier' => '@SonataAdmin/CRUD/list_string.html.twig',
+                        'currency' => '@SonataAdmin/CRUD/list_currency.html.twig',
+                        'percent' => '@SonataAdmin/CRUD/list_percent.html.twig',
+                        'choice' => '@SonataAdmin/CRUD/list_choice.html.twig',
+                        'url' => '@SonataAdmin/CRUD/list_url.html.twig',
+                        'html' => '@SonataAdmin/CRUD/list_html.html.twig',
+                    ),
+                    'show' => array(
+                        'array' => '@SonataAdmin/CRUD/show_array.html.twig',
+                        'boolean' => '@SonataAdmin/CRUD/show_boolean.html.twig',
+                        'date' => '@SonataAdmin/CRUD/show_date.html.twig',
+                        'time' => '@SonataAdmin/CRUD/show_time.html.twig',
+                        'datetime' => '@SonataAdmin/CRUD/show_datetime.html.twig',
+                        'text' => '@SonataAdmin/CRUD/base_show_field.html.twig',
+                        'email' => '@SonataAdmin/CRUD/show_email.html.twig',
+                        'trans' => '@SonataAdmin/CRUD/show_trans.html.twig',
+                        'string' => '@SonataAdmin/CRUD/base_show_field.html.twig',
+                        'smallint' => '@SonataAdmin/CRUD/base_show_field.html.twig',
+                        'bigint' => '@SonataAdmin/CRUD/base_show_field.html.twig',
+                        'integer' => '@SonataAdmin/CRUD/base_show_field.html.twig',
+                        'decimal' => '@SonataAdmin/CRUD/base_show_field.html.twig',
+                        'currency' => '@SonataAdmin/CRUD/show_currency.html.twig',
+                        'percent' => '@SonataAdmin/CRUD/show_percent.html.twig',
+                        'choice' => '@SonataAdmin/CRUD/show_choice.html.twig',
+                        'url' => '@SonataAdmin/CRUD/show_url.html.twig',
+                        'html' => '@SonataAdmin/CRUD/show_html.html.twig',
+                    ),
+                ),
+                'form' => array(
+                    0 => '@SonataDoctrineORMAdmin/Form/form_admin_fields.html.twig',
+                ),
+                'filter' => array(
+                    0 => '@SonataDoctrineORMAdmin/Form/filter_admin_fields.html.twig',
+                ),
+            ),
+            'sonata.admin.twig.extension.x_editable_type_mapping' => array(
+                'choice' => 'select',
+                'boolean' => 'select',
+                'text' => 'text',
+                'textarea' => 'textarea',
+                'html' => 'textarea',
+                'email' => 'email',
+                'string' => 'text',
+                'smallint' => 'text',
+                'bigint' => 'text',
+                'integer' => 'number',
+                'decimal' => 'number',
+                'currency' => 'number',
+                'percent' => 'number',
+                'url' => 'url',
+                'date' => 'date',
+            ),
+            'sonata.admin.configuration.global_search.empty_boxes' => 'show',
+            'sonata.admin.configuration.templates' => array(
+                'user_block' => '@SonataAdmin/Core/user_block.html.twig',
+                'add_block' => '@SonataAdmin/Core/add_block.html.twig',
+                'layout' => '@SonataAdmin/standard_layout.html.twig',
+                'ajax' => '@SonataAdmin/ajax_layout.html.twig',
+                'dashboard' => '@SonataAdmin/Core/dashboard.html.twig',
+                'search' => '@SonataAdmin/Core/search.html.twig',
+                'list' => '@SonataAdmin/CRUD/list.html.twig',
+                'filter' => '@SonataAdmin/Form/filter_admin_fields.html.twig',
+                'show' => '@SonataAdmin/CRUD/show.html.twig',
+                'show_compare' => '@SonataAdmin/CRUD/show_compare.html.twig',
+                'edit' => '@SonataAdmin/CRUD/edit.html.twig',
+                'preview' => '@SonataAdmin/CRUD/preview.html.twig',
+                'history' => '@SonataAdmin/CRUD/history.html.twig',
+                'acl' => '@SonataAdmin/CRUD/acl.html.twig',
+                'history_revision_timestamp' => '@SonataAdmin/CRUD/history_revision_timestamp.html.twig',
+                'action' => '@SonataAdmin/CRUD/action.html.twig',
+                'select' => '@SonataAdmin/CRUD/list__select.html.twig',
+                'list_block' => '@SonataAdmin/Block/block_admin_list.html.twig',
+                'search_result_block' => '@SonataAdmin/Block/block_search_result.html.twig',
+                'short_object_description' => '@SonataAdmin/Helper/short-object-description.html.twig',
+                'delete' => '@SonataAdmin/CRUD/delete.html.twig',
+                'batch' => '@SonataAdmin/CRUD/list__batch.html.twig',
+                'batch_confirmation' => '@SonataAdmin/CRUD/batch_confirmation.html.twig',
+                'inner_list_row' => '@SonataAdmin/CRUD/list_inner_row.html.twig',
+                'outer_list_rows_mosaic' => '@SonataAdmin/CRUD/list_outer_rows_mosaic.html.twig',
+                'outer_list_rows_list' => '@SonataAdmin/CRUD/list_outer_rows_list.html.twig',
+                'outer_list_rows_tree' => '@SonataAdmin/CRUD/list_outer_rows_tree.html.twig',
+                'base_list_field' => '@SonataAdmin/CRUD/base_list_field.html.twig',
+                'pager_links' => '@SonataAdmin/Pager/links.html.twig',
+                'pager_results' => '@SonataAdmin/Pager/results.html.twig',
+                'tab_menu_template' => '@SonataAdmin/Core/tab_menu_template.html.twig',
+                'knp_menu_template' => '@SonataAdmin/Menu/sonata_menu.html.twig',
+                'action_create' => '@SonataAdmin/CRUD/dashboard__action_create.html.twig',
+                'button_acl' => '@SonataAdmin/Button/acl_button.html.twig',
+                'button_create' => '@SonataAdmin/Button/create_button.html.twig',
+                'button_edit' => '@SonataAdmin/Button/edit_button.html.twig',
+                'button_history' => '@SonataAdmin/Button/history_button.html.twig',
+                'button_list' => '@SonataAdmin/Button/list_button.html.twig',
+                'button_show' => '@SonataAdmin/Button/show_button.html.twig',
+            ),
+            'sonata.admin.configuration.admin_services' => array(
+
+            ),
+            'sonata.admin.configuration.dashboard_groups' => array(
+
+            ),
+            'sonata.admin.configuration.dashboard_blocks' => array(
+                0 => array(
+                    'position' => 'left',
+                    'settings' => array(
+
+                    ),
+                    'type' => 'sonata.admin.block.admin_list',
+                    'roles' => array(
+
+                    ),
+                ),
+            ),
+            'sonata.admin.configuration.sort_admins' => false,
+            'sonata.admin.configuration.breadcrumbs' => array(
+                'child_admin_route' => 'edit',
+            ),
+            'sonata.admin.security.acl_user_manager' => NULL,
+            'sonata.admin.configuration.security.role_admin' => 'ROLE_SONATA_ADMIN',
+            'sonata.admin.configuration.security.role_super_admin' => 'ROLE_SUPER_ADMIN',
+            'sonata.admin.configuration.security.information' => array(
+
+            ),
+            'sonata.admin.configuration.security.admin_permissions' => array(
+                0 => 'CREATE',
+                1 => 'LIST',
+                2 => 'DELETE',
+                3 => 'UNDELETE',
+                4 => 'EXPORT',
+                5 => 'OPERATOR',
+                6 => 'MASTER',
+            ),
+            'sonata.admin.configuration.security.object_permissions' => array(
+                0 => 'VIEW',
+                1 => 'EDIT',
+                2 => 'DELETE',
+                3 => 'UNDELETE',
+                4 => 'OPERATOR',
+                5 => 'MASTER',
+                6 => 'OWNER',
+            ),
+            'sonata.admin.security.handler.noop.class' => 'Sonata\\AdminBundle\\Security\\Handler\\NoopSecurityHandler',
+            'sonata.admin.security.handler.role.class' => 'Sonata\\AdminBundle\\Security\\Handler\\RoleSecurityHandler',
+            'sonata.admin.security.handler.acl.class' => 'Sonata\\AdminBundle\\Security\\Handler\\AclSecurityHandler',
+            'sonata.admin.security.mask.builder.class' => 'Sonata\\AdminBundle\\Security\\Acl\\Permission\\MaskBuilder',
+            'sonata.admin.manipulator.acl.admin.class' => 'Sonata\\AdminBundle\\Util\\AdminAclManipulator',
+            'sonata.admin.object.manipulator.acl.admin.class' => 'Sonata\\AdminBundle\\Util\\AdminObjectAclManipulator',
+            'sonata.admin.extension.map' => array(
+                'admins' => array(
+
+                ),
+                'excludes' => array(
+
+                ),
+                'implements' => array(
+
+                ),
+                'extends' => array(
+
+                ),
+                'instanceof' => array(
+
+                ),
+                'uses' => array(
+
+                ),
+            ),
+            'sonata.admin.configuration.filters.persist' => false,
+            'sonata.admin.configuration.filters.persister' => 'sonata.admin.filter_persister.session',
+            'sonata.admin.configuration.show.mosaic.button' => true,
+            'sonata.admin.configuration.translate_group_label' => false,
             'console.command.ids' => array(
                 0 => 'doctrine_cache.contains_command',
                 1 => 'doctrine_cache.delete_command',
@@ -4283,237 +6971,326 @@ class appProdProjectContainer extends Container
                 28 => 'doctrine_migrations.migrate_command',
                 29 => 'doctrine_migrations.status_command',
                 30 => 'doctrine_migrations.version_command',
+                31 => 'sonata\\corebundle\\command\\sonatadumpdoctrinemetacommand',
+                32 => 'sonata\\corebundle\\command\\sonatalistformmappingcommand',
+                33 => 'sonata\\blockbundle\\command\\debugblockscommand',
+                34 => 'sonata\\adminbundle\\command\\createclasscachecommand',
+                35 => 'sonata\\adminbundle\\command\\explainadmincommand',
+                36 => 'sonata\\adminbundle\\command\\generateadmincommand',
+                37 => 'sonata\\adminbundle\\command\\generateobjectaclcommand',
+                38 => 'sonata\\adminbundle\\command\\listadmincommand',
+                39 => 'sonata\\adminbundle\\command\\setupaclcommand',
+            ),
+            'nelmio_api_doc.parser.form_type_parser.class' => 'Nelmio\\ApiDocBundle\\Parser\\FormTypeParser',
+            'nelmio_api_doc.parser.validation_parser.class' => 'Nelmio\\ApiDocBundle\\Parser\\ValidationParser',
+            'nelmio_api_doc.parser.jms_metadata_parser.class' => 'Nelmio\\ApiDocBundle\\Parser\\JmsMetadataParser',
+            'sonata.core.form.types' => array(
+                0 => 'form.type.form',
+                1 => 'form.type.birthday',
+                2 => 'form.type.checkbox',
+                3 => 'form.type.choice',
+                4 => 'form.type.collection',
+                5 => 'form.type.country',
+                6 => 'form.type.date',
+                7 => 'form.type.datetime',
+                8 => 'form.type.email',
+                9 => 'form.type.file',
+                10 => 'form.type.hidden',
+                11 => 'form.type.integer',
+                12 => 'form.type.language',
+                13 => 'form.type.locale',
+                14 => 'form.type.money',
+                15 => 'form.type.number',
+                16 => 'form.type.password',
+                17 => 'form.type.percent',
+                18 => 'form.type.radio',
+                19 => 'form.type.range',
+                20 => 'form.type.repeated',
+                21 => 'form.type.search',
+                22 => 'form.type.textarea',
+                23 => 'form.type.text',
+                24 => 'form.type.time',
+                25 => 'form.type.timezone',
+                26 => 'form.type.url',
+                27 => 'form.type.button',
+                28 => 'form.type.submit',
+                29 => 'form.type.reset',
+                30 => 'form.type.currency',
+                31 => 'form.type.entity',
+                32 => 'sonata.core.form.type.array',
+                33 => 'sonata.core.form.type.boolean',
+                34 => 'sonata.core.form.type.collection',
+                35 => 'sonata.core.form.type.translatable_choice',
+                36 => 'sonata.core.form.type.date_range',
+                37 => 'sonata.core.form.type.datetime_range',
+                38 => 'sonata.core.form.type.date_picker',
+                39 => 'sonata.core.form.type.datetime_picker',
+                40 => 'sonata.core.form.type.date_range_picker',
+                41 => 'sonata.core.form.type.datetime_range_picker',
+                42 => 'sonata.core.form.type.equal',
+                43 => 'sonata.core.form.type.color_selector',
+                44 => 'sonata.core.form.type.color',
+                45 => 'sonata.block.form.type.block',
+                46 => 'sonata.block.form.type.container_template',
+                47 => 'sonata.admin.form.type.admin',
+                48 => 'sonata.admin.form.type.model_choice',
+                49 => 'sonata.admin.form.type.model_list',
+                50 => 'sonata.admin.form.type.model_reference',
+                51 => 'sonata.admin.form.type.model_hidden',
+                52 => 'sonata.admin.form.type.model_autocomplete',
+                53 => 'sonata.admin.form.type.collection',
+                54 => 'sonata.admin.doctrine_orm.form.type.choice_field_mask',
+                55 => 'sonata.admin.form.filter.type.number',
+                56 => 'sonata.admin.form.filter.type.choice',
+                57 => 'sonata.admin.form.filter.type.default',
+                58 => 'sonata.admin.form.filter.type.date',
+                59 => 'sonata.admin.form.filter.type.daterange',
+                60 => 'sonata.admin.form.filter.type.datetime',
+                61 => 'sonata.admin.form.filter.type.datetime_range',
+            ),
+            'sonata.core.form.type_extensions' => array(
+                0 => 'form.type_extension.form.http_foundation',
+                1 => 'form.type_extension.form.validator',
+                2 => 'form.type_extension.repeated.validator',
+                3 => 'form.type_extension.submit.validator',
+                4 => 'form.type_extension.upload.validator',
+                5 => 'form.type_extension.csrf',
+                6 => 'fos_rest.form.extension.csrf_disable',
+                7 => 'nelmio_api_doc.form.extension.description_form_type_extension',
+                8 => 'sonata.admin.form.extension.field',
+                9 => 'sonata.admin.form.extension.field.mopa',
+                10 => 'sonata.admin.form.extension.choice',
             ),
         );
     }
 }
 
-class DoctrineORMEntityManager_000000001ef934de0000557aadcec6479487dc380a120219db386a12b507ab17 extends \Doctrine\ORM\EntityManager implements \ProxyManager\Proxy\VirtualProxyInterface
+class DoctrineORMEntityManager_000000007357b262000055f36ab4e7450ebf9a199e96bd580fe343b8287f47cf extends \Doctrine\ORM\EntityManager implements \ProxyManager\Proxy\VirtualProxyInterface
 {
-    private $valueHolder5b7e3e728e9f5083224151 = null;
-    private $initializer5b7e3e728ea09183663987 = null;
-    private static $publicProperties5b7e3e728e9c6222437733 = array(
+    private $valueHolder5bbc485e71be7939420192 = null;
+    private $initializer5bbc485e71bfe839154612 = null;
+    private static $publicProperties5bbc485e71baa760568958 = array(
         
     );
     public function getConnection()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getConnection', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getConnection();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getConnection', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getConnection();
     }
     public function getMetadataFactory()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getMetadataFactory', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getMetadataFactory();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getMetadataFactory', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getMetadataFactory();
     }
     public function getExpressionBuilder()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getExpressionBuilder', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getExpressionBuilder();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getExpressionBuilder', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getExpressionBuilder();
     }
     public function beginTransaction()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'beginTransaction', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->beginTransaction();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'beginTransaction', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->beginTransaction();
     }
     public function getCache()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getCache', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getCache();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getCache', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getCache();
     }
     public function transactional($func)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'transactional', array('func' => $func), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->transactional($func);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'transactional', array('func' => $func), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->transactional($func);
     }
     public function commit()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'commit', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->commit();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'commit', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->commit();
     }
     public function rollback()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'rollback', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->rollback();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'rollback', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->rollback();
     }
     public function getClassMetadata($className)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getClassMetadata', array('className' => $className), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getClassMetadata($className);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getClassMetadata', array('className' => $className), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getClassMetadata($className);
     }
     public function createQuery($dql = '')
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'createQuery', array('dql' => $dql), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->createQuery($dql);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'createQuery', array('dql' => $dql), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->createQuery($dql);
     }
     public function createNamedQuery($name)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'createNamedQuery', array('name' => $name), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->createNamedQuery($name);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'createNamedQuery', array('name' => $name), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->createNamedQuery($name);
     }
     public function createNativeQuery($sql, \Doctrine\ORM\Query\ResultSetMapping $rsm)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'createNativeQuery', array('sql' => $sql, 'rsm' => $rsm), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->createNativeQuery($sql, $rsm);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'createNativeQuery', array('sql' => $sql, 'rsm' => $rsm), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->createNativeQuery($sql, $rsm);
     }
     public function createNamedNativeQuery($name)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'createNamedNativeQuery', array('name' => $name), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->createNamedNativeQuery($name);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'createNamedNativeQuery', array('name' => $name), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->createNamedNativeQuery($name);
     }
     public function createQueryBuilder()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'createQueryBuilder', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->createQueryBuilder();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'createQueryBuilder', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->createQueryBuilder();
     }
     public function flush($entity = null)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'flush', array('entity' => $entity), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->flush($entity);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'flush', array('entity' => $entity), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->flush($entity);
     }
     public function find($entityName, $id, $lockMode = null, $lockVersion = null)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'find', array('entityName' => $entityName, 'id' => $id, 'lockMode' => $lockMode, 'lockVersion' => $lockVersion), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->find($entityName, $id, $lockMode, $lockVersion);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'find', array('entityName' => $entityName, 'id' => $id, 'lockMode' => $lockMode, 'lockVersion' => $lockVersion), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->find($entityName, $id, $lockMode, $lockVersion);
     }
     public function getReference($entityName, $id)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getReference', array('entityName' => $entityName, 'id' => $id), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getReference($entityName, $id);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getReference', array('entityName' => $entityName, 'id' => $id), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getReference($entityName, $id);
     }
     public function getPartialReference($entityName, $identifier)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getPartialReference', array('entityName' => $entityName, 'identifier' => $identifier), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getPartialReference($entityName, $identifier);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getPartialReference', array('entityName' => $entityName, 'identifier' => $identifier), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getPartialReference($entityName, $identifier);
     }
     public function clear($entityName = null)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'clear', array('entityName' => $entityName), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->clear($entityName);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'clear', array('entityName' => $entityName), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->clear($entityName);
     }
     public function close()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'close', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->close();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'close', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->close();
     }
     public function persist($entity)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'persist', array('entity' => $entity), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->persist($entity);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'persist', array('entity' => $entity), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->persist($entity);
     }
     public function remove($entity)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'remove', array('entity' => $entity), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->remove($entity);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'remove', array('entity' => $entity), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->remove($entity);
     }
     public function refresh($entity)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'refresh', array('entity' => $entity), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->refresh($entity);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'refresh', array('entity' => $entity), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->refresh($entity);
     }
     public function detach($entity)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'detach', array('entity' => $entity), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->detach($entity);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'detach', array('entity' => $entity), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->detach($entity);
     }
     public function merge($entity)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'merge', array('entity' => $entity), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->merge($entity);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'merge', array('entity' => $entity), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->merge($entity);
     }
     public function copy($entity, $deep = false)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'copy', array('entity' => $entity, 'deep' => $deep), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->copy($entity, $deep);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'copy', array('entity' => $entity, 'deep' => $deep), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->copy($entity, $deep);
     }
     public function lock($entity, $lockMode, $lockVersion = null)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'lock', array('entity' => $entity, 'lockMode' => $lockMode, 'lockVersion' => $lockVersion), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->lock($entity, $lockMode, $lockVersion);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'lock', array('entity' => $entity, 'lockMode' => $lockMode, 'lockVersion' => $lockVersion), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->lock($entity, $lockMode, $lockVersion);
     }
     public function getRepository($entityName)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getRepository', array('entityName' => $entityName), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getRepository($entityName);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getRepository', array('entityName' => $entityName), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getRepository($entityName);
     }
     public function contains($entity)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'contains', array('entity' => $entity), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->contains($entity);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'contains', array('entity' => $entity), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->contains($entity);
     }
     public function getEventManager()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getEventManager', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getEventManager();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getEventManager', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getEventManager();
     }
     public function getConfiguration()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getConfiguration', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getConfiguration();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getConfiguration', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getConfiguration();
     }
     public function isOpen()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'isOpen', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->isOpen();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'isOpen', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->isOpen();
     }
     public function getUnitOfWork()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getUnitOfWork', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getUnitOfWork();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getUnitOfWork', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getUnitOfWork();
     }
     public function getHydrator($hydrationMode)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getHydrator', array('hydrationMode' => $hydrationMode), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getHydrator($hydrationMode);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getHydrator', array('hydrationMode' => $hydrationMode), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getHydrator($hydrationMode);
     }
     public function newHydrator($hydrationMode)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'newHydrator', array('hydrationMode' => $hydrationMode), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->newHydrator($hydrationMode);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'newHydrator', array('hydrationMode' => $hydrationMode), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->newHydrator($hydrationMode);
     }
     public function getProxyFactory()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getProxyFactory', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getProxyFactory();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getProxyFactory', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getProxyFactory();
     }
     public function initializeObject($obj)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'initializeObject', array('obj' => $obj), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->initializeObject($obj);
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'initializeObject', array('obj' => $obj), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->initializeObject($obj);
     }
     public function getFilters()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'getFilters', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->getFilters();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'getFilters', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->getFilters();
     }
     public function isFiltersStateClean()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'isFiltersStateClean', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->isFiltersStateClean();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'isFiltersStateClean', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->isFiltersStateClean();
     }
     public function hasFilters()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'hasFilters', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return $this->valueHolder5b7e3e728e9f5083224151->hasFilters();
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'hasFilters', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return $this->valueHolder5bbc485e71be7939420192->hasFilters();
     }
     public function __construct($initializer)
     {
-        $this->initializer5b7e3e728ea09183663987 = $initializer;
+        $this->initializer5bbc485e71bfe839154612 = $initializer;
     }
     public function & __get($name)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, '__get', array('name' => $name), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        if (isset(self::$publicProperties5b7e3e728e9c6222437733[$name])) {
-            return $this->valueHolder5b7e3e728e9f5083224151->$name;
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, '__get', array('name' => $name), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        if (isset(self::$publicProperties5bbc485e71baa760568958[$name])) {
+            return $this->valueHolder5bbc485e71be7939420192->$name;
         }
         $realInstanceReflection = new \ReflectionClass(get_parent_class($this));
         if (! $realInstanceReflection->hasProperty($name)) {
-            $targetObject = $this->valueHolder5b7e3e728e9f5083224151;
+            $targetObject = $this->valueHolder5bbc485e71be7939420192;
             $backtrace = debug_backtrace(false);
             trigger_error('Undefined property: ' . get_parent_class($this) . '::$' . $name . ' in ' . $backtrace[0]['file'] . ' on line ' . $backtrace[0]['line'], \E_USER_NOTICE);
             return $targetObject->$name;;
             return;
         }
-        $targetObject = $this->valueHolder5b7e3e728e9f5083224151;
+        $targetObject = $this->valueHolder5bbc485e71be7939420192;
         $accessor = function & () use ($targetObject, $name) {
             return $targetObject->$name;
         };
@@ -4525,14 +7302,14 @@ class DoctrineORMEntityManager_000000001ef934de0000557aadcec6479487dc380a120219d
     }
     public function __set($name, $value)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, '__set', array('name' => $name, 'value' => $value), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, '__set', array('name' => $name, 'value' => $value), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
         $realInstanceReflection = new \ReflectionClass(get_parent_class($this));
         if (! $realInstanceReflection->hasProperty($name)) {
-            $targetObject = $this->valueHolder5b7e3e728e9f5083224151;
+            $targetObject = $this->valueHolder5bbc485e71be7939420192;
             return $targetObject->$name = $value;;
             return;
         }
-        $targetObject = $this->valueHolder5b7e3e728e9f5083224151;
+        $targetObject = $this->valueHolder5bbc485e71be7939420192;
         $accessor = function & () use ($targetObject, $name, $value) {
             return $targetObject->$name = $value;
         };
@@ -4544,14 +7321,14 @@ class DoctrineORMEntityManager_000000001ef934de0000557aadcec6479487dc380a120219d
     }
     public function __isset($name)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, '__isset', array('name' => $name), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, '__isset', array('name' => $name), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
         $realInstanceReflection = new \ReflectionClass(get_parent_class($this));
         if (! $realInstanceReflection->hasProperty($name)) {
-            $targetObject = $this->valueHolder5b7e3e728e9f5083224151;
+            $targetObject = $this->valueHolder5bbc485e71be7939420192;
             return isset($targetObject->$name);;
             return;
         }
-        $targetObject = $this->valueHolder5b7e3e728e9f5083224151;
+        $targetObject = $this->valueHolder5bbc485e71be7939420192;
         $accessor = function () use ($targetObject, $name) {
             return isset($targetObject->$name);
         };
@@ -4563,14 +7340,14 @@ class DoctrineORMEntityManager_000000001ef934de0000557aadcec6479487dc380a120219d
     }
     public function __unset($name)
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, '__unset', array('name' => $name), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, '__unset', array('name' => $name), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
         $realInstanceReflection = new \ReflectionClass(get_parent_class($this));
         if (! $realInstanceReflection->hasProperty($name)) {
-            $targetObject = $this->valueHolder5b7e3e728e9f5083224151;
+            $targetObject = $this->valueHolder5bbc485e71be7939420192;
             unset($targetObject->$name);;
             return;
         }
-        $targetObject = $this->valueHolder5b7e3e728e9f5083224151;
+        $targetObject = $this->valueHolder5bbc485e71be7939420192;
         $accessor = function () use ($targetObject, $name) {
             unset($targetObject->$name);
         };
@@ -4582,75 +7359,75 @@ class DoctrineORMEntityManager_000000001ef934de0000557aadcec6479487dc380a120219d
     }
     public function __clone()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, '__clone', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        $this->valueHolder5b7e3e728e9f5083224151 = clone $this->valueHolder5b7e3e728e9f5083224151;
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, '__clone', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        $this->valueHolder5bbc485e71be7939420192 = clone $this->valueHolder5bbc485e71be7939420192;
     }
     public function __sleep()
     {
-        $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, '__sleep', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
-        return array('valueHolder5b7e3e728e9f5083224151');
+        $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, '__sleep', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
+        return array('valueHolder5bbc485e71be7939420192');
     }
     public function __wakeup()
     {
     }
     public function setProxyInitializer(\Closure $initializer = null)
     {
-        $this->initializer5b7e3e728ea09183663987 = $initializer;
+        $this->initializer5bbc485e71bfe839154612 = $initializer;
     }
     public function getProxyInitializer()
     {
-        return $this->initializer5b7e3e728ea09183663987;
+        return $this->initializer5bbc485e71bfe839154612;
     }
     public function initializeProxy()
     {
-        return $this->initializer5b7e3e728ea09183663987 && ($this->initializer5b7e3e728ea09183663987->__invoke($valueHolder5b7e3e728e9f5083224151, $this, 'initializeProxy', array(), $this->initializer5b7e3e728ea09183663987) || 1) && $this->valueHolder5b7e3e728e9f5083224151 = $valueHolder5b7e3e728e9f5083224151;
+        return $this->initializer5bbc485e71bfe839154612 && ($this->initializer5bbc485e71bfe839154612->__invoke($valueHolder5bbc485e71be7939420192, $this, 'initializeProxy', array(), $this->initializer5bbc485e71bfe839154612) || 1) && $this->valueHolder5bbc485e71be7939420192 = $valueHolder5bbc485e71be7939420192;
     }
     public function isProxyInitialized()
     {
-        return null !== $this->valueHolder5b7e3e728e9f5083224151;
+        return null !== $this->valueHolder5bbc485e71be7939420192;
     }
     public function getWrappedValueHolderValue()
     {
-        return $this->valueHolder5b7e3e728e9f5083224151;
+        return $this->valueHolder5bbc485e71be7939420192;
     }
 }
 
-class FOSRestBundleSerializerJMSSerializerAdapter_000000001ef932d70000557aadcec6479487dc380a120219db386a12b507ab17 extends \FOS\RestBundle\Serializer\JMSSerializerAdapter implements \ProxyManager\Proxy\VirtualProxyInterface
+class FOSRestBundleSerializerJMSSerializerAdapter_000000007357b3aa000055f36ab4e7450ebf9a199e96bd580fe343b8287f47cf extends \FOS\RestBundle\Serializer\JMSSerializerAdapter implements \ProxyManager\Proxy\VirtualProxyInterface
 {
-    private $valueHolder5b7e3e729d696345152802 = null;
-    private $initializer5b7e3e729d6ab002534263 = null;
-    private static $publicProperties5b7e3e729d663539649864 = array(
+    private $valueHolder5bbc485e8024a550027229 = null;
+    private $initializer5bbc485e8026d273130765 = null;
+    private static $publicProperties5bbc485e80206429600625 = array(
         
     );
     public function serialize($data, $format, $context = null)
     {
-        $this->initializer5b7e3e729d6ab002534263 && ($this->initializer5b7e3e729d6ab002534263->__invoke($valueHolder5b7e3e729d696345152802, $this, 'serialize', array('data' => $data, 'format' => $format, 'context' => $context), $this->initializer5b7e3e729d6ab002534263) || 1) && $this->valueHolder5b7e3e729d696345152802 = $valueHolder5b7e3e729d696345152802;
-        return $this->valueHolder5b7e3e729d696345152802->serialize($data, $format, $context);
+        $this->initializer5bbc485e8026d273130765 && ($this->initializer5bbc485e8026d273130765->__invoke($valueHolder5bbc485e8024a550027229, $this, 'serialize', array('data' => $data, 'format' => $format, 'context' => $context), $this->initializer5bbc485e8026d273130765) || 1) && $this->valueHolder5bbc485e8024a550027229 = $valueHolder5bbc485e8024a550027229;
+        return $this->valueHolder5bbc485e8024a550027229->serialize($data, $format, $context);
     }
     public function deserialize($data, $type, $format, $context = null)
     {
-        $this->initializer5b7e3e729d6ab002534263 && ($this->initializer5b7e3e729d6ab002534263->__invoke($valueHolder5b7e3e729d696345152802, $this, 'deserialize', array('data' => $data, 'type' => $type, 'format' => $format, 'context' => $context), $this->initializer5b7e3e729d6ab002534263) || 1) && $this->valueHolder5b7e3e729d696345152802 = $valueHolder5b7e3e729d696345152802;
-        return $this->valueHolder5b7e3e729d696345152802->deserialize($data, $type, $format, $context);
+        $this->initializer5bbc485e8026d273130765 && ($this->initializer5bbc485e8026d273130765->__invoke($valueHolder5bbc485e8024a550027229, $this, 'deserialize', array('data' => $data, 'type' => $type, 'format' => $format, 'context' => $context), $this->initializer5bbc485e8026d273130765) || 1) && $this->valueHolder5bbc485e8024a550027229 = $valueHolder5bbc485e8024a550027229;
+        return $this->valueHolder5bbc485e8024a550027229->deserialize($data, $type, $format, $context);
     }
     public function __construct($initializer)
     {
-        $this->initializer5b7e3e729d6ab002534263 = $initializer;
+        $this->initializer5bbc485e8026d273130765 = $initializer;
     }
     public function & __get($name)
     {
-        $this->initializer5b7e3e729d6ab002534263 && ($this->initializer5b7e3e729d6ab002534263->__invoke($valueHolder5b7e3e729d696345152802, $this, '__get', array('name' => $name), $this->initializer5b7e3e729d6ab002534263) || 1) && $this->valueHolder5b7e3e729d696345152802 = $valueHolder5b7e3e729d696345152802;
-        if (isset(self::$publicProperties5b7e3e729d663539649864[$name])) {
-            return $this->valueHolder5b7e3e729d696345152802->$name;
+        $this->initializer5bbc485e8026d273130765 && ($this->initializer5bbc485e8026d273130765->__invoke($valueHolder5bbc485e8024a550027229, $this, '__get', array('name' => $name), $this->initializer5bbc485e8026d273130765) || 1) && $this->valueHolder5bbc485e8024a550027229 = $valueHolder5bbc485e8024a550027229;
+        if (isset(self::$publicProperties5bbc485e80206429600625[$name])) {
+            return $this->valueHolder5bbc485e8024a550027229->$name;
         }
         $realInstanceReflection = new \ReflectionClass(get_parent_class($this));
         if (! $realInstanceReflection->hasProperty($name)) {
-            $targetObject = $this->valueHolder5b7e3e729d696345152802;
+            $targetObject = $this->valueHolder5bbc485e8024a550027229;
             $backtrace = debug_backtrace(false);
             trigger_error('Undefined property: ' . get_parent_class($this) . '::$' . $name . ' in ' . $backtrace[0]['file'] . ' on line ' . $backtrace[0]['line'], \E_USER_NOTICE);
             return $targetObject->$name;;
             return;
         }
-        $targetObject = $this->valueHolder5b7e3e729d696345152802;
+        $targetObject = $this->valueHolder5bbc485e8024a550027229;
         $accessor = function & () use ($targetObject, $name) {
             return $targetObject->$name;
         };
@@ -4662,14 +7439,14 @@ class FOSRestBundleSerializerJMSSerializerAdapter_000000001ef932d70000557aadcec6
     }
     public function __set($name, $value)
     {
-        $this->initializer5b7e3e729d6ab002534263 && ($this->initializer5b7e3e729d6ab002534263->__invoke($valueHolder5b7e3e729d696345152802, $this, '__set', array('name' => $name, 'value' => $value), $this->initializer5b7e3e729d6ab002534263) || 1) && $this->valueHolder5b7e3e729d696345152802 = $valueHolder5b7e3e729d696345152802;
+        $this->initializer5bbc485e8026d273130765 && ($this->initializer5bbc485e8026d273130765->__invoke($valueHolder5bbc485e8024a550027229, $this, '__set', array('name' => $name, 'value' => $value), $this->initializer5bbc485e8026d273130765) || 1) && $this->valueHolder5bbc485e8024a550027229 = $valueHolder5bbc485e8024a550027229;
         $realInstanceReflection = new \ReflectionClass(get_parent_class($this));
         if (! $realInstanceReflection->hasProperty($name)) {
-            $targetObject = $this->valueHolder5b7e3e729d696345152802;
+            $targetObject = $this->valueHolder5bbc485e8024a550027229;
             return $targetObject->$name = $value;;
             return;
         }
-        $targetObject = $this->valueHolder5b7e3e729d696345152802;
+        $targetObject = $this->valueHolder5bbc485e8024a550027229;
         $accessor = function & () use ($targetObject, $name, $value) {
             return $targetObject->$name = $value;
         };
@@ -4681,14 +7458,14 @@ class FOSRestBundleSerializerJMSSerializerAdapter_000000001ef932d70000557aadcec6
     }
     public function __isset($name)
     {
-        $this->initializer5b7e3e729d6ab002534263 && ($this->initializer5b7e3e729d6ab002534263->__invoke($valueHolder5b7e3e729d696345152802, $this, '__isset', array('name' => $name), $this->initializer5b7e3e729d6ab002534263) || 1) && $this->valueHolder5b7e3e729d696345152802 = $valueHolder5b7e3e729d696345152802;
+        $this->initializer5bbc485e8026d273130765 && ($this->initializer5bbc485e8026d273130765->__invoke($valueHolder5bbc485e8024a550027229, $this, '__isset', array('name' => $name), $this->initializer5bbc485e8026d273130765) || 1) && $this->valueHolder5bbc485e8024a550027229 = $valueHolder5bbc485e8024a550027229;
         $realInstanceReflection = new \ReflectionClass(get_parent_class($this));
         if (! $realInstanceReflection->hasProperty($name)) {
-            $targetObject = $this->valueHolder5b7e3e729d696345152802;
+            $targetObject = $this->valueHolder5bbc485e8024a550027229;
             return isset($targetObject->$name);;
             return;
         }
-        $targetObject = $this->valueHolder5b7e3e729d696345152802;
+        $targetObject = $this->valueHolder5bbc485e8024a550027229;
         $accessor = function () use ($targetObject, $name) {
             return isset($targetObject->$name);
         };
@@ -4700,14 +7477,14 @@ class FOSRestBundleSerializerJMSSerializerAdapter_000000001ef932d70000557aadcec6
     }
     public function __unset($name)
     {
-        $this->initializer5b7e3e729d6ab002534263 && ($this->initializer5b7e3e729d6ab002534263->__invoke($valueHolder5b7e3e729d696345152802, $this, '__unset', array('name' => $name), $this->initializer5b7e3e729d6ab002534263) || 1) && $this->valueHolder5b7e3e729d696345152802 = $valueHolder5b7e3e729d696345152802;
+        $this->initializer5bbc485e8026d273130765 && ($this->initializer5bbc485e8026d273130765->__invoke($valueHolder5bbc485e8024a550027229, $this, '__unset', array('name' => $name), $this->initializer5bbc485e8026d273130765) || 1) && $this->valueHolder5bbc485e8024a550027229 = $valueHolder5bbc485e8024a550027229;
         $realInstanceReflection = new \ReflectionClass(get_parent_class($this));
         if (! $realInstanceReflection->hasProperty($name)) {
-            $targetObject = $this->valueHolder5b7e3e729d696345152802;
+            $targetObject = $this->valueHolder5bbc485e8024a550027229;
             unset($targetObject->$name);;
             return;
         }
-        $targetObject = $this->valueHolder5b7e3e729d696345152802;
+        $targetObject = $this->valueHolder5bbc485e8024a550027229;
         $accessor = function () use ($targetObject, $name) {
             unset($targetObject->$name);
         };
@@ -4719,35 +7496,35 @@ class FOSRestBundleSerializerJMSSerializerAdapter_000000001ef932d70000557aadcec6
     }
     public function __clone()
     {
-        $this->initializer5b7e3e729d6ab002534263 && ($this->initializer5b7e3e729d6ab002534263->__invoke($valueHolder5b7e3e729d696345152802, $this, '__clone', array(), $this->initializer5b7e3e729d6ab002534263) || 1) && $this->valueHolder5b7e3e729d696345152802 = $valueHolder5b7e3e729d696345152802;
-        $this->valueHolder5b7e3e729d696345152802 = clone $this->valueHolder5b7e3e729d696345152802;
+        $this->initializer5bbc485e8026d273130765 && ($this->initializer5bbc485e8026d273130765->__invoke($valueHolder5bbc485e8024a550027229, $this, '__clone', array(), $this->initializer5bbc485e8026d273130765) || 1) && $this->valueHolder5bbc485e8024a550027229 = $valueHolder5bbc485e8024a550027229;
+        $this->valueHolder5bbc485e8024a550027229 = clone $this->valueHolder5bbc485e8024a550027229;
     }
     public function __sleep()
     {
-        $this->initializer5b7e3e729d6ab002534263 && ($this->initializer5b7e3e729d6ab002534263->__invoke($valueHolder5b7e3e729d696345152802, $this, '__sleep', array(), $this->initializer5b7e3e729d6ab002534263) || 1) && $this->valueHolder5b7e3e729d696345152802 = $valueHolder5b7e3e729d696345152802;
-        return array('valueHolder5b7e3e729d696345152802');
+        $this->initializer5bbc485e8026d273130765 && ($this->initializer5bbc485e8026d273130765->__invoke($valueHolder5bbc485e8024a550027229, $this, '__sleep', array(), $this->initializer5bbc485e8026d273130765) || 1) && $this->valueHolder5bbc485e8024a550027229 = $valueHolder5bbc485e8024a550027229;
+        return array('valueHolder5bbc485e8024a550027229');
     }
     public function __wakeup()
     {
     }
     public function setProxyInitializer(\Closure $initializer = null)
     {
-        $this->initializer5b7e3e729d6ab002534263 = $initializer;
+        $this->initializer5bbc485e8026d273130765 = $initializer;
     }
     public function getProxyInitializer()
     {
-        return $this->initializer5b7e3e729d6ab002534263;
+        return $this->initializer5bbc485e8026d273130765;
     }
     public function initializeProxy()
     {
-        return $this->initializer5b7e3e729d6ab002534263 && ($this->initializer5b7e3e729d6ab002534263->__invoke($valueHolder5b7e3e729d696345152802, $this, 'initializeProxy', array(), $this->initializer5b7e3e729d6ab002534263) || 1) && $this->valueHolder5b7e3e729d696345152802 = $valueHolder5b7e3e729d696345152802;
+        return $this->initializer5bbc485e8026d273130765 && ($this->initializer5bbc485e8026d273130765->__invoke($valueHolder5bbc485e8024a550027229, $this, 'initializeProxy', array(), $this->initializer5bbc485e8026d273130765) || 1) && $this->valueHolder5bbc485e8024a550027229 = $valueHolder5bbc485e8024a550027229;
     }
     public function isProxyInitialized()
     {
-        return null !== $this->valueHolder5b7e3e729d696345152802;
+        return null !== $this->valueHolder5bbc485e8024a550027229;
     }
     public function getWrappedValueHolderValue()
     {
-        return $this->valueHolder5b7e3e729d696345152802;
+        return $this->valueHolder5bbc485e8024a550027229;
     }
 }

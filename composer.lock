@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "99d634ceaca2bfed91566722b5634111",
+    "content-hash": "5d70f82bb5adf988a26a194bde536a11",
     "packages": [
         {
             "name": "cocur/slugify",
@@ -1693,6 +1693,73 @@
             "time": "2017-05-10T10:17:17+00:00"
         },
         {
+            "name": "jms/translation-bundle",
+            "version": "1.4.3",
+            "target-dir": "JMS/TranslationBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/schmittjoh/JMSTranslationBundle.git",
+                "reference": "64c2a7d1ad4e61987bc79fbfb59067fc9460dc21"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/schmittjoh/JMSTranslationBundle/zipball/64c2a7d1ad4e61987bc79fbfb59067fc9460dc21",
+                "reference": "64c2a7d1ad4e61987bc79fbfb59067fc9460dc21",
+                "shasum": ""
+            },
+            "require": {
+                "nikic/php-parser": "^1.4 || ^2.0 || ^3.0 || ^4.0",
+                "php": "^5.3.3 || ^7.0",
+                "symfony/console": "^2.3 || ^3.0 || ^4.0",
+                "symfony/framework-bundle": "^2.3 || ^3.0 || ^4.0",
+                "symfony/validator": "^2.3 || ^3.0 || ^4.0",
+                "twig/twig": "^1.27 || ^2.0"
+            },
+            "require-dev": {
+                "matthiasnoback/symfony-dependency-injection-test": "^1.2",
+                "nyholm/nsa": "^1.0.1",
+                "phpunit/phpunit": "^4.8 || ^5.0",
+                "psr/log": "^1.0",
+                "sensio/framework-extra-bundle": "^2.3 || ^3.0 || ^4.0",
+                "symfony/expression-language": "^2.6 || ^3.0 || ^4.0",
+                "symfony/symfony": "^2.3 || ^3.0 || ^4.0"
+            },
+            "type": "symfony-bundle",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "JMS\\TranslationBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Johannes M. Schmitt",
+                    "email": "schmittjoh@gmail.com"
+                }
+            ],
+            "description": "Puts the Symfony Translation Component on steroids",
+            "homepage": "http://jmsyst.com/bundles/JMSTranslationBundle",
+            "keywords": [
+                "extract",
+                "extraction",
+                "i18n",
+                "interface",
+                "multilanguage",
+                "translation",
+                "ui",
+                "webinterface"
+            ],
+            "time": "2018-06-28T05:04:47+00:00"
+        },
+        {
             "name": "knplabs/knp-menu",
             "version": "2.3.0",
             "source": {
@@ -2233,6 +2300,57 @@
                 "crossdomain"
             ],
             "time": "2017-12-11T18:41:54+00:00"
+        },
+        {
+            "name": "nikic/php-parser",
+            "version": "v3.1.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/nikic/PHP-Parser.git",
+                "reference": "bb87e28e7d7b8d9a7fda231d37457c9210faf6ce"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/bb87e28e7d7b8d9a7fda231d37457c9210faf6ce",
+                "reference": "bb87e28e7d7b8d9a7fda231d37457c9210faf6ce",
+                "shasum": ""
+            },
+            "require": {
+                "ext-tokenizer": "*",
+                "php": ">=5.5"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0|~5.0"
+            },
+            "bin": [
+                "bin/php-parse"
+            ],
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "PhpParser\\": "lib/PhpParser"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Nikita Popov"
+                }
+            ],
+            "description": "A PHP parser written in PHP",
+            "keywords": [
+                "parser",
+                "php"
+            ],
+            "time": "2018-02-28T20:30:58+00:00"
         },
         {
             "name": "ocramius/proxy-manager",
@@ -4236,16 +4354,16 @@
         },
         {
             "name": "symfony/security-csrf",
-            "version": "v3.4.16",
+            "version": "v3.4.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-csrf.git",
-                "reference": "3e165489937450297c5282e0b9f9bcebba9679c9"
+                "reference": "77b0890b46224039b7886991763ebc7fd850f0e5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-csrf/zipball/3e165489937450297c5282e0b9f9bcebba9679c9",
-                "reference": "3e165489937450297c5282e0b9f9bcebba9679c9",
+                "url": "https://api.github.com/repos/symfony/security-csrf/zipball/77b0890b46224039b7886991763ebc7fd850f0e5",
+                "reference": "77b0890b46224039b7886991763ebc7fd850f0e5",
                 "shasum": ""
             },
             "require": {
@@ -4293,7 +4411,7 @@
             ],
             "description": "Symfony Security Component - CSRF Library",
             "homepage": "https://symfony.com",
-            "time": "2018-09-04T06:27:33+00:00"
+            "time": "2018-10-02T12:28:39+00:00"
         },
         {
             "name": "symfony/swiftmailer-bundle",

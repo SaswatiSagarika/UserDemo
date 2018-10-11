@@ -12,19 +12,16 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\FOSRestController;
-use FOS\RestBundle\Controller\Annotations\Post;
-use FOS\RestBundle\Controller\Annotations\Get;
-use FOS\RestBundle\Controller\Annotations\View;
-use FOS\RestBundle\Controller\Annotations\Put;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Response;
-use Twilio\Rest\Client;
 use Sch\MainBundle\Entity\User;
 use Sch\MainBundle\Entity\UserPhone;
 use Sch\MainBundle\Entity\TwilioLog;
-
+use Symfony\Component\Translation\TranslatorInterface;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
 class PhoneController extends FOSRestController
 {
@@ -68,50 +65,41 @@ class PhoneController extends FOSRestController
 	*/
     public function sendAction(Request $request)
     {	
-    	$data = ($request->getContent()) ? json_decode($request->getContent(),1) : son_decode ($request->query->get('data'), true);
-        
-        $param = [];
+
+    	$data = ($request->getContent()) ? json_decode($request->getContent(),1) : json_decode($request->query->get('data'), true);
+
+        $submittedToken = $request->headers->get('Cookie');
+        //print_r($request->getStatusCode());exit();
         $resultArray = [];
         
         if (!$data) {
-    	   	$resultArray['errorMessage'] = "Please provide the name parameter";
-    	   	throw new Exception("Error Processing Request", 1);
+        	$message = $this->get('translator')->trans('api.missing_parameters');
+    	   	throw new \BadRequestHttpException($message);
     	}
 
-            		
-		$param['user'] = (trim($data['name'])) ? $data['name'] : "";
-		$param['phone'] = (trim($data['phone']) ? $data['phone'] : "";
-
-		if (!$param['user']) {
-	    	throw new Exception("Please provide the name parameter", 1);
-	    }
-
-	    if (!$param['phone']) {
-	    	throw new Exception("Please provide the phone parameter", 1);
-	    }
-
-	    $em = $this->getDoctrine()->getManager();
-       	$user = $em->getRepository('MainBundle:User')->findOneBy(array('name' => $param['user']));
-
-       	if (!$user) {
-        	throw new Exception("Please provide the valid user parameter", 1);
-        }
-	    
-	    $phone = $em->getRepository('MainBundle:UserPhone')->check($param);
-
-        if (!$phone) {
-        	throw new Exception("Please give a valid phone to search", 1);
-        } 
+		$userData = $this->phoneService->checkDetails($param, 'send');
+		
+		if ('false' == $userData['status'] ) {
+			$message = $this->get('translator')->trans($userData['message']);
+			throw new \NotFoundHttpException($message);
+		}
+		
+		$userData = $this->phoneService->checkDetails($param, 'send');
+		
+		if ('false' == $userData['status'] ) {
+			$message = $this->get('translator')->trans($userData['message']);
+			throw new \NotFoundHttpException($message);
+		}
 	                
 	    //incase the otp is used, generate new
-    	$otpStatus = ('Used' === $user->getStatus())? $this->phoneService->generateOtp() : 
+    	$otpNew = ('Used' === $user->getStatus())? $this->phoneService->generateOtp() : 
     						$user->getOtp();
 		
 		//getting the twilio parameters
         $optService = $this->phoneService->sendOtpToMobile( $param['phone'], $otpNew);
 
         if (!$optService['status']) {
-  			throw new Exception($optService['error'], 1);
+			throw new \BadRequestHttpException('Error Occured');
     	}
 
     	$user->setOtp($otpNew);
@@ -147,51 +135,31 @@ class PhoneController extends FOSRestController
 	* @return mixed
 	*/
     public function verifyAction(Request $request)
-    {
-    	$data = ($request->getContent()) ? json_decode($request->getContent(),1) : son_decode ($request->query->get('data'), true);
-        
-        $param = [];
-        $resultArray = [];
-        
-        if (!$data) {
-    	   	throw new Exception("Please provide the required parameters", 1);
+    {	
+    	if('POST' !== $request->getMethod()){
+    		$message = $this->get('translator')->trans('invalid_Method');
+			 throw new \MethodNotAllowedHttpException($message);
     	}
 
-            		
-		$param['user'] = (trim($data['name'])) ? $data['name'] : "";
-		$param['phone'] = (trim($data['phone']) ? $data['phone'] : "";
-		$param['otp'] = (trim($data['otp'])) ? $data['otp'] : "";
+    	$data = ($request->getContent()) ? json_decode($request->getContent(),1) : json_decode ($request->query->get('data'), true);
+        
+        if (!$data) {
+        	$message = $this->get('translator')->trans('api.missing_parameters');
+    	   	throw new \BadRequestHttpException("Error Processing Request");
+    	}
 
-		if (!$param['user']) {
-	    	throw new Exception("Please provide the name parameter", 1);
-	    }
+		$userData = $this->phoneService->checkDetails($param, 'verfiy');
+		
+		if ('false' == $userData['status'] ) {
+			$message = $this->get('translator')->trans($userData['message']);
+			throw new \NotFoundHttpException($message);
+		}
 
-	    if (!$param['phone']) {
-	    	throw new Exception("Please provide the phone parameter", 1);
-	    }
-
-	    $em = $this->getDoctrine()->getManager();
-       	$user = $em->getRepository('MainBundle:User')->findOneBy(array('name' => $param['user']));
-
-       	if (!$user) {
-        	throw new Exception("Please give a valid user to search", 1);
-        }
-	    
-	    $phone = $em->getRepository('MainBundle:UserPhone')->check($param);
-
-        if (!$phone) {
-        	throw new Exception("Error Processing Request", 1);
-        } 
-	    
-		if ( isset($param['otp']) ) {
-			throw new Exception("Please provide the some parameter are missing", 1);
-		} 
-	    
 	    //verify the otp send.
     	$otpVerification = $em->getRepository('MainBundle:User')->verifyOtp($param);
 
         if (!$otpVerification) {
-        	throw new Exception("Error Occured", 1);
+        	throw new \BadRequestHttpException("Error Occured", 1);
         } 
         
         //updating the

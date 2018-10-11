@@ -22,3 +22,8 @@ security:
 
             # https://symfony.com/doc/current/security/form_login_setup.html
             #form_login: ~
+        secured_area:
+            # ...
+            form_login:
+                csrf_parameter: _csrf_security_token
+                intention: a_private_string

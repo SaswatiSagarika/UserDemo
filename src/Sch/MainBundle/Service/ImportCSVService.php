@@ -29,18 +29,25 @@ class ImportCSVService
      */
     public function createPhone($phone, $user)
     {   
-        $em = $this->getDoctrine()->getManager();
-        $userPhone = new UserPhone;
-        $phone = $em->getRepository('MainBundle:UserPhone')->findOneBy(array('phone' => $phone));
-        if (isset($phone)) {
-            $userPhone->setPhone($phone);
-            $userPhone->setUser($user);
-            $userPhone->setStatus('1');
-            $em->persist($user);
-            $em->flush();
+        try {
+            $em = $this->getDoctrine()->getManager();
+            $phone = $em->getRepository('MainBundle:UserPhone')->findOneBy(array('phone' => $phone));
+            if (empty($phone)) {
+                $userPhone = new UserPhone;
+                $userPhone->setPhone($phone);
+                $userPhone->setUser($user);
+                $userPhone->setStatus('1');
+                $em->persist($user);
+            }
+
+            return $userPhone;
+
+            } catch (\Exception $e) {
+                
+            $returnData['errorMessage'] = $e->getMessage();
+            return $returnData;
         }
 
-                
     }
 
     /**
@@ -52,8 +59,8 @@ class ImportCSVService
      *
      **/
     public function uploadUsers($sheet)
-    {   try 
-        {
+    {   
+        try {
             $em = $this->serviceContainer->get('doctrine')->getEntityManager();
             // Path to CSV file
             global $kernel;
@@ -67,8 +74,7 @@ class ImportCSVService
 
             $em = $this->getDoctrine()->getManager(); 
             
-            foreach ($results as $row) 
-            {
+            foreach ($results as $row) {
              
                 //create new users
                 $user = new User;
@@ -81,17 +87,23 @@ class ImportCSVService
                 $userPhone1 = $this->createPhone($row['phone1'] ,$user);
                 $userPhone2 = $this->createPhone($row['phone2'] ,$user);
                 $userPhone3 = $this->createPhone($row['phone3'] ,$user);
-                $em->flush();
             }
 
+            $em->getConnnection()->beginTransaction();
+            // Do flush here
+            $em->flush();
+            $em->getConnnection()->commit();
+
             $returnData['success']= "csv uploaded successfully";
-            return $returnData;
-            
-        } catch (\Exception $e)
-        {
+        } catch (\Exception $e) {
+            if ($em->getConnnection() && $em->getConnnection()->isOpen()) {
+                $em->getConnnection()->rollback();
+            }
+
             $returnData['errorMessage'] = $e->getMessage();
-            return $returnData;
         }
+
+        return $returnData;
     }
 
 

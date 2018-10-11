@@ -1,0 +1,14 @@
+#MyBundle\Resources\translations\messages.en.yml
+api:
+    missing_parameters: Some parameters are missing. Please provide the required parameter.
+    missing_username: Please provide the username.
+    missing_phone: Please provide the phone parameter.
+    missing_otp: Please provide the otp parameter.
+    valid_user: User not found. Please try again. 
+    valid_phone: Phone number not found. Please try again.
+    token: Missing parameter token.
+    activation_key: Missing parameter 'activation key!'
+    dummy: Missing parameter 'dummy!'
+    invalid_token: Token parameter is not valid!
+    invalid_method: Method parameter is not valid!
+    empty: Couldn't get reocrds for the given filters!

@@ -63,7 +63,7 @@ class __TwigTemplate_44d70f9b146550d5bdcdcb9a007180e16808509679fb7dc1f6de74d0951
 \t         \tvar formData = \$('#content').val()
 \t         \tvar Verb = \$('#verb option:selected').val()
 \t         \tvar url = \$('#url').val()
-\t         \t
+\t         \tvar csrf_token = \$('#csrf_token').val()
 \t\t\t\tif (formData.length == 0) {
 \t\t\t\t \t\$(\".error\").html(\"<p>Content field is Empty. Please provide some filtered data</p>\");
 \t\t\t\t}
@@ -80,7 +80,8 @@ class __TwigTemplate_44d70f9b146550d5bdcdcb9a007180e16808509679fb7dc1f6de74d0951
 \t\t        \t\$.ajax({  
 \t\t                url:        url,  
 \t\t               \ttype:       Verb,  
-\t\t               \tdata: \t\t{data: formData},
+\t\t               \tdata: \t\t{data: formData, 
+        _token: \$('meta[name=\"csrf-token\"]').attr('content')},
 \t\t               \tdataType:   'json',  
 \t\t               \tasync:      true,
 \t\t               \tsuccess: function(data) {  
@@ -113,7 +114,7 @@ class __TwigTemplate_44d70f9b146550d5bdcdcb9a007180e16808509679fb7dc1f6de74d0951
 
     }
 
-    // line 63
+    // line 64
     public function block_body($context, array $blocks = array())
     {
         $__internal_319393461309892924ff6e74d6d6e64287df64b63545b994e100d4ab223aed02 = $this->env->getExtension("Symfony\\Bridge\\Twig\\Extension\\ProfilerExtension");
@@ -127,6 +128,10 @@ class __TwigTemplate_44d70f9b146550d5bdcdcb9a007180e16808509679fb7dc1f6de74d0951
 \t</div>
 
 \t<form class=\"form-inline\" action=\"\">
+\t<input type=\"hidden\" id=\"csrf_token\" name=\"_csrf_token\" value=\"";
+        // line 72
+        echo twig_escape_filter($this->env, $this->env->getExtension('Symfony\Bridge\Twig\Extension\FormExtension')->renderCsrfToken("authenticate"), "html", null, true);
+        echo "\">
 \t\t<div class=\"form-group\">
 \t\t\t<label for=\"verb\">Verb:</label>
 \t\t\t<select name=\"verb\" id=\"verb\" class=\"verb\">
@@ -170,7 +175,7 @@ class __TwigTemplate_44d70f9b146550d5bdcdcb9a007180e16808509679fb7dc1f6de74d0951
 
     public function getDebugInfo()
     {
-        return array (  117 => 63,  51 => 7,  36 => 3,  11 => 2,);
+        return array (  133 => 72,  118 => 64,  51 => 7,  36 => 3,  11 => 2,);
     }
 
     /** @deprecated since 1.27 (to be removed in 2.0). Use getSourceContext() instead */
@@ -199,7 +204,7 @@ class __TwigTemplate_44d70f9b146550d5bdcdcb9a007180e16808509679fb7dc1f6de74d0951
 \t         \tvar formData = \$('#content').val()
 \t         \tvar Verb = \$('#verb option:selected').val()
 \t         \tvar url = \$('#url').val()
-\t         \t
+\t         \tvar csrf_token = \$('#csrf_token').val()
 \t\t\t\tif (formData.length == 0) {
 \t\t\t\t \t\$(\".error\").html(\"<p>Content field is Empty. Please provide some filtered data</p>\");
 \t\t\t\t}
@@ -216,7 +221,8 @@ class __TwigTemplate_44d70f9b146550d5bdcdcb9a007180e16808509679fb7dc1f6de74d0951
 \t\t        \t\$.ajax({  
 \t\t                url:        url,  
 \t\t               \ttype:       Verb,  
-\t\t               \tdata: \t\t{data: formData},
+\t\t               \tdata: \t\t{data: formData, 
+        _token: \$('meta[name=\"csrf-token\"]').attr('content')},
 \t\t               \tdataType:   'json',  
 \t\t               \tasync:      true,
 \t\t               \tsuccess: function(data) {  
@@ -253,6 +259,7 @@ class __TwigTemplate_44d70f9b146550d5bdcdcb9a007180e16808509679fb7dc1f6de74d0951
 \t</div>
 
 \t<form class=\"form-inline\" action=\"\">
+\t<input type=\"hidden\" id=\"csrf_token\" name=\"_csrf_token\" value=\"{{ csrf_token('authenticate') }}\">
 \t\t<div class=\"form-group\">
 \t\t\t<label for=\"verb\">Verb:</label>
 \t\t\t<select name=\"verb\" id=\"verb\" class=\"verb\">

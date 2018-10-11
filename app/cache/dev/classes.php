@@ -556,7 +556,9 @@ return $this->storage->getId();
 }
 public function setId($id)
 {
+if ($this->storage->getId() !== $id) {
 $this->storage->setId($id);
+}
 }
 public function getName()
 {
@@ -1673,12 +1675,7 @@ $resolved = $container->getParameter($match[1]);
 if (\is_string($resolved) || is_numeric($resolved)) {
 return (string) $resolved;
 }
-throw new RuntimeException(sprintf('The container parameter "%s", used in the route configuration value "%s", '.'must be a string or numeric, but it is of type %s.',
-$match[1],
-$value,
-\gettype($resolved)
-)
-);
+throw new RuntimeException(sprintf('The container parameter "%s", used in the route configuration value "%s", must be a string or numeric, but it is of type %s.', $match[1], $value, \gettype($resolved)));
 }, $value);
 return str_replace('%%','%', $escapedValue);
 }
