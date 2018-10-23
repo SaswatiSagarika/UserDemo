@@ -109,6 +109,9 @@ class PhoneController extends FOSRestController
 
 	    	//geting the user data
 	    	$userUpdates = $this->phoneService->addNewUpdates($userData, ValueConstants::SENDAPI);
+	    	if (false === $userUpdates['status'] ) {
+				throw new BadRequestHttpException($userUpdates['errorMessage']);
+			}
 	    	$resultArray['success'] = $this->get('translator')->trans('api.otp_success');
 
     	} catch (NotFoundHttpException $e) {
@@ -161,7 +164,7 @@ class PhoneController extends FOSRestController
     {
     	try {
 	    	$data = json_decode($request->getContent(), true);;
-	        
+
 	        if (!$data) {
 	        	$message = $this->get('translator')->trans('api.missing_parameters');
 	    	   	throw new BadRequestHttpException("Error Processing Request");
@@ -183,9 +186,11 @@ class PhoneController extends FOSRestController
 	        }
 	        //geting the user data
 	    	$userUpdates = $this->phoneService->addNewUpdates($userData, ValueConstants::VERIFYAPI);
-
+	    	if (false === $userUpdates['status'] ) {
+				throw new BadRequestHttpException($userUpdates['errorMessage']);
+			}
 		    $resultArray['success'] = $this->get('translator')->trans('api.otp_verified');
-	    
+
 	    } catch (NotFoundHttpException $e) {
     		$resultArray['error'] = $e->getMessage();
     	} catch (BadRequestHttpException $e) {

@@ -23,4 +23,4 @@ api:
     csv_uploaded: csv uploaded successfully
     invalid_json: Invalid JSON
     invalid_content_type: Invalid Content type
-    invalid_authorization: not Authorized.
+    invalid_authorization: Invalid Authorization.

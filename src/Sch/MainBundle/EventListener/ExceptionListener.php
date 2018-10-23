@@ -17,7 +17,7 @@ class ExceptionListener
         $exception = $event->getException();
         $message['code'] = $exception->getCode();
         $message['errorMessage'] = $exception->getMessage();
-$status = method_exists($event->getException(), 'getStatusCode') ? $event->getException()->getStatusCode() : 500;
+        $status = method_exists($event->getException(), 'getStatusCode') ? $event->getException()->getStatusCode() : 500;
         // Customize your response object to display the exception details
         $response = new JsonResponse($message, $status);
         $response->setContent($response);

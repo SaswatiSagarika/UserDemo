@@ -1,10 +1,10 @@
 <?php
 /**
- * Command used for Users Section.
+ * Controller used for api testing Section.
  *
  * @author Saswati
  *
- * @category Custom Command
+ * @category Controller
  */
 namespace Sch\MainBundle\Controller;
 
@@ -22,6 +22,12 @@ use Sch\MainBundle\Service\TestApiService;
 
 class ApiTestController extends Controller
 {
+    /**
+     * function to call the api from symfony form
+     *
+     * @param $request
+     * @return array
+     */
 	public function apiTestAction() 
     {   
         $form = $this->createForm(TestFormType::class);

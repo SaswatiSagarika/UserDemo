@@ -187,20 +187,15 @@ class PhoneService
                 $twilolog->setPhone($params['phone'])
                          ->setOtp($params['otp'])
                          ->setUser($user);
-
-
                 $em->persist($twilolog);
-                
             }
-            
+
             $em->persist($user);
             $em->flush();
-            return $returnData;
+            $returnData['status'] = True;
         } catch (\Exception $e) {
-            echo $e;exit;
             $returnData['errorMessage'] = $e->getMessage();
-            return $returnData;
-
         }
+        return $returnData;
     }
 }

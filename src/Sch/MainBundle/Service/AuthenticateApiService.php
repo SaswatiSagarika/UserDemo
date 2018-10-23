@@ -60,13 +60,12 @@ class AuthenticateApiService
                 ->getParameter('hash_signature_key'))
             ;
             // Comparing Request Hash with Server auth Hash.
-
-            
             if ($hash !== $auth) {
 
                 $returnData['errorMessage'] = ErrorConstants::$apiErrors['INVALIDAUTHORIZATION'];
                 return $returnData;
             }
+            
             $returnData['status'] = true;
         } catch (\Exception $e) {
             

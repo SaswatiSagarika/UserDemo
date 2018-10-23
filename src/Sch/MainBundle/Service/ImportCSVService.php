@@ -39,7 +39,7 @@ class ImportCSVService
 
 
     /** 
-     * Function to generate a random six digit otp
+     * Function to create phone records
      *
      * @param $phone
      * @param $user

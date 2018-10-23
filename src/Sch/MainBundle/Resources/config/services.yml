@@ -43,3 +43,18 @@ services:
     sch_main.auth:
         class: Sch\MainBundle\Service\AuthenticateApiService
         arguments: ["@doctrine","@service_container"]
+
+    twilio.client:
+        class: Twilio\Rest\Client
+        arguments: ['%twilio_sid%', '%twilio_token%']
+        
+    # app.exception_listener:
+    #     class: Sch\MainBundle\EventListener\ExceptionListener
+    #     tags:
+    #         - { name: kernel.event_listener, event: kernel.exception }
+
+    app.request_listener:
+        class: Sch\MainBundle\EventListener\RequestListener
+        arguments: [ @sch_main.auth, @translator ]
+        tags:
+            - { name: kernel.event_listener, event: kernel.request }       

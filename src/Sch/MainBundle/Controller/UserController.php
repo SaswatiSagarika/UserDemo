@@ -106,11 +106,13 @@ class UserController extends FOSRestController
                     $message = $this->get('translator')->trans('api.empty');
                     throw new BadRequestHttpException($message);
             }
+
         } catch (BadRequestHttpException $e) {
             $resultArray['error'] = $e->getMessage();
         } catch (Exception $e) {
             $resultArray['error'] = $e->getMessage();
         }
+
         return new JsonResponse($resultArray['response']);
 	}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * Controller for Default Section functions.
+ * Controller for Default apitesting functions.
  *
  * @author Saswati
  *
