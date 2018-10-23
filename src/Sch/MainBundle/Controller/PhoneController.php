@@ -1,6 +1,6 @@
 <?php
 /**
- * Controller for Phone Section.
+ * Controller for Phone Section functions.
  *
  * @author Saswati
  *
@@ -14,14 +14,20 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
+use FOS\RestBundle\Controller\Annotations\Post;
+use FOS\RestBundle\Controller\Annotations\View;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 use Sch\MainBundle\Entity\User;
 use Sch\MainBundle\Entity\UserPhone;
 use Sch\MainBundle\Entity\TwilioLog;
+use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
+use Sch\MainBundle\Constants\ValueConstants;
 
 class PhoneController extends FOSRestController
 {
@@ -44,140 +50,149 @@ class PhoneController extends FOSRestController
         $this->phoneService = $this->get('sch_main.phone');
     }
 
-	/*
+	/**
 	** REST action which returns sends the data to phone number.
-	* @Method: POST, url: /api/sendotp
+	* @POST, url: /api/sendotp
+	* @View(statusCode=200)
 	*
 	* @ApiDoc(
 	*   resource =false,
-	*   description = "post",
-	*  parameters={
-	*		"name":"test",
-	*		"phone":"+919178859008"
-	*	}
-	*   statusCodes = {
-	*     200 = "Returned when successful",
-	*     404 = "Returned when the page is not found"
-	*   }
+	*   description = "API to send otp to phone number",
+	* requirements={
+    *      {
+    *          "name"="send",
+    *          "dataType"="string",
+    *          "description"="Response format"
+    *      },
+    *      {
+    *          "name"="send",
+    *          "requirement"="en|my"
+    *      }
+    *  },
+	*  parameters={{
+	*		"name"="send",
+	*		"dataType"="Json",
+    *       "required"="true",
+    *		"description"="Json with username and phone number",
+    *		"format"="{""name"":""John"",""phone"":""+919178859008""}"
+	*		
+	*	}},
+    *  statusCodes={
+    *         200="Returned when successful",
+    *         401="Returned when not authorized",
+    *  }
 	* )
-	*  }
-	* @return mixed
+	* @return array
 	*/
     public function sendAction(Request $request)
     {	
+    	try {
+    		$data = json_decode($request->getContent(), true);
+	        if (!$data) {
 
-    	$data = ($request->getContent()) ? json_decode($request->getContent(),1) : json_decode($request->query->get('data'), true);
+	        	$message = $this->get('translator')->trans('api.missing_parameters');
+	    	   	throw new BadRequestHttpException($message);
+	    	}
+	    	//validating the data in the form contain
+			$userData = $this->phoneService->checkDetails($data, ValueConstants::SENDAPI);
+			if (false === $userData['status'] ) {				
+				$message = $this->get('translator')->trans($userData['message']);
+				throw new NotFoundHttpException($message);
+			}
+			//getting the twilio parameters
+	        $optMessage = $this->phoneService->sendOtpToMobile($userData);
+		    
+	        if (!$optMessage['status']) {
+				$message = $this->get('translator')->trans('api.error');
+				throw new BadRequestHttpException($message);
+	    	}
 
-        $submittedToken = $request->headers->get('Cookie');
-        //print_r($request->getStatusCode());exit();
-        $resultArray = [];
-        
-        if (!$data) {
-        	$message = $this->get('translator')->trans('api.missing_parameters');
-    	   	throw new \BadRequestHttpException($message);
+	    	//geting the user data
+	    	$userUpdates = $this->phoneService->addNewUpdates($userData, ValueConstants::SENDAPI);
+	    	$resultArray['success'] = $this->get('translator')->trans('api.otp_success');
+
+    	} catch (NotFoundHttpException $e) {
+    		$resultArray['error'] = $e->getMessage();
+    	} catch (BadRequestHttpException $e) {
+    		$resultArray['error'] = $e->getMessage();
+    	} catch (Exception $e) {
+    		$resultArray['error'] = $e->getMessage();
     	}
-
-		$userData = $this->phoneService->checkDetails($param, 'send');
-		
-		if ('false' == $userData['status'] ) {
-			$message = $this->get('translator')->trans($userData['message']);
-			throw new \NotFoundHttpException($message);
-		}
-		
-		$userData = $this->phoneService->checkDetails($param, 'send');
-		
-		if ('false' == $userData['status'] ) {
-			$message = $this->get('translator')->trans($userData['message']);
-			throw new \NotFoundHttpException($message);
-		}
-	                
-	    //incase the otp is used, generate new
-    	$otpNew = ('Used' === $user->getStatus())? $this->phoneService->generateOtp() : 
-    						$user->getOtp();
-		
-		//getting the twilio parameters
-        $optService = $this->phoneService->sendOtpToMobile( $param['phone'], $otpNew);
-
-        if (!$optService['status']) {
-			throw new \BadRequestHttpException('Error Occured');
-    	}
-
-    	$user->setOtp($otpNew);
-    	$user->setStatus("Sent");
-    	$em->persist($user);
-    	$em->flush();
-
-    	$resultArray['success'] = "otp send successfully";
 
     	return new JsonResponse($resultArray);
     }
 
-    /*
-	** REST action which returns success if the otp is verified.
-	* Method: POST, url: /api/verifyotp
+    /**
+	**REST action which returns success if the otp is verified.
+	* @POST, url: /api/verifyotp
+	*
+	* @View(statusCode=200)
 	*
 	* @ApiDoc(
 	*   resource =false,
-	*   description = "post",
-	*  parameters={
-	*		"name":"test",
-	*		"phone":"+919178859008",
-	*		"otp":"989898"
-	*	}
-	*   statusCodes = {
-	*     200 = "Returned when successful",
-	*     404 = "Returned when the page is not found"
-	*   }
-	* )
-	*
-	*
-	*  }
-	* @return mixed
+	*   description = "API to send otp to phone number",
+	* requirements={
+    *      {
+    *          "name"="_format",
+    *          "dataType"="string",
+    *          "description"="Response format"
+    *      },
+    *      {
+    *          "name"="_locale",
+    *          "requirement"="en|my"
+    *      }
+    *  },
+	*  parameters={{
+	*		"name"="verify",
+	*		"dataType"="Json",
+    *       "required"="true",
+    *		"description"="Json with username and phone number",
+    *		"format"="{""name"":""John"",""phone"":""+919178859008"",""otp"":""123456""}"
+	*		
+	*	}},
+    *  statusCodes={
+    *         200="Returned when successful",
+    *         401="Returned when not authorized",
+    *  }
+    *)
+	* @return array
 	*/
     public function verifyAction(Request $request)
-    {	
-    	if('POST' !== $request->getMethod()){
-    		$message = $this->get('translator')->trans('invalid_Method');
-			 throw new \MethodNotAllowedHttpException($message);
+    {
+    	try {
+	    	$data = json_decode($request->getContent(), true);;
+	        
+	        if (!$data) {
+	        	$message = $this->get('translator')->trans('api.missing_parameters');
+	    	   	throw new BadRequestHttpException("Error Processing Request");
+	    	}
+
+	    	//validating the data in the form contain
+			$userData = $this->phoneService->checkDetails($data, ValueConstants::VERIFYAPI);
+			
+			if (false === $userData['status'] ) {
+				$message = $this->get('translator')->trans($userData['message']);
+				throw new NotFoundHttpException($message);
+			}
+
+		    //verify the otp send.
+	    	$otpVerification = $userRepo->verifyOtp($userData);
+
+	        if (!$otpVerification) {
+	        	throw new BadRequestHttpException("Error Occured");
+	        }
+	        //geting the user data
+	    	$userUpdates = $this->phoneService->addNewUpdates($userData, ValueConstants::VERIFYAPI);
+
+		    $resultArray['success'] = $this->get('translator')->trans('api.otp_verified');
+	    
+	    } catch (NotFoundHttpException $e) {
+    		$resultArray['error'] = $e->getMessage();
+    	} catch (BadRequestHttpException $e) {
+    		$resultArray['error'] = $e->getMessage();	
+	    } catch (Exception $e) {
+    		$resultArray['error'] = $e->getMessage();
     	}
-
-    	$data = ($request->getContent()) ? json_decode($request->getContent(),1) : json_decode ($request->query->get('data'), true);
-        
-        if (!$data) {
-        	$message = $this->get('translator')->trans('api.missing_parameters');
-    	   	throw new \BadRequestHttpException("Error Processing Request");
-    	}
-
-		$userData = $this->phoneService->checkDetails($param, 'verfiy');
-		
-		if ('false' == $userData['status'] ) {
-			$message = $this->get('translator')->trans($userData['message']);
-			throw new \NotFoundHttpException($message);
-		}
-
-	    //verify the otp send.
-    	$otpVerification = $em->getRepository('MainBundle:User')->verifyOtp($param);
-
-        if (!$otpVerification) {
-        	throw new \BadRequestHttpException("Error Occured", 1);
-        } 
-        
-        //updating the
-		$user->setStatus("Used");
-		$em->persist($user);
-
-	    //creating records in Twilio table
-	    $twilolog = new TwilioLog;
-	    $twilolog->setPhone($param['phone'])
-				 ->setOtp($param['otp'])
-	             ->setUser($user);
-	    $em->persist($twilolog);
-	   
-	    $em->flush();
-
-	    $resultArray['success'] = "otp matched";
-    
     	return new JsonResponse($resultArray);
     }
-
 }

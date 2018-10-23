@@ -32,7 +32,7 @@ framework:
     http_method_override: true
     translator: { fallbacks: [en] }
     csrf_protection: ~
-
+    
 # Twig Configuration
 twig:
     debug: '%kernel.debug%'
@@ -108,4 +108,21 @@ sonata_block:
         # ...
 sonata_admin:
     title_logo: https://dribbble.com/shots/2383317-Lion-head
+nelmio_api_doc: ~
+monolog:
+    handlers:
+        filter_for_errors:
+            type: fingers_crossed
+            # if *one* log is error or higher, pass *all* to file_log
+            action_level: error
+            handler: file_log
 
+        # now passed *all* logs, but only if one log is error or higher
+        file_log:
+            type: stream
+            path: "%kernel.logs_dir%/%kernel.environment%.log"
+
+        # still passed *all* logs, and still only logs error or higher
+        syslog_handler:
+            type: syslog
+            level: error

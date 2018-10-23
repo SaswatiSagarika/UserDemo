@@ -17,3 +17,8 @@ parameters:
 
     # A secret key that's used to generate certain security-related tokens
     secret: ThisTokenIsNotSoSecretChangeIt
+    hash_signature_key: <Signature Key Here>
+    twilio_sid: <Twilio SID>
+    twilio_token: <Twilio Token>
+    twilio_number: <Twilio Number>
+    data_dir: <Data Dir>

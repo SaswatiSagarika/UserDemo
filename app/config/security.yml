@@ -27,3 +27,4 @@ security:
             form_login:
                 csrf_parameter: _csrf_security_token
                 intention: a_private_string
+                csrf_token_generator: security.csrf.token_manager

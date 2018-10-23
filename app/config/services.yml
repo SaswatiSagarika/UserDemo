@@ -12,8 +12,14 @@ services:
     twilio.client:
         class: Twilio\Rest\Client
         arguments: ['%twilio_sid%', '%twilio_token%']
-    app.validator.e164_number:
-        class: AppBundle\Validator\Constraints\E164NumberValidator
-        arguments: ['@twilio.client']
+        
+    # app.exception_listener:
+    #     class: Sch\MainBundle\EventListener\ExceptionListener
+    #     tags:
+    #         - { name: kernel.event_listener, event: kernel.exception }
+
+    app.request_listener:
+        class: Sch\MainBundle\EventListener\RequestListener
+        arguments: [ @sch_main.auth, @translator ]
         tags:
-            - { name: validator.constraint_validator }
+            - { name: kernel.event_listener, event: kernel.request }

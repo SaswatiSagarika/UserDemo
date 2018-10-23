@@ -24,10 +24,22 @@ services:
         public: true
         calls:
             - [ setTranslationDomain, [Sch:MainBundle]]
+            
     sch_main.import_csv:
         class: Sch\MainBundle\Service\ImportCSVService
-        arguments: ["@service_container","@file_locator"]
+        arguments: ["@service_container","@translator"]
 
     sch_main.phone:
         class: Sch\MainBundle\Service\PhoneService
-        arguments: ["@service_container"]
+        arguments: ["@doctrine","@service_container"]
+    sch_main.user:
+        class: Sch\MainBundle\Service\UserService
+        arguments: ["@doctrine","@service_container"]
+
+    sch_main.caller:
+        class: Sch\MainBundle\Service\TestApiService
+        arguments: ["@doctrine","@service_container"]
+        
+    sch_main.auth:
+        class: Sch\MainBundle\Service\AuthenticateApiService
+        arguments: ["@doctrine","@service_container"]

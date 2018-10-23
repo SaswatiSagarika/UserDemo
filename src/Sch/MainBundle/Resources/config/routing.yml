@@ -1,9 +1,9 @@
 main_homepage:
-    path: /hello/{name}
+    path: /api/test
     defaults: { _controller: MainBundle:Default:index }
 
 sch_main_api_test:
-    path: /api/test
+    path: /api/form
     defaults: { _controller: MainBundle:ApiTest:apiTest }
 
 sch_main_search_details:

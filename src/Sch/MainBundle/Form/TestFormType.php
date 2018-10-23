@@ -1,12 +1,19 @@
 <?php
-
-
-namespace Sch\MainBundle\Form\Type;
+/**
+ * Form for API Testing functions.
+ *
+ * @author Saswati
+ *
+ * @category FormType
+ */
+namespace Sch\MainBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
-class ApiTestFormType extends AbstractType
+class TestFormType extends AbstractType
 {
     /**
      * API form builder.
@@ -17,12 +24,12 @@ class ApiTestFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('verb', 'choice', array(
-            'choices' => array('GET' => 'GET'),
-            'required' => false,
-        ));
-        $builder->add('content', 'textarea', array('required' => false));
-        $builder->add('url', 'text', array('required' => false));
-        $builder->add('submit', 'submit');
+            'choices' => array('GET' => 'GET', 'POST' => 'POST'),
+            'required' => true,
+        ))
+        ->add('content', 'textarea', array('required' => true))
+        ->add('url', 'text', array('required' => true))
+        ->add('submit', 'submit');
     }
 
     /**
@@ -32,6 +39,6 @@ class ApiTestFormType extends AbstractType
      */
     public function getName()
     {
-        return 'con_api_test_form';
+        return 'testForm';
     }
 }

@@ -8,57 +8,7 @@
    <script language = "javascript" 
       src = "https://code.jquery.com/jquery-2.2.4.min.js"></script> 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-   <script language = "javascript">  
-      	$(document).ready(function(){
-        	$("button").click(function(){
-	         	var formData = $('#content').val()
-	         	var Verb = $('#verb option:selected').val()
-	         	var url = $('#url').val()
-	         	var csrf_token = $('#csrf_token').val()
-				if (formData.length == 0) {
-				 	$(".error").html("<p>Content field is Empty. Please provide some filtered data</p>");
-				}
-
-		        var checkformData = isJSON(formData)
-
-		        if(!checkformData){
-			        if (formData == 0) {
-					 	$(".error").html("<p>Content field is Empty. Please provide some filtered data</p>");
-					} else{
-		         		$(".error").html("<p>Please provide some enter valid json format. Check the Request Type from below:</p>");
-		         	}
-		        } else {
-		        	$.ajax({  
-		                url:        url,  
-		               	type:       Verb,  
-		               	data: 		{data: formData, 
-        _token: $('meta[name="csrf-token"]').attr('content')},
-		               	dataType:   'json',  
-		               	async:      true,
-		               	success: function(data) {  
-		                   $("#result").html(JSON.stringify(data));
-		               	},  
-		               	error : function(xhr, textStatus, errorThrown) {  
-		                	console.log(textStatus);
-		               	}  
-		            }); 
-		        }
-	 
-	        });  
-     	});  
-
-	    function isJSON(str) {
-
-		    if( typeof( str ) !== 'string' ) { 
-		        return false;
-		    }
-		    try {
-		        if (JSON.parse(str)) return true;
-		    } catch (e) {
-		        return false;
-		    }
-		}
-   </script> 
+   <script src="{{ asset('bundles/assets/js/formAjax.js') }}" language = "javascript"></script> 
 {% endblock %}
 
 {% block body %} 
@@ -69,7 +19,7 @@
 	</div>
 
 	<form class="form-inline" action="">
-	<input type="hidden" id="csrf_token" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+	<input type="hidden" id="csrf_token" name="csrfToken" value="{{ csrf_token('_csrf_security_token') }}">
 		<div class="form-group">
 			<label for="verb">Verb:</label>
 			<select name="verb" id="verb" class="verb">

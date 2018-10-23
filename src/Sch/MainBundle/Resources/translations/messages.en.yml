@@ -1,4 +1,10 @@
 #MyBundle\Resources\translations\messages.en.yml
+# /**.
+#  * messages for error and success 
+#  * @author Saswati
+#  *
+#  * @category messages.en.yml
+#  */
 api:
     missing_parameters: Some parameters are missing. Please provide the required parameter.
     missing_username: Please provide the username.
@@ -12,3 +18,9 @@ api:
     invalid_token: Token parameter is not valid!
     invalid_method: Method parameter is not valid!
     empty: Couldn't get reocrds for the given filters!
+    otp_success: otp send successfully.
+    otp_verified: otp matched. Please proceed.
+    csv_uploaded: csv uploaded successfully
+    invalid_json: Invalid JSON
+    invalid_content_type: Invalid Content type
+    invalid_authorization: not Authorized.

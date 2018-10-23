@@ -25,9 +25,11 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
     public function getUsers($value = null)
     {
         $query = $this->createQueryBuilder('u')
-                    ->select('DISTINCT u.id')
+                    ->select('u.id as userid')
                     ->addSelect('u.name')
                     ->addSelect('u.last')
+                    ->addSelect('up.phone')
+                    ->addSelect('up.status')
                     ->innerJoin('MainBundle:UserPhone', 'up', 'WITH', 'u.id = up.user');
         if($value['name']){
             $query->Where('u.name = :name')
@@ -55,7 +57,7 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
                     ->select('u.id as User')
                     ->innerJoin('MainBundle:UserPhone', 'up', 'WITH', 'u.id = up.user')
                     ->andWhere('u.name = :uname')
-						->setParameter('uname', $value['user'])
+						->setParameter('uname', $value['name'])
                     ->andWhere('up.phone = :uphone')
                 		->setParameter('uphone', $value['phone'])
                     ->andWhere('u.otp = :uotp')

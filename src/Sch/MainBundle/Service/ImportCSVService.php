@@ -11,26 +11,44 @@ use League\Csv\Reader;
 use Sch\MainBundle\Entity\User;
 use Sch\MainBundle\Entity\UserPhone;
 use Sch\MainBundle\Entity\TwilioLog;
+use Symfony\Component\Translation\TranslatorInterface;
 
-class ImportCSVService 
+class ImportCSVService
 {
 
+     /**
+     * @var serviceContainer
+     */
     protected $serviceContainer;
+    /**
+     * @var translator
+     */
+    protected $translator;
 
-    public function __construct($service_container)
-    {
+    /**
+     * @param $translator
+     * @param $service_container
+     *
+     * @return void
+     */
+
+    public function __construct($service_container, $translator) {
+        $this->translator = $translator;
         $this->serviceContainer = $service_container;
     }
+
 
     /** 
      * Function to generate a random six digit otp
      *
-     * @return 
+     * @param $phone
+     * @param $user
+     * @return array
      */
     public function createPhone($phone, $user)
     {   
         try {
-            $em = $this->getDoctrine()->getManager();
+            $em = $this->container->get('doctrine.orm.entity_manager');
             $phone = $em->getRepository('MainBundle:UserPhone')->findOneBy(array('phone' => $phone));
             if (empty($phone)) {
                 $userPhone = new UserPhone;
@@ -61,7 +79,9 @@ class ImportCSVService
     public function uploadUsers($sheet)
     {   
         try {
-            $em = $this->serviceContainer->get('doctrine')->getEntityManager();
+
+            $em = $this->serviceContainer->get('doctrine.orm.entity_manager');
+
             // Path to CSV file
             global $kernel;
             $path = $kernel->getContainer()->getParameter('data_dir');
@@ -71,9 +91,6 @@ class ImportCSVService
             $reader=Reader::createFromPath($filePath);
             //get Iterator of all rows
             $results = $reader->fetchAssoc();
-
-            $em = $this->getDoctrine()->getManager(); 
-            
             foreach ($results as $row) {
              
                 //create new users
@@ -85,19 +102,20 @@ class ImportCSVService
 
                 //create new phone records
                 $userPhone1 = $this->createPhone($row['phone1'] ,$user);
+
                 $userPhone2 = $this->createPhone($row['phone2'] ,$user);
                 $userPhone3 = $this->createPhone($row['phone3'] ,$user);
             }
-
-            $em->getConnnection()->beginTransaction();
+            $em->getConnection()->beginTransaction();
             // Do flush here
             $em->flush();
-            $em->getConnnection()->commit();
+            
+            $em->getConnection()->commit();
 
-            $returnData['success']= "csv uploaded successfully";
+            $returnData['success']= $this->translator->trans('api.csv_uploaded');
         } catch (\Exception $e) {
-            if ($em->getConnnection() && $em->getConnnection()->isOpen()) {
-                $em->getConnnection()->rollback();
+            if ($em->getConnection() && $em->getConnection()->isOpen()) {
+                $em->getConnection()->rollback();
             }
 
             $returnData['errorMessage'] = $e->getMessage();
@@ -105,6 +123,4 @@ class ImportCSVService
 
         return $returnData;
     }
-
-
 }

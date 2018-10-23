@@ -31,9 +31,9 @@ class RevenueController extends FOSRestController
 
 	// File: Sch\MainBundle\Controller\RevenueController.php
 
-	/*
+	/**
 	** REST action which returns details based on the search data.
-	* Method: GET, url: /api/getRevenue/{_format}
+	* @GET, url: /api/getRevenue/{_format}
 	*
 	* @ApiDoc(
 	*   resource =false,
@@ -43,10 +43,9 @@ class RevenueController extends FOSRestController
 	*      "dataType"="Json",
 	*      "required"="true",
 	*      "description"="filter details",
-	*      "format"="{"year":"2018","productType":"Cooking Gear","productLine":"Camping Equipment","retailerType":"Outdoors Shop",
-	"product":"Camping Equipment","retailerCountry":"United States","quarter":"Q1 2012","orderType":"Fax"}"
+	*      "format"="{""year"":""2018"",""productType"":""Cooking Gear"",""productLine"":""Camping Equipment"",""retailerType"":""Outdoors Shop"",""product"":""Camping Equipment"",""retailerCountry"":""United States"",""quarter"":""Q1 2012"",""orderType"":""Fax""}"
 	*      },
-	*  }
+	*  },
 	*   statusCodes = {
 	*     200 = "Returned when successful",
 	*     404 = "Returned when the page is not found"
