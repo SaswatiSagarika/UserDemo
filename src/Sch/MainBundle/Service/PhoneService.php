@@ -79,12 +79,13 @@ class PhoneService
     public function checkDetails($param, $type ='send') 
     {
         try {
-
+            
             $param['name'] = (isset($param['name'])) ? $param['name'] : "";
             $param['phone'] = (isset($param['phone'])) ? $param['phone'] : "";
-            $returnData['status'] = False;
 
             $returnData = $this->sanitarize($param);
+            $returnData['status'] = false;
+            
             if (!$returnData['name']) {
                 $returnData['message'] = 'api.missing_username';
                 return $returnData;
@@ -116,6 +117,10 @@ class PhoneService
 
                 if ( !$returnData['otp'] ) {
                     $returnData['message'] = 'api.missing_otp';
+                    return $returnData;
+                } else if (6 !== strlen($returnData['otp'])){
+                    
+                    $returnData['message'] = 'api.invalid_otp';
                     return $returnData;
                 }
             } else {

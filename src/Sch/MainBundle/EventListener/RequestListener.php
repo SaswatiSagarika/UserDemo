@@ -28,7 +28,6 @@ class RequestListener
         if ('/api/test' === $request->getPathInfo()) {
             return false;
         }
-        
         $response = $this->authservice->authenticateRequest($request);
         
         if(true !== $response['status']){

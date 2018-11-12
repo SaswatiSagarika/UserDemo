@@ -58,10 +58,11 @@ class TestApiService
             curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, $verb);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $content);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
            
+            
             // grab URL and pass it to the browser
             $returnData = curl_exec($ch);
-
             // close cURL resource, and free up system resources
             curl_close($ch);
             

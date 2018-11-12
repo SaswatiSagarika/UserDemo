@@ -48,8 +48,11 @@ class ImportCSVService
     public function createPhone($phone, $user)
     {   
         try {
+
             $em = $this->container->get('doctrine.orm.entity_manager');
+            //search if phone number is present for that user.
             $phone = $em->getRepository('MainBundle:UserPhone')->findOneBy(array('phone' => $phone));
+            // if not create new 
             if (empty($phone)) {
                 $userPhone = new UserPhone;
                 $userPhone->setPhone($phone);

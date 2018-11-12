@@ -64,13 +64,13 @@ class UserService
     public function checkDetails($param)
     {
         try {
-            $returnData['status'] = False;
+            
             $param['name'] = (isset($param['name'])) ? $param['name'] : "";
             $param['phone'] = (isset($param['phone'])) ? $param['phone'] : "";
 
             //santizing the data
             $returnData = $this->sanitarize($param);
-
+            $returnData['status'] = false;
             if (!isset($param['name']) || !isset($param['phone']) ) {
                 $returnData['message'] = 'api.missing_parameters';
                 return $returnData;
@@ -127,6 +127,10 @@ class UserService
                 }
             } 
 
+            if(!$resultArray){
+               $returnData['message'] = 'api.empty';
+                return $returnData; 
+            }
             $returnData['status'] = true;
             $returnData['response'] = $resultArray;
 

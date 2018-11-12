@@ -14,23 +14,25 @@ class ExceptionListener
     public function onKernelException(GetResponseForExceptionEvent $event)
     {
         // You get the exception object from the received event
-        $exception = $event->getException();
-        $message['code'] = $exception->getCode();
-        $message['errorMessage'] = $exception->getMessage();
-        $status = method_exists($event->getException(), 'getStatusCode') ? $event->getException()->getStatusCode() : 500;
-        // Customize your response object to display the exception details
-        $response = new JsonResponse($message, $status);
-        $response->setContent($response);
+        $message['errorCode'] = method_exists($event->getException(), 'getStatusCode') ? $event->getException()->getStatusCode() : 500;
 
-        // HttpExceptionInterface is a special type of exception that
-        // holds status code and header details
-        if ($exception instanceof HttpExceptionInterface) {
-            $response->setStatusCode($exception->getStatusCode());
-            $response->headers->replace($exception->getHeaders());
-        } else {
-            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+        switch ($message['errorCode']) {
+            case 400:
+                $message['errorMessage'] = $event->getException()->getMessage();
+                break;
+            case 404:
+                $message['errorMessage'] = $event->getException()->getMessage();
+                break;
+            case 500:
+                $message['errorMessage'] = "Error occured in the server";
+                break;
+            default:
+                    $message['errorMessage'] = 'Method Not Allowed';
+                    $message['errorCode'] = 405;
+                break;
         }
-
+        // Customize your response object to display the exception details
+        $response = new JsonResponse($message);
         // sends the modified response object to the event
         $event->setResponse($response);
     }

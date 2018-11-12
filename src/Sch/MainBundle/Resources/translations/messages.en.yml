@@ -19,6 +19,7 @@ api:
     invalid_method: Method parameter is not valid!
     empty: Couldn't get reocrds for the given filters!
     otp_success: otp send successfully.
+    invalid_otp: otp is invalid. It should be a six digit number.
     otp_verified: otp matched. Please proceed.
     csv_uploaded: csv uploaded successfully
     invalid_json: Invalid JSON

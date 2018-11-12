@@ -67,10 +67,9 @@ class AuthenticateApiService
             }
             
             $returnData['status'] = true;
+
         } catch (\Exception $e) {
-            
             $returnData['errorMessage'] = $e->getMessage();
-            
         }
 
         return $returnData;

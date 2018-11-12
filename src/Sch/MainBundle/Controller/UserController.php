@@ -15,7 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use FOS\RestBundle\Controller\FOSRestController;
 use Symfony\Component\HttpFoundation\Request;
 use Nelmio\ApiDocBundle\Annotation\ApiDoc;
-use FOS\RestBundle\Controller\Annotations\GET;
+use FOS\RestBundle\Controller\Annotations\Get;
 use FOS\RestBundle\Controller\Annotations\View;
 use Sch\MainBundle\Entity\User;
 use Sch\MainBundle\Entity\UserPhone;
@@ -30,29 +30,9 @@ use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 class UserController extends FOSRestController
 {
     /**
-     * Overriding the default container
-     *
-     * @param $container
-     * @return void
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        parent::setContainer($container);
-        $this->addServices();
-    }
-    /**
-     * Initializing service after container is set
-     *
-     */
-    public function addServices()
-    {
-        // Getting the required service
-        $this->userService = $this->get('sch_main.user');
-    }
-
-    /**
     ** REST action which returns sends the data to user number.
-    * @GET, url: /api/users*
+    *
+    * @Get("/users")
     * @View(statusCode=200)
     *
     * @ApiDoc(
@@ -91,29 +71,34 @@ class UserController extends FOSRestController
             // if content is not provided.
             if (!$demo) {
                 $message = $this->get('translator')->trans('api.missing_parameters');
-                throw new BadRequestHttpException($message);
+                throw new NotFoundHttpException($message);
             }
             //sanitizing and checking the params
-            $userData = $this->userService->checkDetails($demo);
+            $userData =  $this->container
+                ->get('sch_main.user')
+                ->checkDetails($demo);
             if (!$userData) {
                 $message = $this->get('translator')->trans('api.missing_parameters');
-                throw new BadRequestHttpException($message);
+                throw new NotFoundHttpException($message);
             }
             //getting the result array
-            $resultArray = $this->userService->getUserResponse($userData);
+            $resultArr =  $this->container
+                ->get('sch_main.user')
+                ->getUserResponse($userData);
 
-            if (false == $userData['status']) {
-                    $message = $this->get('translator')->trans('api.empty');
-                    throw new BadRequestHttpException($message);
+            if (false === $resultArr['status']) {
+                    $message = $this->get('translator')->trans($resultArr['message']);
+                    throw new NotFoundHttpException($message);
             }
 
-        } catch (BadRequestHttpException $e) {
+            $resultArray['success'] = $resultArr['response'];
+
+        } catch (NotFoundHttpException $e) {
             $resultArray['error'] = $e->getMessage();
         } catch (Exception $e) {
             $resultArray['error'] = $e->getMessage();
         }
-
-        return new JsonResponse($resultArray['response']);
+        return $resultArray;
 	}
 
 }

@@ -32,14 +32,15 @@ class DefaultController extends Controller
         $form = $this->createForm(TestFormType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            //getting thr form data
             
+            //getting thr form data
             $verb = $form["verb"]->getData();
             $url = $form["url"]->getData();
             $content = $form["content"]->getData();
             $token = hash_hmac('sha1', $content, 
                 $this->container->getParameter('hash_signature_key'))
             ;
+            //setting headers
             $header = array(
                 'Authorization: '.$token
             );
@@ -48,7 +49,6 @@ class DefaultController extends Controller
                 ->get('sch_main.caller')
                 ->callingApi($url, $header, $verb, $content)
             ;
-            // print_r($response);exit;
             return new Response($response);
         }
         return $this->render('MainBundle::Default/test.html.twig', ['form' => $form->createView()]);

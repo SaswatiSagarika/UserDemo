@@ -19,9 +19,6 @@ use FOS\RestBundle\Controller\Annotations\View;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Sch\MainBundle\Entity\User;
-use Sch\MainBundle\Entity\UserPhone;
-use Sch\MainBundle\Entity\TwilioLog;
-use Symfony\Component\Security\Csrf\CsrfToken;
 use Symfony\Component\Translation\TranslatorInterface;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
@@ -32,27 +29,8 @@ use Sch\MainBundle\Constants\ValueConstants;
 class PhoneController extends FOSRestController
 {
 	/**
-     * Overriding the default container
-     *
-     */
-    public function setContainer(ContainerInterface $container = null)
-    {
-        parent::setContainer($container);
-        $this->addServices();
-    }
-	/**
-     * Initializing service after container is set
-     *
-     */
-    public function addServices()
-    {
-        // Getting the required service
-        $this->phoneService = $this->get('sch_main.phone');
-    }
-
-	/**
 	** REST action which returns sends the data to phone number.
-	* @POST, url: /api/sendotp
+	* @Post("/sendotp")
 	* @View(statusCode=200)
 	*
 	* @ApiDoc(
@@ -91,24 +69,30 @@ class PhoneController extends FOSRestController
 	        if (!$data) {
 
 	        	$message = $this->get('translator')->trans('api.missing_parameters');
-	    	   	throw new BadRequestHttpException($message);
+	    	   	throw new NotFoundHttpException($message);
 	    	}
 	    	//validating the data in the form contain
-			$userData = $this->phoneService->checkDetails($data, ValueConstants::SENDAPI);
+			$userData = $this->container
+                ->get('sch_main.phone')
+                ->checkDetails($data, ValueConstants::SENDAPI);
 			if (false === $userData['status'] ) {				
 				$message = $this->get('translator')->trans($userData['message']);
 				throw new NotFoundHttpException($message);
 			}
-			//getting the twilio parameters
-	        $optMessage = $this->phoneService->sendOtpToMobile($userData);
-		    
+			//sending the otp message
+	        $optMessage = $this->container
+                ->get('sch_main.phone')
+                ->sendOtpToMobile($userData);
+
 	        if (!$optMessage['status']) {
 				$message = $this->get('translator')->trans('api.error');
 				throw new BadRequestHttpException($message);
 	    	}
 
-	    	//geting the user data
-	    	$userUpdates = $this->phoneService->addNewUpdates($userData, ValueConstants::SENDAPI);
+	    	//setting the user data
+	    	$userUpdates = $this->container
+                ->get('sch_main.phone')
+                ->addNewUpdates($userData, ValueConstants::SENDAPI);
 	    	if (false === $userUpdates['status'] ) {
 				throw new BadRequestHttpException($userUpdates['errorMessage']);
 			}
@@ -127,7 +111,7 @@ class PhoneController extends FOSRestController
 
     /**
 	**REST action which returns success if the otp is verified.
-	* @POST, url: /api/verifyotp
+	* @Post("/verifyotp")
 	*
 	* @View(statusCode=200)
 	*
@@ -171,21 +155,26 @@ class PhoneController extends FOSRestController
 	    	}
 
 	    	//validating the data in the form contain
-			$userData = $this->phoneService->checkDetails($data, ValueConstants::VERIFYAPI);
-			
+			$userData = $this->container
+                ->get('sch_main.phone')
+                ->checkDetails($data, ValueConstants::VERIFYAPI);
+
 			if (false === $userData['status'] ) {
 				$message = $this->get('translator')->trans($userData['message']);
 				throw new NotFoundHttpException($message);
 			}
-
+			$em = $this->getDoctrine()->getManager();
+			
 		    //verify the otp send.
-	    	$otpVerification = $userRepo->verifyOtp($userData);
+	    	$otpVerification = $em->getRepository('MainBundle:User')->verifyOtp($userData);
 
 	        if (!$otpVerification) {
-	        	throw new BadRequestHttpException("Error Occured");
+	        	throw new BadRequestHttpException($otpVerification);
 	        }
-	        //geting the user data
-	    	$userUpdates = $this->phoneService->addNewUpdates($userData, ValueConstants::VERIFYAPI);
+	        //setting the user data
+	    	$userUpdates = $this->container
+                ->get('sch_main.phone')
+                ->addNewUpdates($userData, ValueConstants::VERIFYAPI);
 	    	if (false === $userUpdates['status'] ) {
 				throw new BadRequestHttpException($userUpdates['errorMessage']);
 			}
